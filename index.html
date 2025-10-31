@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light">
+    <title>AI 時代個人網站開發實戰 - 課程大綱</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Times New Roman', 'Noto Serif TC', serif;
+            line-height: 1.8;
+            color: #000 !important;
+            background: #fff !important;
+            max-width: 210mm;
+            margin: 0 auto;
+            padding: 20mm;
+        }
+
+        /* 強制淺色模式 */
+        @media (prefers-color-scheme: dark) {
+            body {
+                color: #000 !important;
+                background: #fff !important;
+            }
+            
+            * {
+                color: inherit !important;
+                background-color: transparent !important;
+            }
+            
+            header {
+                border-bottom-color: #333 !important;
+            }
+            
+            .course-info th {
+                background: #f5f5f5 !important;
+                color: #000 !important;
+            }
+            
+            .curriculum-table th {
+                background: #f5f5f5 !important;
+                color: #000 !important;
+            }
+            
+            .highlight-box {
+                background: #f9f9f9 !important;
+                border-left-color: #666 !important;
+            }
+            
+            .phase-label {
+                background: #333 !important;
+                color: #fff !important;
+            }
+            
+            table {
+                background: #fff !important;
+            }
+            
+            td, th {
+                border-color: #ccc !important;
+            }
+        }
+
+        /* 標題區 */
+        header {
+            text-align: center;
+            border-bottom: 3px solid #333;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 24pt;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #000;
+        }
+
+        .subtitle {
+            font-size: 14pt;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .meta {
+            font-size: 11pt;
+            color: #999;
+            margin-top: 10px;
+        }
+
+        /* 課程資訊表格 */
+        .course-info {
+            margin: 30px 0;
+            border: 1px solid #ccc;
+            background: #fff;
+        }
+
+        .course-info table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+        }
+
+        .course-info th {
+            background: #f5f5f5;
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ccc;
+            width: 25%;
+            font-weight: bold;
+            color: #000;
+        }
+
+        .course-info td {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            color: #000;
+        }
+
+        /* 章節標題 */
+        h2 {
+            font-size: 16pt;
+            font-weight: bold;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            border-left: 5px solid #333;
+            padding-left: 10px;
+            color: #000;
+        }
+
+        h3 {
+            font-size: 13pt;
+            font-weight: bold;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            color: #000;
+        }
+
+        /* 課程表格 */
+        .curriculum-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 11pt;
+            background: #fff;
+        }
+
+        .curriculum-table th {
+            background: #f5f5f5;
+            padding: 8px;
+            text-align: left;
+            border: 1px solid #ccc;
+            font-weight: bold;
+            color: #000;
+        }
+
+        .curriculum-table td {
+            padding: 8px;
+            border: 1px solid #ccc;
+            vertical-align: top;
+            color: #000;
+        }
+
+        .week-col {
+            width: 10%;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .topic-col {
+            width: 30%;
+        }
+
+        .content-col {
+            width: 40%;
+        }
+
+        .output-col {
+            width: 20%;
+        }
+
+        /* 重點框 */
+        .highlight-box {
+            background: #f9f9f9;
+            border-left: 3px solid #666;
+            padding: 15px;
+            margin: 20px 0;
+        }
+
+        .highlight-box h3 {
+            margin-top: 0;
+            font-size: 12pt;
+            color: #000;
+        }
+
+        .highlight-box p {
+            color: #000;
+        }
+
+        /* 列表 */
+        ul {
+            margin: 10px 0 10px 25px;
+        }
+
+        li {
+            margin: 5px 0;
+            color: #000;
+        }
+
+        /* 階段標籤 */
+        .phase-label {
+            display: inline-block;
+            background: #333;
+            color: white;
+            padding: 3px 10px;
+            font-size: 10pt;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        /* 頁尾 */
+        footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #ccc;
+            font-size: 10pt;
+            color: #666;
+            text-align: center;
+        }
+
+        /* 列印優化 */
+        @media print {
+            body {
+                padding: 0;
+                max-width: 100%;
+            }
+            
+            .curriculum-table {
+                page-break-inside: avoid;
+            }
+            
+            h2 {
+                page-break-after: avoid;
+            }
+        }
+
+        /* 註解說明 */
+        .note {
+            font-size: 10pt;
+            color: #666;
+            font-style: italic;
+            margin: 5px 0;
+        }
+
+        /* 確保所有文字可見 */
+        p, span, div {
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+    <!-- 課程標題 -->
+    <header>
+        <h1>AI 時代個人網站開發實戰</h1>
+        <div class="subtitle">從需求訪談到系統上線：18 週完整實戰</div>
+        <div class="meta">
+            課程規劃：Cruz Tang (ThinkerCafe 創辦人) <br>
+            學術指導：鄒慶士教授 (國立臺北商業大學 資訊與決策科學研究所 智能控制與決策研究室)<br>
+            播出時間：2026 年 2-6 月 | 每週 30 分鐘錄播 | 華視教育頻道
+        </div>
+    </header>
+
+    <!-- 課程基本資訊 -->
+    <section>
+        <h2>一、課程基本資訊</h2>
+        <table class="course-info">
+            <tr>
+                <th>課程目標</th>
+                <td>讓觀眾在 18 週內，學會用 AI 協作工具快速開發出專業級個人/商業網站</td>
+            </tr>
+            <tr>
+                <th>適合對象</th>
+                <td>零程式基礎者、創業者、接案工作者、中小企業主、想轉職者</td>
+            </tr>
+            <tr>
+                <th>前置需求</th>
+                <td>無需程式基礎，需具備基本電腦操作能力、願意嘗試 AI 工具</td>
+            </tr>
+            <tr>
+                <th>預期成果</th>
+                <td>18 個行業網站作品、可獨立接案能力、年收入增加 30-50 萬潛力</td>
+            </tr>
+        </table>
+    </section>
+
+    <!-- 教學方法 -->
+    <section>
+        <h2>二、教學方法</h2>
+        
+        <div class="highlight-box">
+            <h3>「需求導向」的真實開發流程</h3>
+            <p>
+                <strong>與傳統教學的差異：</strong>不教工具操作，而是從「商業需求」出發。<br>
+                每週由教授提出一個真實場景（如：診所要線上預約、餐廳要訂位系統），<br>
+                Cruz 現場示範如何用 AI 在 30 分鐘內從零開始完成並上線。
+            </p>
+        </div>
+
+        <h3>每集標準流程（30 分鐘）</h3>
+        <table class="curriculum-table">
+            <tr>
+                <th>時間</th>
+                <th>內容</th>
+                <th>主講</th>
+                <th>觀眾學到</th>
+            </tr>
+            <tr>
+                <td>0-2 分</td>
+                <td>開場：展示本週要做的網站基礎版</td>
+                <td>Cruz</td>
+                <td>看到成品樣貌，建立信心</td>
+            </tr>
+            <tr>
+                <td>2-7 分</td>
+                <td>教授從使用角度提出需求</td>
+                <td>教授</td>
+                <td>如何從商業角度思考功能</td>
+            </tr>
+            <tr>
+                <td>7-10 分</td>
+                <td>找靈感：如何搜尋參考網站</td>
+                <td>Cruz</td>
+                <td>找靈感的技巧和關鍵字</td>
+            </tr>
+            <tr>
+                <td>10-20 分</td>
+                <td>AI 協作：與 Claude 溝通開發</td>
+                <td>Cruz</td>
+                <td>如何用自然語言描述需求</td>
+            </tr>
+            <tr>
+                <td>20-25 分</td>
+                <td>部署上線：實際測試功能</td>
+                <td>Cruz</td>
+                <td>GitHub + Vercel 完整流程</td>
+            </tr>
+            <tr>
+                <td>25-28 分</td>
+                <td>技術原理解析</td>
+                <td>教授</td>
+                <td>背後的系統架構和資料庫邏輯</td>
+            </tr>
+            <tr>
+                <td>28-30 分</td>
+                <td>總結與下週預告</td>
+                <td>雙講師</td>
+                <td>複習重點、預告下週行業</td>
+            </tr>
+        </table>
+    </section>
+
+    <!-- 課程大綱 -->
+    <section>
+        <h2>三、18 週課程大綱</h2>
+
+        <h3><span class="phase-label">第一階段</span>建立信心（Week 1-3）</h3>
+        <table class="curriculum-table">
+            <tr>
+                <th class="week-col">週次</th>
+                <th class="topic-col">主題</th>
+                <th class="content-col">教學重點</th>
+                <th class="output-col">具體產出</th>
+            </tr>
+            <tr>
+                <td class="week-col">Week 1</td>
+                <td>咖啡廳網站</td>
+                <td>
+                    • 30 分鐘完整流程體驗<br>
+                    • 如何找靈感截圖<br>
+                    • 與 AI 的第一次對話<br>
+                    • 部署上線的成就感
+                </td>
+                <td>
+                    4 頁式網站：<br>
+                    首頁、菜單、<br>
+                    關於、聯絡
+                </td>
+            </tr>
+            <tr>
+                <td class="week-col">Week 2</td>
+                <td>健身房網站</td>
+                <td>
+                    • 尋找靈感的進階技巧<br>
+                    • 截圖的藝術（抓重點）<br>
+                    • 如何描述「感覺」給 AI<br>
+                    • 風格一致性的重要
+                </td>
+                <td>
+                    教練團隊、<br>
+                    課程介紹、<br>
+                    價格方案
+                </td>
+            </tr>
+            <tr>
+                <td class="week-col">Week 3</td>
+                <td>攝影師作品集</td>
+                <td>
+                    • GitHub 帳號申請<br>
+                    • Vercel 部署完整教學<br>
+                    • 自訂網址設定<br>
+                    • 手機測試的重要性
+                </td>
+                <td>
+                    作品展示、<br>
+                    RWD 響應式、<br>
+                    專屬網址
+                </td>
+            </tr>
+        </table>
+
+        <h3><span class="phase-label">第二階段</span>各行各業實戰（Week 4-15）</h3>
+        <p class="note">每週一個新行業，從零開始完整開發。重點是「可複製的流程」而非「學會寫程式」。</p>
+        
+        <table class="curriculum-table">
+            <tr>
+                <th class="week-col">週次</th>
+                <th class="topic-col">行業/主題</th>
+                <th class="content-col">核心功能</th>
+                <th class="output-col">商業價值</th>
+            </tr>
+            <tr>
+                <td class="week-col">Week 4</td>
+                <td>診所預約網站</td>
+                <td>
+                    • 線上預約日曆<br>
+                    • 時段衝突防止<br>
+                    • 預約確認通知
+                </td>
+                <td>
+                    減少電話預約<br>
+                    接案行情：<br>
+                    3-5 萬
+                </td>
+            </tr>
+            <tr>
+                <td class="week-col">Week 5</td>
+                <td>美容院會員網站</td>
+                <td>
+                    • 會員登入系統<br>
+                    • 點數累積機制<br>
+                    • 會員專屬優惠
+                </td>
+                <td>
+                    提升客戶黏著度<br>
+                    接案行情：<br>
+                    4-6 萬
+                </td>
+            </tr>
+            <tr>
+                <td class="week-col">Week 6</td>
+                <td>法律事務所</td>
+                <td>
+                    • 專業形象塑造<br>
+                    • 案例展示<br>
+                    • 線上諮詢表單
+                </td>
+                <td>
+                    建立專業信任感<br>
+                    接案行情：<br>
+                    2-4 萬
+                </td>
+            </tr>
+            <tr>
+                <td class="week-col">Week 7</td>
+                <td>餐廳訂位網站</td>
+                <td>
+                    • 即時座位顯示<br>
+                    • 訂位時段管理<br>
+                    • 人數限制控制
+                </td>
+                <td>
+                    提升翻桌率<br>
+                    接案行情：<br>
+                    3-5 萬
+                </td>
+            </tr>
+            <tr>
+                <td class="week-col">Week 8</td>
+                <td>瑜伽教室</td>
+                <td>
+                    • 課程時間表<br>
+                    • 名額限制<br>
+                    • 教練介紹
+                </td>
+                <td>
+                    方便排課管理<br>
+                    接案行情：<br>
+                    2-4 萬
+                </td>
+            </tr>
+            <tr>
+                <td class="week-col">Week 9</td>
+                <td>寵物美容</td>
+                <td>
+                    • 服務項目與價格<br>
+                    • 寵物資料登記<br>
+                    • 造型作品展示
+                </td>
+                <td>
+                    展示專業度<br>
+                    接案行情：<br>
+                    2-3 萬
+                </td>
+            </tr>
+            <tr>
+                <td class="week-col">Week 10</td>
+                <td>個人教練</td>
+                <td>
+                    • 教練認證展示<br>
+                    • 學員成功案例<br>
+                    • 預約諮詢
+                </td>
+                <td>
+                    建立個人品牌<br>
+                    接案行情：<br>
+                    2-3 萬
+                </td>
+            </tr>
+            <tr>
+                <td class="week-col">Week 11</td>
+                <td>民宿訂房</td>
+                <td>
+                    • 房型介紹<br>
+                    • 入住日期選擇<br>
+                    • 價格計算
+                </td>
+                <td>
+                    減少訂房平台抽成<br>
+                    接案行情：<br>
+                    4-6 萬
+                </td>
+            </tr>
+            <tr>
+                <td class="week-col">Week 12</td>
+                <td>家教媒合</td>
+                <td>
+                    • 教師資歷展示<br>
+                    • 科目與時段<br>
+                    • 配對推薦
+                </td>
+                <td>
+                    平台經營潛力<br>
+                    接案行情：<br>
+                    5-8 萬
+                </td>
+            </tr>
+            <tr>
+                <td class="week-col">Week 13</td>
+                <td>汽車保養</td>
+                <td>
+                    • 保養項目說明<br>
+                    • 預約進廠<br>
+                    • 保養記錄查詢
+                </td>
+                <td>
+                    提升客戶回流率<br>
+                    接案行情：<br>
+                    3-5 萬
+                </td>
+            </tr>
+            <tr>
+                <td class="week-col">Week 14</td>
+                <td>才藝教室招生</td>
+                <td>
+                    • 課程介紹<br>
+                    • 師資陣容<br>
+                    • 線上報名表單
+                </td>
+                <td>
+                    增加招生效率<br>
+                    接案行情：<br>
+                    2-4 萬
+                </td>
+            </tr>
+            <tr>
+                <td class="week-col">Week 15</td>
+                <td>諮商預約</td>
+                <td>
+                    • 諮商師專業認證<br>
+                    • 隱私保護說明<br>
+                    • 預約保密機制
+                </td>
+                <td>
+                    建立專業信任<br>
+                    接案行情：<br>
+                    3-5 萬
+                </td>
+            </tr>
+        </table>
+
+        <h3><span class="phase-label">第三階段</span>進階應用與總複習（Week 16-18）</h3>
+        <table class="curriculum-table">
+            <tr>
+                <th class="week-col">週次</th>
+                <th class="topic-col">主題</th>
+                <th class="content-col">教學重點</th>
+                <th class="output-col">升級能力</th>
+            </tr>
+            <tr>
+                <td class="week-col">Week 16</td>
+                <td>活動報名網站</td>
+                <td>
+                    • 活動資訊展示<br>
+                    • 報名表單設計<br>
+                    • 名單管理系統<br>
+                    • Email 自動通知
+                </td>
+                <td>
+                    學會處理<br>
+                    「一對多」<br>
+                    的系統邏輯
+                </td>
+            </tr>
+            <tr>
+                <td class="week-col">Week 17</td>
+                <td>顧問預約網站</td>
+                <td>
+                    • 顧問專業展示<br>
+                    • 收費諮詢預約<br>
+                    • 金流串接概念<br>
+                    • 發票開立流程
+                </td>
+                <td>
+                    理解付費系統<br>
+                    的完整商業<br>
+                    閉環
+                </td>
+            </tr>
+            <tr>
+                <td class="week-col">Week 18</td>
+                <td>總複習與商業應用</td>
+                <td>
+                    • 回顧 18 個案例的共同模式<br>
+                    • 如何快速複製到新行業<br>
+                    • 接案定價策略與報價技巧<br>
+                    • 10 個開源模板使用指南<br>
+                    • 持續學習的資源與社群
+                </td>
+                <td>
+                    <strong>金句：</strong><br>
+                    「18 週，<br>
+                    18 個網站，<br>
+                    你已經是<br>
+                    AI 時代的<br>
+                    網頁設計師」
+                </td>
+            </tr>
+        </table>
+    </section>
+
+    <!-- 配套資源 -->
+    <section>
+        <h2>四、配套資源</h2>
+        
+        <div class="highlight-box">
+            <h3>10 個開源模板（GitHub Repository）</h3>
+            <p>
+                涵蓋課程中的所有行業網站完整程式碼，觀眾可直接 fork 使用。<br>
+                包含：診所、美容院、餐廳、健身房、攝影師、法律事務所、民宿、家教、汽車保養、諮商等。
+            </p>
+        </div>
+
+        <div class="highlight-box">
+            <h3>完整開發影片（每週提供 QR Code）</h3>
+            <p>
+                每週提供 10-20 分鐘的完整開發流程錄影（未剪輯版），<br>
+                讓觀眾回家後可以暫停、倒轉、跟著一步一步操作。
+            </p>
+        </div>
+
+        <div class="highlight-box">
+            <h3>線上討論社群（Discord / LINE 社群）</h3>
+            <p>
+                • 課後提問解答<br>
+                • 學員作品分享<br>
+                • 持續更新最新 AI 工具與案例<br>
+                • 接案機會媒合
+            </p>
+        </div>
+    </section>
+
+    <!-- 課程特色 -->
+    <section>
+        <h2>五、課程特色與差異化</h2>
+        
+        <table class="curriculum-table">
+            <tr>
+                <th style="width: 30%;">比較項目</th>
+                <th style="width: 35%;">傳統網頁課程</th>
+                <th style="width: 35%;">本課程</th>
+            </tr>
+            <tr>
+                <td><strong>學習重點</strong></td>
+                <td>HTML/CSS/JavaScript 語法</td>
+                <td>商業需求分析與 AI 協作溝通</td>
+            </tr>
+            <tr>
+                <td><strong>開發方式</strong></td>
+                <td>手寫程式碼，逐行除錯</td>
+                <td>自然語言描述，AI 自動生成</td>
+            </tr>
+            <tr>
+                <td><strong>時間投入</strong></td>
+                <td>數週到數月才能完成一個專案</td>
+                <td>每週 30 分鐘完成一個商用網站</td>
+            </tr>
+            <tr>
+                <td><strong>技術門檻</strong></td>
+                <td>需懂 HTML/CSS/PHP/MySQL</td>
+                <td>零程式基礎可上手</td>
+            </tr>
+            <tr>
+                <td><strong>產出成果</strong></td>
+                <td>教學用示範網站</td>
+                <td>18 個可立即商用的真實案例</td>
+            </tr>
+            <tr>
+                <td><strong>就業機會</strong></td>
+                <td>初階工程師（需再深造）</td>
+                <td>立即可接案，預估年增收 30-50 萬</td>
+            </tr>
+        </table>
+    </section>
+
+    <!-- 預期成效 -->
+    <section>
+        <h2>六、預期學習成效</h2>
+        
+        <h3>技能面</h3>
+        <ul>
+            <li>能在 30 分鐘內用 AI 協作完成一個商業網站</li>
+            <li>掌握從需求訪談到系統上線的完整流程</li>
+            <li>學會 GitHub 版本控制與 Vercel 部署</li>
+            <li>理解 18 個行業的網站核心功能設計</li>
+        </ul>
+
+        <h3>商業面</h3>
+        <ul>
+            <li>具備獨立接案能力（單案 2-8 萬不等）</li>
+            <li>可為自己的事業快速建立網路門面</li>
+            <li>理解如何用 AI 大幅降低外包成本</li>
+            <li>建立個人作品集，增加求職競爭力</li>
+        </ul>
+
+        <h3>思維面</h3>
+        <ul>
+            <li>從「學工具」轉變為「解決問題」</li>
+            <li>理解 AI 時代的工作模式與機會</li>
+            <li>培養系統化思考與需求拆解能力</li>
+            <li>建立終身學習與快速適應的信心</li>
+        </ul>
+    </section>
+
+    <!-- 頁尾 -->
+    <footer>
+        <p><strong>課程聯絡資訊</strong></p>
+        <p>ThinkerCafe (思考者咖啡有限公司) × 國立臺北商業大學</p>
+        <p>課程規劃：Cruz Tang | 學術指導：鄒慶士教授 (資訊與決策科學研究所 智能控制與決策研究室)</p>
+        <p>播出單位：華視教育頻道 | 播出時間：2026 年 2-6 月</p>
+        <p style="margin-top: 10px; font-size: 9pt; color: #999;">
+            本課程大綱版本：v1.0 | 最後更新：2025/10/31
+        </p>
+    </footer>
+</body>
+</html>
