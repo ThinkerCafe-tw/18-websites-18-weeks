@@ -156,7 +156,7 @@ cd 18-websites-18-weeks
 - 🏢 ThinkerCafe (思考者咖啡有限公司) 創辦人
 - 📺 華視空中進修學院協同主講教師
 - 🎓 iPAS AI 應用規劃師認證委員
-- 💼 10+ 年教學經驗，培訓超過 1200 位產業人士
+- 💼 10+ 年教學經驗，培訓超過 500 位產業人士
 
 **聯絡方式：**
 - Threads: [@tangcruzz](https://www.threads.net/@tangcruzz)
