@@ -1,0 +1,14 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# macOS
+.DS_Store
+Icon?
+
+# inbox cache (session state, not content)
+inbox/.*-lines
+
+# Local config
+.env
