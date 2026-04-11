@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>創藝星球 Creative Planet</title>
+<style>
+/* === 全域變數 === */
+:root {
+  --primary: #7c3aed;
+  --primary-dark: #6d28d9;
+  --primary-light: #ede9fe;
+  --primary-bg: #f5f3ff;
+  --accent: #f472b6;
+  --text: #1e1b4b;
+  --text-light: #6b7280;
+  --bg: #faf9fe;
+  --white: #ffffff;
+  --border: #e5e7eb;
+  --shadow: 0 1px 3px rgba(0,0,0,.06);
+  --shadow-md: 0 4px 16px rgba(124,58,237,.12);
+  --radius: 12px;
+  --warm: #fbbf24;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, "Noto Sans TC", "Helvetica Neue", Arial, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+
+/* === 導覽列 === */
+[data-block="nav"] {
+  background: var(--white); border-bottom: 1px solid var(--border);
+  position: sticky; top: 0; z-index: 100;
+}
+[data-block="nav"] .inner {
+  max-width: 1100px; margin: 0 auto; padding: 0 24px;
+  display: flex; align-items: center; justify-content: space-between; height: 60px;
+}
+[data-block="nav"] .logo {
+  font-size: 1.2rem; font-weight: 700; color: var(--primary);
+  display: flex; align-items: center; gap: 8px;
+}
+[data-block="nav"] .logo svg { width: 28px; height: 28px; }
+[data-block="nav"] ul { list-style: none; display: flex; gap: 24px; }
+[data-block="nav"] ul a { color: var(--text); font-size: .88rem; text-decoration: none; font-weight: 500; }
+[data-block="nav"] ul a:hover { color: var(--primary); }
+.btn-trial {
+  background: var(--primary); color: var(--white); border: none;
+  border-radius: 20px; padding: 8px 20px; font-size: .88rem;
+  font-weight: 600; cursor: pointer;
+}
+.btn-trial:hover { background: var(--primary-dark); }
+
+/* === Hero === */
+[data-block="hero"] {
+  background: linear-gradient(135deg, var(--primary) 0%, #a78bfa 50%, var(--accent) 100%);
+  color: var(--white); text-align: center; padding: 60px 24px;
+}
+[data-block="hero"] h1 { font-size: 2.2rem; margin-bottom: 10px; }
+[data-block="hero"] p { opacity: .9; font-size: 1.05rem; margin-bottom: 28px; }
+[data-block="hero"] .cta-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+[data-block="hero"] .cta-btn {
+  padding: 12px 32px; border-radius: 24px; font-size: .95rem;
+  font-weight: 600; cursor: pointer; border: 2px solid var(--white);
+  text-decoration: none;
+}
+.cta-primary { background: var(--white); color: var(--primary); }
+.cta-ghost { background: transparent; color: var(--white); }
+
+/* === 通用 === */
+.section { max-width: 1100px; margin: 0 auto; padding: 52px 24px; }
+.section-title { font-size: 1.5rem; text-align: center; margin-bottom: 6px; }
+.section-sub { text-align: center; color: var(--text-light); margin-bottom: 36px; }
+
+/* === 課程卡片 === */
+.courses { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
+.course-card {
+  background: var(--white); border-radius: var(--radius); overflow: hidden;
+  box-shadow: var(--shadow); transition: transform .2s, box-shadow .2s;
+}
+.course-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.course-card img { width: 100%; height: 160px; object-fit: cover; }
+.course-card .body { padding: 16px; }
+.course-card h3 { font-size: 1.05rem; margin-bottom: 6px; }
+.course-card p { font-size: .85rem; color: var(--text-light); margin-bottom: 10px; }
+.age-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+.age-tag {
+  font-size: .72rem; padding: 2px 10px; border-radius: 10px;
+  font-weight: 600;
+}
+.age-child { background: #fef3c7; color: #92400e; }
+.age-teen { background: #dbeafe; color: #1e40af; }
+.age-adult { background: var(--primary-light); color: var(--primary); }
+
+/* === 師資 === */
+.teachers { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
+.teacher-card {
+  background: var(--white); border-radius: var(--radius); padding: 24px;
+  text-align: center; box-shadow: var(--shadow);
+}
+.teacher-card img {
+  width: 88px; height: 88px; border-radius: 50%; object-fit: cover;
+  border: 3px solid var(--primary-light); margin-bottom: 12px;
+}
+.teacher-card h3 { font-size: 1rem; margin-bottom: 2px; }
+.teacher-card .role { font-size: .82rem; color: var(--primary); font-weight: 600; margin-bottom: 8px; }
+.teacher-card .meta { font-size: .82rem; color: var(--text-light); }
+.teacher-card .meta span { display: block; margin-bottom: 2px; }
+
+/* === 分段式報名表單 === */
+[data-block="enroll"] {
+  background: var(--white); border-radius: var(--radius); padding: 36px;
+  box-shadow: var(--shadow); max-width: 640px; margin: 0 auto;
+}
+/* 步驟指示 */
+.steps { display: flex; justify-content: center; gap: 8px; margin-bottom: 28px; }
+.step-dot {
+  width: 32px; height: 32px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .82rem; font-weight: 700;
+  background: var(--border); color: var(--text-light);
+  transition: background .3s, color .3s;
+}
+.step-dot.active { background: var(--primary); color: var(--white); }
+.step-dot.done { background: #a78bfa; color: var(--white); }
+.step-line { width: 40px; height: 2px; background: var(--border); align-self: center; }
+
+.form-step { display: none; }
+.form-step.visible { display: block; }
+.form-step h3 { font-size: 1.1rem; margin-bottom: 16px; color: var(--primary); }
+.field { margin-bottom: 14px; }
+.field label { display: block; font-size: .85rem; font-weight: 600; color: var(--text-light); margin-bottom: 4px; }
+.field input, .field select {
+  width: 100%; border: 1px solid var(--border); border-radius: 6px;
+  padding: 10px 12px; font-size: .92rem;
+}
+.field input:focus, .field select:focus { outline: 2px solid var(--primary); border-color: var(--primary); }
+
+.form-nav { display: flex; justify-content: space-between; margin-top: 20px; }
+.form-nav button {
+  padding: 10px 28px; border-radius: 6px; font-size: .92rem;
+  font-weight: 600; cursor: pointer; border: none;
+}
+.btn-prev { background: var(--border); color: var(--text); }
+.btn-next { background: var(--primary); color: var(--white); }
+.btn-next:hover { background: var(--primary-dark); }
+.btn-prev:hover { background: #d1d5db; }
+
+/* === 試聽預約（獨立區塊）=== */
+[data-block="trial"] {
+  background: linear-gradient(135deg, var(--primary-light), #fce7f3);
+  border-radius: var(--radius); padding: 36px; text-align: center;
+  max-width: 640px; margin: 32px auto 0;
+}
+[data-block="trial"] h3 { font-size: 1.15rem; margin-bottom: 8px; }
+[data-block="trial"] p { font-size: .9rem; color: var(--text-light); margin-bottom: 16px; }
+[data-block="trial"] button {
+  background: var(--accent); color: var(--white); border: none;
+  border-radius: 20px; padding: 12px 36px; font-size: 1rem;
+  font-weight: 700; cursor: pointer;
+}
+[data-block="trial"] button:hover { background: #ec4899; }
+
+/* === Footer === */
+[data-block="footer"] {
+  text-align: center; padding: 32px 24px; font-size: .82rem;
+  color: var(--text-light); border-top: 1px solid var(--border); margin-top: 52px;
+}
+
+/* === RWD === */
+@media (max-width: 640px) {
+  [data-block="nav"] ul { display: none; }
+  [data-block="hero"] h1 { font-size: 1.6rem; }
+  .courses, .teachers { grid-template-columns: 1fr; }
+}
+
+/* === sticky footer (batch patch) === */
+html, body { height: 100%; }
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+main { flex: 1 0 auto; }
+.site-footer, footer, [data-block="footer"] { margin-top: auto; }
+
+</style>
+</head>
+<body>
+
+<!-- 導覽列 -->
+<nav data-block="nav">
+  <div class="inner">
+    <div class="logo">
+      <!-- 星星圖示 -->
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      創藝星球 Creative Planet
+    </div>
+    <ul>
+      <li><a href="#courses">課程</a></li>
+      <li><a href="#teachers">師資</a></li>
+      <li><a href="#enroll">報名</a></li>
+    </ul>
+    <button class="btn-trial" onclick="document.getElementById('trial').scrollIntoView({behavior:'smooth'})">免費試聽</button>
+  </div>
+</nav>
+
+<!-- Hero -->
+<header data-block="hero">
+  <h1>讓天賦，在這裡發光</h1>
+  <p>繪畫 / 鋼琴 / 舞蹈 / 書法 --- 專業師資，分齡小班制教學</p>
+  <div class="cta-row">
+    <a href="#enroll" class="cta-btn cta-primary">立即報名</a>
+    <a href="#trial" class="cta-btn cta-ghost">免費試聽一堂</a>
+  </div>
+</header>
+
+<!-- 課程展示 -->
+<section class="section" id="courses">
+  <h2 class="section-title">課程總覽</h2>
+  <p class="section-sub">四大領域，找到屬於你的創作舞台</p>
+
+  <div class="courses">
+    <!-- 繪畫 -->
+    <article class="course-card">
+      <img src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=480&h=320&fit=crop" alt="繪畫課程" loading="lazy">
+      <div class="body">
+        <h3>繪畫創作</h3>
+        <p>素描、水彩、壓克力，從基礎到創作。培養觀察力與色彩感知。</p>
+        <div class="age-tags">
+          <span class="age-tag age-child">兒童班</span>
+          <span class="age-tag age-teen">青少年班</span>
+          <span class="age-tag age-adult">成人班</span>
+        </div>
+      </div>
+    </article>
+    <!-- 鋼琴 -->
+    <article class="course-card">
+      <img src="https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?w=480&h=320&fit=crop" alt="鋼琴課程" loading="lazy">
+      <div class="body">
+        <h3>鋼琴演奏</h3>
+        <p>古典與流行並行，一對一指導。定期舉辦成果發表會。</p>
+        <div class="age-tags">
+          <span class="age-tag age-child">兒童班</span>
+          <span class="age-tag age-teen">青少年班</span>
+          <span class="age-tag age-adult">成人班</span>
+        </div>
+      </div>
+    </article>
+    <!-- 舞蹈 -->
+    <article class="course-card">
+      <img src="https://images.unsplash.com/photo-1518834107812-67b0b7c58434?w=480&h=320&fit=crop" alt="舞蹈課程" loading="lazy">
+      <div class="body">
+        <h3>舞蹈律動</h3>
+        <p>街舞、芭蕾、現代舞。用身體說故事，釋放創造力。</p>
+        <div class="age-tags">
+          <span class="age-tag age-child">兒童班</span>
+          <span class="age-tag age-teen">青少年班</span>
+        </div>
+      </div>
+    </article>
+    <!-- 書法 -->
+    <article class="course-card">
+      <img src="https://images.unsplash.com/photo-1455390582262-044cdead277a?w=480&h=320&fit=crop" alt="書法課程" loading="lazy">
+      <div class="body">
+        <h3>書法美學</h3>
+        <p>硬筆與毛筆，靜心練字。體驗漢字之美，提升專注力。</p>
+        <div class="age-tags">
+          <span class="age-tag age-teen">青少年班</span>
+          <span class="age-tag age-adult">成人班</span>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- 師資團隊 -->
+<section class="section" id="teachers" style="background: var(--primary-bg); padding-top: 52px; padding-bottom: 52px;">
+  <div style="max-width:1100px; margin:0 auto; padding:0 24px;">
+    <h2 class="section-title">師資團隊</h2>
+    <p class="section-sub">每位老師都是該領域的熱情實踐者</p>
+
+    <div class="teachers">
+      <div class="teacher-card">
+        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=200&h=200&fit=crop&crop=faces" alt="李芷瑩" loading="lazy">
+        <h3>李芷瑩</h3>
+        <div class="role">繪畫講師</div>
+        <div class="meta">
+          <span>教學年資：12 年</span>
+          <span>師大美術系碩士</span>
+          <span>專長：水彩、素描</span>
+        </div>
+      </div>
+      <div class="teacher-card">
+        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=faces" alt="陳柏宇" loading="lazy">
+        <h3>陳柏宇</h3>
+        <div class="role">鋼琴講師</div>
+        <div class="meta">
+          <span>教學年資：8 年</span>
+          <span>維也納音樂院</span>
+          <span>專長：古典鋼琴、即興</span>
+        </div>
+      </div>
+      <div class="teacher-card">
+        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop&crop=faces" alt="張心妍" loading="lazy">
+        <h3>張心妍</h3>
+        <div class="role">舞蹈講師</div>
+        <div class="meta">
+          <span>教學年資：6 年</span>
+          <span>北藝大舞蹈系</span>
+          <span>專長：現代舞、芭蕾</span>
+        </div>
+      </div>
+      <div class="teacher-card">
+        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop&crop=faces" alt="王鴻儒" loading="lazy">
+        <h3>王鴻儒</h3>
+        <div class="role">書法講師</div>
+        <div class="meta">
+          <span>教學年資：15 年</span>
+          <span>台師大國文系</span>
+          <span>專長：行書、隸書</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 線上報名（分段式） -->
+<section class="section" id="enroll">
+  <h2 class="section-title">線上報名</h2>
+  <p class="section-sub">三步驟完成報名，開始你的創作旅程</p>
+
+  <form data-block="enroll" id="enrollForm" onsubmit="event.preventDefault(); alert('報名成功！我們將於 2 個工作天內聯繫您。');">
+    <!-- 步驟指示器 -->
+    <div class="steps">
+      <div class="step-dot active" id="dot1">1</div>
+      <div class="step-line"></div>
+      <div class="step-dot" id="dot2">2</div>
+      <div class="step-line"></div>
+      <div class="step-dot" id="dot3">3</div>
+    </div>
+
+    <!-- 步驟一：家長資料 -->
+    <div class="form-step visible" id="step1">
+      <h3>家長/聯絡人資料</h3>
+      <div class="field"><label>姓名</label><input type="text" required placeholder="王大明"></div>
+      <div class="field"><label>聯絡電話</label><input type="tel" required placeholder="0912-345-678"></div>
+      <div class="field"><label>Email</label><input type="email" required placeholder="parent@email.com"></div>
+      <div class="form-nav">
+        <span></span>
+        <button type="button" class="btn-next" onclick="goStep(2)">下一步</button>
+      </div>
+    </div>
+
+    <!-- 步驟二：學生資料 -->
+    <div class="form-step" id="step2">
+      <h3>學生資料</h3>
+      <div class="field"><label>學生姓名</label><input type="text" required placeholder="王小明"></div>
+      <div class="field"><label>出生年月</label><input type="month" required></div>
+      <div class="field">
+        <label>年齡層</label>
+        <select required>
+          <option value="">請選擇</option>
+          <option>兒童 (5-11歲)</option>
+          <option>青少年 (12-17歲)</option>
+          <option>成人 (18歲以上)</option>
+        </select>
+      </div>
+      <div class="form-nav">
+        <button type="button" class="btn-prev" onclick="goStep(1)">上一步</button>
+        <button type="button" class="btn-next" onclick="goStep(3)">下一步</button>
+      </div>
+    </div>
+
+    <!-- 步驟三：課程選擇 -->
+    <div class="form-step" id="step3">
+      <h3>課程選擇</h3>
+      <div class="field">
+        <label>報名課程</label>
+        <select required>
+          <option value="">請選擇課程</option>
+          <option>繪畫創作</option>
+          <option>鋼琴演奏</option>
+          <option>舞蹈律動</option>
+          <option>書法美學</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>偏好上課時段</label>
+        <select>
+          <option value="">請選擇</option>
+          <option>平日下午 14:00-16:00</option>
+          <option>平日晚上 18:30-20:30</option>
+          <option>週六上午 09:00-11:00</option>
+          <option>週六下午 14:00-16:00</option>
+          <option>週日上午 09:00-11:00</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>備註（選填）</label>
+        <input type="text" placeholder="有無學習經驗、特殊需求等">
+      </div>
+      <div class="form-nav">
+        <button type="button" class="btn-prev" onclick="goStep(2)">上一步</button>
+        <button type="submit" class="btn-next">送出報名</button>
+      </div>
+    </div>
+  </form>
+
+  <!-- 試聽預約（獨立按鈕） -->
+  <div data-block="trial" id="trial">
+    <h3>還在猶豫？先來免費試聽！</h3>
+    <p>每門課程皆提供一堂免費體驗，親自感受教學氛圍</p>
+    <button onclick="alert('試聽預約已送出！我們會盡快安排體驗時段。')">預約免費試聽</button>
+  </div>
+</section>
+
+<footer data-block="footer">
+  <p>&copy; 2026 創藝星球 Creative Planet. All rights reserved.</p>
+</footer>
+
+<script>
+/* === 分段式表單切換 === */
+function goStep(n) {
+  /* 隱藏所有步驟 */
+  document.querySelectorAll('.form-step').forEach(s => s.classList.remove('visible'));
+  document.getElementById('step' + n).classList.add('visible');
+
+  /* 更新步驟指示器 */
+  [1, 2, 3].forEach(i => {
+    const dot = document.getElementById('dot' + i);
+    dot.classList.remove('active', 'done');
+    if (i < n) dot.classList.add('done');
+    if (i === n) dot.classList.add('active');
+  });
+}
+</script>
+</body>
+</html>

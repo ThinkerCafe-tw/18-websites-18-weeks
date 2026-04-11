@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>靜心瑜伽 Calm Yoga Studio</title>
+<style>
+/* === 設計變數 === */
+:root {
+  --primary: #5b21b6;        /* 靈性紫 */
+  --primary-light: #7c3aed;
+  --primary-dark: #3b0764;
+  --accent: #e9d5ff;         /* 淡紫 */
+  --accent-warm: #f0abfc;
+  --bg: #faf5ff;
+  --bg-card: #ffffff;
+  --text: #1e1b2e;
+  --text-muted: #6b6584;
+  --border: #e4ddf0;
+  --green: #16a34a;
+  --yellow: #ca8a04;
+  --red: #dc2626;
+  --radius: 8px;
+  --line-height: 1.8;
+  --shadow: 0 2px 16px rgba(91,33,182,0.06);
+  --shadow-hover: 0 6px 24px rgba(91,33,182,0.12);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: "Noto Sans TC", "PingFang TC", -apple-system, sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  line-height: var(--line-height);
+}
+img { max-width: 100%; height: auto; display: block; }
+a { color: var(--primary); text-decoration: none; }
+
+.container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+section { padding: 72px 0; }
+section:nth-child(even) { background: var(--bg-card); }
+
+/* === 導覽列 === */
+header {
+  background: var(--primary-dark);
+  position: sticky; top: 0; z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+}
+nav {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 24px; max-width: 1080px; margin: 0 auto;
+}
+.logo {
+  font-size: 1.2rem; font-weight: 700; color: #fff;
+  display: flex; align-items: center; gap: 8px;
+}
+.nav-links { display: flex; gap: 24px; list-style: none; }
+.nav-links a { color: rgba(255,255,255,0.85); font-size: 0.95rem; transition: color 0.2s; }
+.nav-links a:hover { color: var(--accent); }
+.menu-toggle { display: none; background: none; border: none; cursor: pointer; }
+@media (max-width: 768px) {
+  .menu-toggle { display: block; }
+  .nav-links {
+    display: none; flex-direction: column;
+    position: absolute; top: 100%; left: 0; right: 0;
+    background: var(--primary-dark); padding: 16px 24px; gap: 14px;
+  }
+  .nav-links.open { display: flex; }
+}
+
+/* === 英雄區 === */
+/* 注意：用 section[data-block="hero"] 以提高特異性，避免被 section:nth-child(even) 的白底蓋掉 */
+section[data-block="hero"] {
+  background: linear-gradient(135deg, var(--primary-dark), var(--primary) 50%, var(--primary-light)) !important;
+  color: #fff;
+  text-align: center;
+  padding: 100px 24px 120px;
+  position: relative;
+}
+section[data-block="hero"]::after {
+  content: '';
+  position: absolute; bottom: 0; left: 0; right: 0;
+  height: 48px;
+  background: var(--bg);
+  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+}
+section[data-block="hero"] h1 {
+  font-size: clamp(2rem, 5vw, 3rem);
+  margin-bottom: 12px;
+  letter-spacing: 2px;
+  color: #fff;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.35);
+}
+section[data-block="hero"] p {
+  opacity: 0.95;
+  font-size: 1.1rem;
+  max-width: 480px;
+  margin: 0 auto 28px;
+  color: #fff;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+}
+.hero-cta {
+  display: inline-block; background: #fff; color: var(--primary-dark);
+  padding: 14px 36px; border-radius: var(--radius); font-weight: 700; transition: transform 0.2s;
+}
+.hero-cta:hover { transform: translateY(-2px); color: var(--primary-dark); }
+
+/* === 標題共用 === */
+.section-title { text-align: center; margin-bottom: 48px; }
+.section-title h2 { font-size: 1.8rem; color: var(--primary-dark); margin-bottom: 6px; }
+.section-title p { color: var(--text-muted); }
+.section-title .bar { display: block; width: 48px; height: 3px; background: var(--primary-light); margin: 12px auto 0; border-radius: 2px; }
+
+/* === 教室介紹 === */
+.about-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center;
+}
+.about-grid img {
+  border-radius: var(--radius); aspect-ratio: 4/3; object-fit: cover; box-shadow: var(--shadow);
+}
+.about-grid .text h3 { color: var(--primary); margin-bottom: 12px; font-size: 1.3rem; }
+.about-grid .text p { color: var(--text-muted); margin-bottom: 12px; }
+.features {
+  display: flex; gap: 16px; flex-wrap: wrap; margin-top: 16px;
+}
+.feature-tag {
+  background: var(--accent); color: var(--primary-dark); padding: 6px 14px;
+  border-radius: 20px; font-size: 0.85rem; font-weight: 500;
+}
+@media (max-width: 768px) { .about-grid { grid-template-columns: 1fr; } }
+
+/* === 週課表 === */
+[data-block="schedule"] { overflow-x: auto; }
+.schedule-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 0.85rem;
+  min-width: 700px;
+}
+.schedule-table th {
+  background: var(--primary);
+  color: #fff;
+  padding: 12px 8px;
+  font-weight: 600;
+  text-align: center;
+}
+.schedule-table th:first-child { border-radius: var(--radius) 0 0 0; }
+.schedule-table th:last-child { border-radius: 0 var(--radius) 0 0; }
+.schedule-table td {
+  padding: 10px 8px;
+  border-bottom: 1px solid var(--border);
+  text-align: center;
+  vertical-align: top;
+  background: var(--bg-card);
+}
+.schedule-table tr:last-child td:first-child { border-radius: 0 0 0 var(--radius); }
+.schedule-table tr:last-child td:last-child { border-radius: 0 0 var(--radius) 0; }
+.schedule-table td:first-child {
+  font-weight: 600;
+  color: var(--primary);
+  background: var(--accent);
+  white-space: nowrap;
+}
+/* 課程格 */
+.class-cell { min-height: 48px; }
+.class-cell .name { font-weight: 600; color: var(--text); margin-bottom: 2px; }
+.class-cell .teacher { font-size: 0.8rem; color: var(--text-muted); }
+.class-cell .spots {
+  display: inline-block;
+  font-size: 0.75rem;
+  padding: 1px 8px;
+  border-radius: 10px;
+  margin-top: 3px;
+  font-weight: 500;
+}
+/* 名額色碼 */
+.spots--plenty { background: #dcfce7; color: var(--green); }
+.spots--few { background: #fef9c3; color: var(--yellow); }
+.spots--full { background: #fee2e2; color: var(--red); }
+
+/* === 教練卡片 === */
+.coach-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px;
+}
+.coach-card {
+  background: var(--bg);
+  border-radius: var(--radius);
+  padding: 32px 24px;
+  text-align: center;
+  box-shadow: var(--shadow);
+  transition: box-shadow 0.3s, transform 0.3s;
+  position: relative;
+}
+.coach-card:hover { box-shadow: var(--shadow-hover); transform: translateY(-4px); }
+.coach-card .avatar {
+  width: 100px; height: 100px; border-radius: 50%; object-fit: cover;
+  margin: 0 auto 16px; border: 3px solid var(--accent-warm);
+}
+.coach-card h3 { color: var(--primary); margin-bottom: 4px; }
+.coach-card .specialty { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 10px; }
+.coach-card p { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 12px; }
+/* 認證徽章 */
+.badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  background: var(--primary); color: #fff;
+  padding: 4px 12px; border-radius: 14px;
+  font-size: 0.78rem; font-weight: 600;
+}
+.badge svg { flex-shrink: 0; }
+@media (max-width: 768px) {
+  .coach-grid { grid-template-columns: 1fr; max-width: 360px; margin: 0 auto; }
+}
+
+/* === 報名表單 === */
+[data-block="enroll"] form {
+  max-width: 520px; margin: 0 auto;
+  display: flex; flex-direction: column; gap: 18px;
+}
+[data-block="enroll"] label {
+  font-size: 0.9rem; font-weight: 600; color: var(--primary-dark);
+  display: flex; flex-direction: column; gap: 6px;
+}
+[data-block="enroll"] input,
+[data-block="enroll"] select {
+  padding: 12px 14px; border: 1px solid var(--border);
+  border-radius: var(--radius); font-family: inherit; font-size: 0.95rem;
+  transition: border-color 0.2s;
+}
+[data-block="enroll"] input:focus,
+[data-block="enroll"] select:focus { outline: none; border-color: var(--primary); }
+.row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 480px) { .row-2 { grid-template-columns: 1fr; } }
+.submit-btn {
+  background: var(--primary); color: #fff; border: none;
+  padding: 14px; border-radius: var(--radius); font-size: 1rem;
+  font-weight: 600; cursor: pointer; transition: background 0.2s;
+}
+.submit-btn:hover { background: var(--primary-light); }
+.form-success {
+  display: none; text-align: center; padding: 32px; color: var(--primary-dark);
+}
+.form-success.show { display: block; }
+
+/* === 底部 === */
+footer {
+  background: var(--primary-dark); color: rgba(255,255,255,0.75);
+  padding: 40px 24px; text-align: center; font-size: 0.85rem;
+}
+footer p + p { margin-top: 6px; }
+
+/* === sticky footer (batch patch) === */
+html, body { height: 100%; }
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+main { flex: 1 0 auto; }
+.site-footer, footer, [data-block="footer"] { margin-top: auto; }
+
+</style>
+</head>
+<body>
+
+<!-- 導覽列 -->
+<header>
+  <nav>
+    <div class="logo">
+      <!-- 蓮花 SVG -->
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 22c-4-3-8-7.5-8-12a8 8 0 0116 0c0 4.5-4 9-8 12z"/>
+        <path d="M12 6v10"/>
+        <path d="M8 10c2 1 4 1 4 1s2 0 4-1"/>
+        <path d="M7 14c2.5 1 5 1 5 1s2.5 0 5-1"/>
+      </svg>
+      靜心瑜伽
+    </div>
+    <button class="menu-toggle" aria-label="選單" onclick="document.querySelector('.nav-links').classList.toggle('open')">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+    <ul class="nav-links">
+      <li><a href="#about">教室介紹</a></li>
+      <li><a href="#schedule">週課表</a></li>
+      <li><a href="#coaches">教練團隊</a></li>
+      <li><a href="#enroll">報名</a></li>
+    </ul>
+  </nav>
+</header>
+
+<!-- 英雄區 -->
+<section data-block="hero">
+  <div class="container">
+    <h1>呼吸之間　找回自己</h1>
+    <p>在城市的喧囂中，靜心瑜伽為你保留一方淨土，用身體連結心靈。</p>
+    <a href="#enroll" class="hero-cta">預約體驗課</a>
+  </div>
+</section>
+
+<!-- 教室介紹 -->
+<section data-block="about" id="about">
+  <div class="container">
+    <div class="section-title">
+      <h2>關於靜心瑜伽</h2>
+      <p>Calm Yoga Studio</p>
+      <span class="bar"></span>
+    </div>
+    <div class="about-grid">
+      <img src="https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=600&h=450&fit=crop" alt="瑜伽教室空間" loading="lazy">
+      <div class="text">
+        <h3>用練習照顧身心</h3>
+        <p>靜心瑜伽成立於 2019 年，位於台北市大安區靜巷之中。我們提供多元的瑜伽課程，從初學者的基礎哈達到進階的阿斯坦加，每堂課都由國際認證教練親自指導。</p>
+        <p>教室採用天然木地板與柔和燈光設計，搭配空氣淨化系統，讓每一次練習都成為身心靈的深度修復。</p>
+        <div class="features">
+          <span class="feature-tag">小班制教學</span>
+          <span class="feature-tag">國際認證師資</span>
+          <span class="feature-tag">免費瑜伽墊</span>
+          <span class="feature-tag">淋浴設備</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 週課表 -->
+<section data-block="schedule" id="schedule">
+  <div class="container">
+    <div class="section-title">
+      <h2>週課表</h2>
+      <p>2026 春季班 ・ 每月循環</p>
+      <span class="bar"></span>
+    </div>
+    <div style="overflow-x:auto;">
+      <table class="schedule-table">
+        <thead>
+          <tr>
+            <th>時段</th>
+            <th>週一</th>
+            <th>週二</th>
+            <th>週三</th>
+            <th>週四</th>
+            <th>週五</th>
+            <th>週六</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- 早晨 -->
+          <tr>
+            <td>07:00<br>08:00</td>
+            <td>
+              <div class="class-cell">
+                <div class="name">晨光流動瑜伽</div>
+                <div class="teacher">林靜宜</div>
+                <span class="spots spots--plenty">剩 8 名</span>
+              </div>
+            </td>
+            <td>—</td>
+            <td>
+              <div class="class-cell">
+                <div class="name">晨光流動瑜伽</div>
+                <div class="teacher">林靜宜</div>
+                <span class="spots spots--few">剩 2 名</span>
+              </div>
+            </td>
+            <td>—</td>
+            <td>
+              <div class="class-cell">
+                <div class="name">晨光流動瑜伽</div>
+                <div class="teacher">林靜宜</div>
+                <span class="spots spots--plenty">剩 6 名</span>
+              </div>
+            </td>
+            <td>
+              <div class="class-cell">
+                <div class="name">日出冥想</div>
+                <div class="teacher">王心柔</div>
+                <span class="spots spots--plenty">剩 10 名</span>
+              </div>
+            </td>
+          </tr>
+          <!-- 上午 -->
+          <tr>
+            <td>10:00<br>11:30</td>
+            <td>
+              <div class="class-cell">
+                <div class="name">基礎哈達瑜伽</div>
+                <div class="teacher">王心柔</div>
+                <span class="spots spots--plenty">剩 5 名</span>
+              </div>
+            </td>
+            <td>
+              <div class="class-cell">
+                <div class="name">陰瑜伽</div>
+                <div class="teacher">陳曉風</div>
+                <span class="spots spots--full">已額滿</span>
+              </div>
+            </td>
+            <td>
+              <div class="class-cell">
+                <div class="name">基礎哈達瑜伽</div>
+                <div class="teacher">王心柔</div>
+                <span class="spots spots--few">剩 3 名</span>
+              </div>
+            </td>
+            <td>
+              <div class="class-cell">
+                <div class="name">陰瑜伽</div>
+                <div class="teacher">陳曉風</div>
+                <span class="spots spots--few">剩 2 名</span>
+              </div>
+            </td>
+            <td>—</td>
+            <td>
+              <div class="class-cell">
+                <div class="name">阿斯坦加</div>
+                <div class="teacher">林靜宜</div>
+                <span class="spots spots--full">已額滿</span>
+              </div>
+            </td>
+          </tr>
+          <!-- 下午 -->
+          <tr>
+            <td>14:00<br>15:30</td>
+            <td>—</td>
+            <td>
+              <div class="class-cell">
+                <div class="name">孕婦瑜伽</div>
+                <div class="teacher">王心柔</div>
+                <span class="spots spots--plenty">剩 6 名</span>
+              </div>
+            </td>
+            <td>—</td>
+            <td>
+              <div class="class-cell">
+                <div class="name">修復瑜伽</div>
+                <div class="teacher">陳曉風</div>
+                <span class="spots spots--plenty">剩 7 名</span>
+              </div>
+            </td>
+            <td>
+              <div class="class-cell">
+                <div class="name">空中瑜伽</div>
+                <div class="teacher">林靜宜</div>
+                <span class="spots spots--few">剩 1 名</span>
+              </div>
+            </td>
+            <td>
+              <div class="class-cell">
+                <div class="name">親子瑜伽</div>
+                <div class="teacher">王心柔</div>
+                <span class="spots spots--plenty">剩 5 名</span>
+              </div>
+            </td>
+          </tr>
+          <!-- 晚上 -->
+          <tr>
+            <td>19:00<br>20:30</td>
+            <td>
+              <div class="class-cell">
+                <div class="name">流動瑜伽</div>
+                <div class="teacher">陳曉風</div>
+                <span class="spots spots--full">已額滿</span>
+              </div>
+            </td>
+            <td>
+              <div class="class-cell">
+                <div class="name">力量瑜伽</div>
+                <div class="teacher">林靜宜</div>
+                <span class="spots spots--few">剩 2 名</span>
+              </div>
+            </td>
+            <td>
+              <div class="class-cell">
+                <div class="name">燭光冥想</div>
+                <div class="teacher">王心柔</div>
+                <span class="spots spots--plenty">剩 9 名</span>
+              </div>
+            </td>
+            <td>
+              <div class="class-cell">
+                <div class="name">流動瑜伽</div>
+                <div class="teacher">陳曉風</div>
+                <span class="spots spots--few">剩 3 名</span>
+              </div>
+            </td>
+            <td>
+              <div class="class-cell">
+                <div class="name">阿斯坦加</div>
+                <div class="teacher">林靜宜</div>
+                <span class="spots spots--plenty">剩 4 名</span>
+              </div>
+            </td>
+            <td>—</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- 圖例 -->
+    <div style="display:flex; gap:20px; justify-content:center; margin-top:16px; flex-wrap:wrap; font-size:0.85rem; color:var(--text-muted);">
+      <span><span class="spots spots--plenty" style="font-size:0.78rem;">充足</span> 4 名以上</span>
+      <span><span class="spots spots--few" style="font-size:0.78rem;">即將額滿</span> 1-3 名</span>
+      <span><span class="spots spots--full" style="font-size:0.78rem;">已滿</span> 無法報名</span>
+    </div>
+  </div>
+</section>
+
+<!-- 教練團隊 -->
+<section data-block="coaches" id="coaches">
+  <div class="container">
+    <div class="section-title">
+      <h2>教練團隊</h2>
+      <p>國際認證・用心陪伴每一堂練習</p>
+      <span class="bar"></span>
+    </div>
+    <div class="coach-grid">
+      <!-- 教練 1 -->
+      <div class="coach-card">
+        <img class="avatar" src="https://images.unsplash.com/photo-1594381898411-846e7d193883?w=200&h=200&fit=crop&crop=faces" alt="林靜宜教練" loading="lazy">
+        <h3>林靜宜</h3>
+        <div class="specialty">阿斯坦加 / 流動瑜伽 / 空中瑜伽</div>
+        <p>15 年教學經驗，曾赴印度邁索爾進修。擅長以呼吸引導動作，幫助學員在流動中找到穩定與力量。</p>
+        <span class="badge">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+          E-RYT 500
+        </span>
+      </div>
+      <!-- 教練 2 -->
+      <div class="coach-card">
+        <img class="avatar" src="https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=200&h=200&fit=crop&crop=faces" alt="王心柔教練" loading="lazy">
+        <h3>王心柔</h3>
+        <div class="specialty">哈達瑜伽 / 孕婦瑜伽 / 冥想</div>
+        <p>溫暖而細膩的教學風格，專注於正位與覺察。通過孕婦瑜伽專項認證，陪伴每位媽媽安心練習。</p>
+        <span class="badge">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+          RYT-200
+        </span>
+      </div>
+      <!-- 教練 3 -->
+      <div class="coach-card">
+        <img class="avatar" src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=200&h=200&fit=crop&crop=faces" alt="陳曉風教練" loading="lazy">
+        <h3>陳曉風</h3>
+        <div class="specialty">陰瑜伽 / 修復瑜伽 / 流動瑜伽</div>
+        <p>前職業舞者轉入瑜伽教學，擅長以緩慢深沉的陰瑜伽引導身心放鬆，特別適合壓力大的上班族。</p>
+        <span class="badge">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+          RYT-200
+        </span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 報名 -->
+<section data-block="enroll" id="enroll">
+  <div class="container">
+    <div class="section-title">
+      <h2>課程報名</h2>
+      <p>選擇想上的課程，我們將為您保留名額</p>
+      <span class="bar"></span>
+    </div>
+    <form id="enrollForm" onsubmit="handleEnroll(event)">
+      <div class="row-2">
+        <label>
+          姓名
+          <input type="text" name="name" required placeholder="您的姓名">
+        </label>
+        <label>
+          聯絡電話
+          <input type="tel" name="phone" required placeholder="0912-345-678">
+        </label>
+      </div>
+      <label>
+        電子信箱
+        <input type="email" name="email" required placeholder="your@email.com">
+      </label>
+      <label>
+        選擇課程
+        <select name="course" required>
+          <option value="" disabled selected>請選擇課程</option>
+          <option value="morning-flow">晨光流動瑜伽（週一/三/五 07:00）</option>
+          <option value="hatha">基礎哈達瑜伽（週一/三 10:00）</option>
+          <option value="yin">陰瑜伽（週二/四 10:00）</option>
+          <option value="prenatal">孕婦瑜伽（週二 14:00）</option>
+          <option value="restore">修復瑜伽（週四 14:00）</option>
+          <option value="aerial">空中瑜伽（週五 14:00）</option>
+          <option value="vinyasa">流動瑜伽（週一/四 19:00）</option>
+          <option value="power">力量瑜伽（週二 19:00）</option>
+          <option value="meditation">燭光冥想（週三 19:00）</option>
+          <option value="ashtanga">阿斯坦加（週五 19:00 / 週六 10:00）</option>
+          <option value="kids">親子瑜伽（週六 14:00）</option>
+          <option value="sunrise">日出冥想（週六 07:00）</option>
+        </select>
+      </label>
+      <label>
+        瑜伽經驗
+        <select name="experience" required>
+          <option value="" disabled selected>請選擇</option>
+          <option value="beginner">初學者（0-6 個月）</option>
+          <option value="intermediate">有基礎（6 個月-2 年）</option>
+          <option value="advanced">進階（2 年以上）</option>
+        </select>
+      </label>
+      <button type="submit" class="submit-btn">送出報名</button>
+    </form>
+    <div class="form-success" id="enrollSuccess">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-5"/></svg>
+      <h3 style="margin:8px 0">報名成功！</h3>
+      <p>我們將於 24 小時內透過電話或信箱與您確認課程細節。<br>Namaste 🙏</p>
+    </div>
+  </div>
+</section>
+
+<!-- 底部 -->
+<footer>
+  <div class="container">
+    <p style="font-size:1rem; color:rgba(255,255,255,0.9); margin-bottom:8px;">靜心瑜伽 Calm Yoga Studio</p>
+    <p>地址：台北市大安區瑞安街 42 巷 8 號 2 樓 ｜ 電話：(02) 2708-9012</p>
+    <p>營業時間：週一至週六 06:30 - 21:30（週日公休）</p>
+    <p style="margin-top:12px; opacity:0.5;">&copy; 2026 靜心瑜伽 All Rights Reserved.</p>
+  </div>
+</footer>
+
+<script>
+/* === 表單送出 === */
+function handleEnroll(e) {
+  e.preventDefault();
+  document.getElementById('enrollForm').style.display = 'none';
+  document.getElementById('enrollSuccess').classList.add('show');
+}
+</script>
+</body>
+</html>

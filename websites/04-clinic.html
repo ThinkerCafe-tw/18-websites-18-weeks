@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>安心家醫診所</title>
+<style>
+/* === 全域變數 === */
+:root {
+  --primary: #0891b2;
+  --primary-dark: #0e7490;
+  --primary-light: #ecfeff;
+  --text: #1e293b;
+  --text-light: #64748b;
+  --bg: #f8fafc;
+  --white: #ffffff;
+  --border: #e2e8f0;
+  --radius: 4px;
+  --green: #22c55e;
+  --green-bg: #f0fdf4;
+  --yellow: #eab308;
+  --yellow-bg: #fefce8;
+  --red: #ef4444;
+  --red-bg: #fef2f2;
+  --red-gray: #9ca3af;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Microsoft JhengHei", sans-serif;
+  line-height: 1.6;
+  color: var(--text);
+  background: var(--bg);
+}
+a { color: var(--primary); text-decoration: none; }
+img { max-width: 100%; display: block; }
+
+/* === 導覽列 === */
+[data-block="nav"] {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 1px 3px rgba(0,0,0,.05);
+}
+[data-block="nav"] .inner {
+  max-width: 1100px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 1.25rem; height: 60px;
+}
+.logo { font-size: 1.25rem; font-weight: 700; color: var(--primary); display: flex; align-items: center; gap: .5rem; }
+.logo svg { flex-shrink: 0; }
+.nav-links { display: flex; gap: 1.5rem; list-style: none; }
+.nav-links a { color: var(--text); font-size: .9rem; transition: color .2s; }
+.nav-links a:hover { color: var(--primary); }
+.hamburger { display: none; background: none; border: none; cursor: pointer; }
+
+/* === 通用容器 === */
+.section { padding: 4rem 1.25rem; }
+.container { max-width: 1100px; margin: 0 auto; }
+.section-title { font-size: 1.75rem; text-align: center; margin-bottom: .5rem; color: var(--text); }
+.section-sub { text-align: center; color: var(--text-light); margin-bottom: 2.5rem; }
+
+/* === Hero === */
+[data-block="hero"] {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: var(--white); text-align: center;
+  padding: 5rem 1.25rem;
+}
+[data-block="hero"] h1 { font-size: 2.5rem; margin-bottom: .75rem; }
+[data-block="hero"] p { font-size: 1.15rem; opacity: .9; max-width: 600px; margin: 0 auto 2rem; }
+.hero-btn {
+  display: inline-block; padding: .75rem 2rem;
+  background: var(--white); color: var(--primary);
+  border-radius: var(--radius); font-weight: 600;
+  transition: transform .2s, box-shadow .2s;
+}
+.hero-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,.15); }
+
+/* === 診所介紹 === */
+[data-block="about"] .grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;
+}
+.feature-card {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1.75rem; text-align: center;
+  transition: box-shadow .2s;
+}
+.feature-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,.08); }
+.feature-card svg { margin: 0 auto 1rem; }
+.feature-card h3 { margin-bottom: .5rem; font-size: 1.1rem; }
+.feature-card p { color: var(--text-light); font-size: .9rem; }
+
+/* === 醫師團隊 === */
+[data-block="team"] { background: var(--white); }
+[data-block="team"] .grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem;
+}
+.doctor-card {
+  border: 1px solid var(--border); border-radius: var(--radius);
+  overflow: hidden; transition: box-shadow .2s;
+}
+.doctor-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,.08); }
+.doctor-img {
+  width: 100%; height: 220px; object-fit: cover;
+  background: var(--primary-light);
+}
+.doctor-info { padding: 1.25rem; }
+.doctor-info h3 { font-size: 1.1rem; margin-bottom: .25rem; }
+.doctor-info .title { color: var(--primary); font-size: .85rem; margin-bottom: .5rem; }
+.doctor-info p { color: var(--text-light); font-size: .85rem; }
+
+/* === 預約系統 === */
+[data-block="booking"] .booking-layout {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;
+}
+/* 月曆 */
+.calendar { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; }
+.cal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
+.cal-header h3 { font-size: 1.1rem; }
+.cal-nav { background: none; border: 1px solid var(--border); border-radius: var(--radius); width: 32px; height: 32px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background .2s; }
+.cal-nav:hover { background: var(--primary-light); }
+.cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; text-align: center; }
+.cal-day-label { font-size: .75rem; color: var(--text-light); padding: .5rem 0; font-weight: 600; }
+.cal-day {
+  padding: .5rem; font-size: .85rem; border-radius: var(--radius); cursor: pointer;
+  transition: background .15s, color .15s;
+}
+.cal-day:hover { background: var(--primary-light); }
+.cal-day.today { border: 2px solid var(--primary); font-weight: 700; }
+.cal-day.selected { background: var(--primary); color: var(--white); }
+.cal-day.disabled { color: var(--border); pointer-events: none; }
+.cal-day.empty { pointer-events: none; }
+
+/* 時段矩陣 */
+.slots { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; }
+.slots h3 { font-size: 1.1rem; margin-bottom: 1rem; }
+.slot-group { margin-bottom: 1.25rem; }
+.slot-group-title { font-size: .85rem; font-weight: 600; color: var(--text-light); margin-bottom: .5rem; }
+.slot-row { display: flex; flex-wrap: wrap; gap: .5rem; }
+.slot-btn {
+  padding: .4rem .75rem; border: 1px solid var(--border); border-radius: var(--radius);
+  font-size: .8rem; cursor: pointer; background: var(--white);
+  transition: all .15s;
+}
+/* 可預約 */
+.slot-btn.available { border-color: var(--green); color: #166534; background: var(--green-bg); }
+.slot-btn.available:hover { background: var(--green); color: var(--white); }
+/* 即將額滿 */
+.slot-btn.limited { border-color: var(--yellow); color: #854d0e; background: var(--yellow-bg); }
+.slot-btn.limited:hover { background: var(--yellow); color: var(--white); }
+/* 已額滿 */
+.slot-btn.full { border-color: var(--red-gray); color: var(--red-gray); background: var(--red-bg); cursor: not-allowed; opacity: .6; }
+.slot-btn.selected { background: var(--primary) !important; color: var(--white) !important; border-color: var(--primary) !important; }
+
+/* 預約表單 */
+.booking-form { margin-top: 2rem; background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; }
+.booking-form h3 { font-size: 1.1rem; margin-bottom: 1rem; }
+.form-group { margin-bottom: 1rem; }
+.form-group label { display: block; font-size: .85rem; font-weight: 600; margin-bottom: .25rem; }
+.form-group input, .form-group textarea, .form-group select {
+  width: 100%; padding: .6rem .75rem; border: 1px solid var(--border);
+  border-radius: var(--radius); font-size: .9rem; font-family: inherit;
+  transition: border-color .2s;
+}
+.form-group input:focus, .form-group textarea:focus { outline: none; border-color: var(--primary); }
+.form-group textarea { resize: vertical; min-height: 80px; }
+.selected-info { background: var(--primary-light); padding: .75rem; border-radius: var(--radius); font-size: .85rem; margin-bottom: 1rem; color: var(--primary-dark); }
+.submit-btn {
+  width: 100%; padding: .75rem; background: var(--primary); color: var(--white);
+  border: none; border-radius: var(--radius); font-size: 1rem; font-weight: 600;
+  cursor: pointer; transition: background .2s;
+}
+.submit-btn:hover { background: var(--primary-dark); }
+.submit-btn:disabled { background: var(--border); cursor: not-allowed; }
+
+/* 狀態圖例 */
+.legend { display: flex; gap: 1.25rem; margin-top: 1rem; flex-wrap: wrap; }
+.legend-item { display: flex; align-items: center; gap: .35rem; font-size: .8rem; color: var(--text-light); }
+.legend-dot { width: 12px; height: 12px; border-radius: 2px; }
+.legend-dot.g { background: var(--green-bg); border: 1px solid var(--green); }
+.legend-dot.y { background: var(--yellow-bg); border: 1px solid var(--yellow); }
+.legend-dot.r { background: var(--red-bg); border: 1px solid var(--red-gray); }
+
+/* === 頁尾 === */
+[data-block="footer"] {
+  background: var(--text); color: rgba(255,255,255,.7);
+  text-align: center; padding: 2rem 1.25rem; font-size: .85rem;
+}
+
+/* === 成功提示 === */
+.toast {
+  position: fixed; bottom: 2rem; right: 2rem; background: var(--primary);
+  color: var(--white); padding: 1rem 1.5rem; border-radius: var(--radius);
+  box-shadow: 0 4px 12px rgba(0,0,0,.2); transform: translateY(120%);
+  transition: transform .3s; z-index: 200; font-size: .9rem;
+}
+.toast.show { transform: translateY(0); }
+
+/* === RWD === */
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .hamburger { display: block; }
+  .nav-links.open { display: flex; flex-direction: column; position: absolute; top: 60px; left: 0; right: 0; background: var(--white); padding: 1rem 1.25rem; border-bottom: 1px solid var(--border); }
+  [data-block="hero"] h1 { font-size: 1.75rem; }
+  [data-block="booking"] .booking-layout { grid-template-columns: 1fr; }
+}
+
+/* === sticky footer (batch patch) === */
+html, body { height: 100%; }
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+main { flex: 1 0 auto; }
+.site-footer, footer, [data-block="footer"] { margin-top: auto; }
+
+</style>
+</head>
+<body>
+
+<!-- 導覽列 -->
+<nav data-block="nav">
+  <div class="inner">
+    <div class="logo">
+      <!-- 醫療十字 SVG -->
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+        <rect width="28" height="28" rx="4" fill="#0891b2"/>
+        <rect x="12" y="6" width="4" height="16" rx="1" fill="#fff"/>
+        <rect x="6" y="12" width="16" height="4" rx="1" fill="#fff"/>
+      </svg>
+      安心家醫診所
+    </div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#about">診所介紹</a></li>
+      <li><a href="#team">醫師團隊</a></li>
+      <li><a href="#booking">線上預約</a></li>
+    </ul>
+    <button class="hamburger" onclick="document.getElementById('navLinks').classList.toggle('open')" aria-label="選單">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1e293b" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+  </div>
+</nav>
+
+<!-- Hero 區塊 -->
+<header data-block="hero">
+  <h1>安心家醫，守護全家健康</h1>
+  <p>提供內科、家庭醫學、預防保健等全方位醫療服務，讓您與家人安心託付。</p>
+  <a href="#booking" class="hero-btn">立即預約掛號</a>
+</header>
+
+<!-- 診所介紹 -->
+<section data-block="about" class="section" id="about">
+  <div class="container">
+    <h2 class="section-title">為什麼選擇安心家醫？</h2>
+    <p class="section-sub">以病患為中心，提供溫暖且專業的醫療照護體驗</p>
+    <div class="grid">
+      <!-- 特色卡片：專業團隊 -->
+      <article class="feature-card">
+        <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="22" stroke="#0891b2" stroke-width="2"/><circle cx="24" cy="18" r="6" stroke="#0891b2" stroke-width="2"/><path d="M12 38c0-6.627 5.373-12 12-12s12 5.373 12 12" stroke="#0891b2" stroke-width="2"/></svg>
+        <h3>專業醫師團隊</h3>
+        <p>匯聚各專科經驗豐富的醫師群，提供精準診斷與治療方案。</p>
+      </article>
+      <!-- 特色卡片：設備 -->
+      <article class="feature-card">
+        <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><rect x="8" y="12" width="32" height="24" rx="3" stroke="#0891b2" stroke-width="2"/><path d="M16 24h16M16 30h10" stroke="#0891b2" stroke-width="2"/><circle cx="36" cy="18" r="2" fill="#0891b2"/></svg>
+        <h3>新穎醫療設備</h3>
+        <p>引進數位化醫療儀器，確保檢查結果精確可靠。</p>
+      </article>
+      <!-- 特色卡片：服務 -->
+      <article class="feature-card">
+        <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><path d="M24 42S6 30 6 18a10 10 0 0118-6 10 10 0 0118 6c0 12-18 24-18 24z" stroke="#0891b2" stroke-width="2"/></svg>
+        <h3>溫馨就醫環境</h3>
+        <p>明亮舒適的候診空間，貼心的服務流程，減輕您的看診壓力。</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- 醫師團隊 -->
+<section data-block="team" class="section" id="team">
+  <div class="container">
+    <h2 class="section-title">醫師團隊</h2>
+    <p class="section-sub">專業、耐心、值得信賴的醫療夥伴</p>
+    <div class="grid">
+      <article class="doctor-card">
+        <img class="doctor-img" src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400&h=300&fit=crop" alt="林志遠醫師" loading="lazy">
+        <div class="doctor-info">
+          <h3>林志遠 醫師</h3>
+          <p class="title">院長 ／ 家庭醫學科</p>
+          <p>台大醫學院畢業，20年臨床經驗，專長慢性病管理與預防醫學。</p>
+        </div>
+      </article>
+      <article class="doctor-card">
+        <img class="doctor-img" src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400&h=300&fit=crop" alt="陳美玲醫師" loading="lazy">
+        <div class="doctor-info">
+          <h3>陳美玲 醫師</h3>
+          <p class="title">副院長 ／ 內科</p>
+          <p>成大醫學系畢業，擅長心血管疾病、糖尿病照護與健康諮詢。</p>
+        </div>
+      </article>
+      <article class="doctor-card">
+        <img class="doctor-img" src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=400&h=300&fit=crop" alt="張文豪醫師" loading="lazy">
+        <div class="doctor-info">
+          <h3>張文豪 醫師</h3>
+          <p class="title">主治醫師 ／ 小兒科</p>
+          <p>長庚醫院兒科訓練，專長兒童發展評估、過敏氣喘與疫苗接種。</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- 線上預約 -->
+<section data-block="booking" class="section" id="booking">
+  <div class="container">
+    <h2 class="section-title">線上預約掛號</h2>
+    <p class="section-sub">選擇日期與時段，輕鬆完成預約</p>
+    <div class="booking-layout">
+      <!-- 左側：月曆 + 時段 -->
+      <div>
+        <div class="calendar">
+          <div class="cal-header">
+            <button class="cal-nav" id="calPrev" aria-label="上個月">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="#1e293b" stroke-width="2"/></svg>
+            </button>
+            <h3 id="calTitle"></h3>
+            <button class="cal-nav" id="calNext" aria-label="下個月">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="#1e293b" stroke-width="2"/></svg>
+            </button>
+          </div>
+          <div class="cal-grid" id="calGrid"></div>
+        </div>
+        <!-- 時段選擇 -->
+        <div class="slots" style="margin-top:1rem;">
+          <h3 id="slotsTitle">請先選擇日期</h3>
+          <div id="slotsContainer"></div>
+          <div class="legend">
+            <span class="legend-item"><span class="legend-dot g"></span>可預約</span>
+            <span class="legend-item"><span class="legend-dot y"></span>即將額滿</span>
+            <span class="legend-item"><span class="legend-dot r"></span>已額滿</span>
+          </div>
+        </div>
+      </div>
+      <!-- 右側：預約表單 -->
+      <div class="booking-form">
+        <h3>填寫預約資料</h3>
+        <div class="selected-info" id="selectedInfo">尚未選擇日期與時段</div>
+        <form id="bookingForm">
+          <div class="form-group">
+            <label for="bkName">姓名</label>
+            <input type="text" id="bkName" placeholder="請輸入您的姓名" required>
+          </div>
+          <div class="form-group">
+            <label for="bkPhone">電話</label>
+            <input type="tel" id="bkPhone" placeholder="09xx-xxx-xxx" required>
+          </div>
+          <div class="form-group">
+            <label for="bkDoctor">選擇醫師</label>
+            <select id="bkDoctor">
+              <option value="林志遠">林志遠 醫師（家醫科）</option>
+              <option value="陳美玲">陳美玲 醫師（內科）</option>
+              <option value="張文豪">張文豪 醫師（小兒科）</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="bkSymptom">症狀描述</label>
+            <textarea id="bkSymptom" placeholder="請簡述您的症狀或就診需求"></textarea>
+          </div>
+          <button type="submit" class="submit-btn" id="submitBtn" disabled>確認預約</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 頁尾 -->
+<footer data-block="footer">
+  <p>© 2026 安心家醫診所 ｜ 地址：台中市西區健康路 88 號 ｜ 電話：04-2345-6789</p>
+</footer>
+
+<!-- 成功提示 -->
+<div class="toast" id="toast"></div>
+
+<script>
+/* === 月曆邏輯 === */
+(function() {
+  const today = new Date();
+  let viewYear = today.getFullYear();
+  let viewMonth = today.getMonth();
+  let selectedDate = null;  // 選中的日期字串 "YYYY-MM-DD"
+  let selectedSlot = null;  // 選中的時段文字
+
+  const calTitle = document.getElementById('calTitle');
+  const calGrid = document.getElementById('calGrid');
+  const slotsTitle = document.getElementById('slotsTitle');
+  const slotsContainer = document.getElementById('slotsContainer');
+  const selectedInfo = document.getElementById('selectedInfo');
+  const submitBtn = document.getElementById('submitBtn');
+
+  const dayLabels = ['日','一','二','三','四','五','六'];
+
+  /* 繪製月曆 */
+  function renderCalendar() {
+    const first = new Date(viewYear, viewMonth, 1);
+    const lastDate = new Date(viewYear, viewMonth + 1, 0).getDate();
+    const startDay = first.getDay();
+
+    calTitle.textContent = `${viewYear} 年 ${viewMonth + 1} 月`;
+    calGrid.innerHTML = '';
+
+    // 星期標籤
+    dayLabels.forEach(d => {
+      const el = document.createElement('div');
+      el.className = 'cal-day-label';
+      el.textContent = d;
+      calGrid.appendChild(el);
+    });
+
+    // 空白填充
+    for (let i = 0; i < startDay; i++) {
+      const el = document.createElement('div');
+      el.className = 'cal-day empty';
+      calGrid.appendChild(el);
+    }
+
+    // 日期
+    for (let d = 1; d <= lastDate; d++) {
+      const el = document.createElement('div');
+      el.className = 'cal-day';
+      el.textContent = d;
+
+      const dateObj = new Date(viewYear, viewMonth, d);
+      const dateStr = formatDate(viewYear, viewMonth, d);
+
+      // 過去日期不可點
+      if (dateObj < new Date(today.getFullYear(), today.getMonth(), today.getDate())) {
+        el.classList.add('disabled');
+      } else {
+        // 今天標記
+        if (d === today.getDate() && viewMonth === today.getMonth() && viewYear === today.getFullYear()) {
+          el.classList.add('today');
+        }
+        // 已選標記
+        if (dateStr === selectedDate) {
+          el.classList.add('selected');
+        }
+        el.addEventListener('click', () => selectDate(dateStr, viewYear, viewMonth, d));
+      }
+      calGrid.appendChild(el);
+    }
+  }
+
+  function formatDate(y, m, d) {
+    return `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+  }
+
+  /* 選擇日期 → 產生時段 */
+  function selectDate(dateStr, y, m, d) {
+    selectedDate = dateStr;
+    selectedSlot = null;
+    renderCalendar();
+    renderSlots(y, m, d);
+    updateInfo();
+  }
+
+  /* 根據日期+時間產生偽隨機狀態 */
+  function slotStatus(dateStr, hour) {
+    // 用簡單 hash 產生確定性狀態
+    let hash = 0;
+    const s = dateStr + ':' + hour;
+    for (let i = 0; i < s.length; i++) { hash = ((hash << 5) - hash) + s.charCodeAt(i); hash |= 0; }
+    const v = Math.abs(hash) % 10;
+    if (v < 5) return 'available';   // 50% 可預約
+    if (v < 8) return 'limited';     // 30% 即將額滿
+    return 'full';                   // 20% 已額滿
+  }
+
+  /* 繪製時段矩陣 */
+  function renderSlots(y, m, d) {
+    const dateStr = formatDate(y, m, d);
+    const weekday = new Date(y, m, d).getDay();
+    slotsTitle.textContent = `${m+1}/${d}（${'日一二三四五六'[weekday]}）可預約時段`;
+    slotsContainer.innerHTML = '';
+
+    const periods = [
+      { name: '上午', hours: [9, 10, 11] },
+      { name: '下午', hours: [13, 14, 15, 16, 17] },
+      { name: '晚上', hours: [18, 19, 20] }
+    ];
+
+    periods.forEach(period => {
+      const group = document.createElement('div');
+      group.className = 'slot-group';
+      const title = document.createElement('div');
+      title.className = 'slot-group-title';
+      title.textContent = period.name;
+      group.appendChild(title);
+
+      const row = document.createElement('div');
+      row.className = 'slot-row';
+
+      period.hours.forEach(h => {
+        const status = slotStatus(dateStr, h);
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'slot-btn ' + status;
+        btn.textContent = `${String(h).padStart(2,'0')}:00`;
+
+        if (status !== 'full') {
+          btn.addEventListener('click', () => {
+            selectedSlot = btn.textContent;
+            // 移除其他 selected
+            document.querySelectorAll('.slot-btn.selected').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            updateInfo();
+          });
+        }
+        row.appendChild(btn);
+      });
+
+      group.appendChild(row);
+      slotsContainer.appendChild(group);
+    });
+  }
+
+  /* 更新選擇摘要 */
+  function updateInfo() {
+    if (selectedDate && selectedSlot) {
+      selectedInfo.textContent = `已選擇：${selectedDate} ${selectedSlot}`;
+      submitBtn.disabled = false;
+    } else if (selectedDate) {
+      selectedInfo.textContent = `日期：${selectedDate}，請選擇時段`;
+      submitBtn.disabled = true;
+    } else {
+      selectedInfo.textContent = '尚未選擇日期與時段';
+      submitBtn.disabled = true;
+    }
+  }
+
+  /* 月份切換 */
+  document.getElementById('calPrev').addEventListener('click', () => {
+    viewMonth--;
+    if (viewMonth < 0) { viewMonth = 11; viewYear--; }
+    renderCalendar();
+  });
+  document.getElementById('calNext').addEventListener('click', () => {
+    viewMonth++;
+    if (viewMonth > 11) { viewMonth = 0; viewYear++; }
+    renderCalendar();
+  });
+
+  /* 表單提交 */
+  document.getElementById('bookingForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const name = document.getElementById('bkName').value;
+    showToast(`${name} 您好，${selectedDate} ${selectedSlot} 預約成功！`);
+    this.reset();
+    selectedDate = null;
+    selectedSlot = null;
+    updateInfo();
+    renderCalendar();
+    slotsTitle.textContent = '請先選擇日期';
+    slotsContainer.innerHTML = '';
+  });
+
+  /* Toast 提示 */
+  function showToast(msg) {
+    const toast = document.getElementById('toast');
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 3000);
+  }
+
+  renderCalendar();
+})();
+</script>
+</body>
+</html>

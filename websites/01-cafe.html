@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>小巷咖啡 Alley Coffee</title>
+<style>
+/* === 全域變數 === */
+:root {
+  --primary: #92400e;
+  --primary-light: #b45309;
+  --primary-dark: #78350f;
+  --bg: #fef7ed;
+  --bg-card: #ffffff;
+  --text: #292524;
+  --text-light: #78716c;
+  --accent: #f59e0b;
+  --radius: 8px;
+  --shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+
+/* === Reset === */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* Sticky footer: 讓 footer 內容少時也貼在視窗底部 */
+html, body { height: 100%; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans TC", sans-serif;
+  line-height: 1.8;
+  color: var(--text);
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+main { flex: 1 0 auto; }
+footer { margin-top: auto; flex-shrink: 0; }
+
+a { color: var(--primary); text-decoration: none; }
+img { max-width: 100%; height: auto; display: block; }
+
+/* === Header / Nav === */
+header {
+  background: var(--bg-card);
+  border-bottom: 1px solid rgba(146,64,14,0.1);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+}
+
+.logo {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.logo svg { width: 28px; height: 28px; }
+
+nav { display: flex; gap: 0.25rem; }
+
+.nav-btn {
+  background: none;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-size: 0.95rem;
+  color: var(--text-light);
+  cursor: pointer;
+  border-radius: var(--radius);
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.nav-btn:hover { color: var(--primary); background: rgba(146,64,14,0.06); }
+.nav-btn.active { color: var(--primary); font-weight: 600; background: rgba(146,64,14,0.08); }
+
+/* 手機漢堡選單 */
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+.menu-toggle svg { width: 24px; height: 24px; stroke: var(--primary); }
+
+/* === 頁面區塊（tab 切換） === */
+.page { display: none; }
+.page.active { display: block; }
+
+/* === 共用容器 === */
+.container { max-width: 1100px; margin: 0 auto; padding: 2rem 1rem; }
+
+/* === 首頁英雄區 === */
+.hero {
+  position: relative;
+  height: 70vh;
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background: url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=1200&h=800&fit=crop') center/cover;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(120,53,15,0.55), rgba(41,37,36,0.7));
+}
+
+.hero-content {
+  position: relative;
+  color: #fff;
+  padding: 2rem;
+}
+
+.hero-title {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  margin-bottom: 1rem;
+  letter-spacing: 0.05em;
+}
+
+.hero-sub {
+  font-size: clamp(1rem, 2.5vw, 1.25rem);
+  opacity: 0.9;
+  margin-bottom: 2rem;
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.75rem 2rem;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  font-family: inherit;
+}
+
+.btn:hover { background: var(--primary-light); }
+
+/* === 菜單頁 === */
+.menu-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.menu-tab {
+  padding: 0.5rem 1.5rem;
+  background: var(--bg-card);
+  border: 2px solid transparent;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: all 0.2s;
+  font-family: inherit;
+  color: var(--text-light);
+}
+
+.menu-tab.active { border-color: var(--primary); color: var(--primary); font-weight: 600; }
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.25rem;
+}
+
+.menu-card {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: transform 0.2s;
+}
+
+.menu-card:hover { transform: translateY(-3px); }
+
+.menu-card-img {
+  height: 180px;
+  object-fit: cover;
+  width: 100%;
+}
+
+.menu-card-body { padding: 1rem; }
+
+.menu-card-name {
+  font-weight: 600;
+  font-size: 1.05rem;
+  margin-bottom: 0.25rem;
+}
+
+.menu-card-desc {
+  color: var(--text-light);
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+}
+
+.menu-card-price {
+  font-weight: 700;
+  color: var(--primary);
+  font-size: 1.1rem;
+}
+
+.menu-category { display: none; }
+.menu-category.active { display: grid; }
+
+/* === 關於頁 === */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: center;
+  margin-bottom: 3rem;
+}
+
+.about-img {
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  width: 100%;
+  height: 360px;
+  object-fit: cover;
+}
+
+.section-title {
+  font-size: 1.75rem;
+  color: var(--primary-dark);
+  margin-bottom: 1rem;
+}
+
+.about-text p { margin-bottom: 1rem; color: var(--text); }
+
+.bean-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.25rem;
+}
+
+.bean-card {
+  background: var(--bg-card);
+  padding: 1.5rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+
+.bean-card svg { width: 40px; height: 40px; margin-bottom: 0.75rem; }
+
+.bean-card h3 { font-size: 1.1rem; margin-bottom: 0.5rem; }
+
+.bean-card p { font-size: 0.875rem; color: var(--text-light); }
+
+/* === 聯絡頁 === */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+}
+
+.contact-info-item {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+}
+
+.contact-info-item svg { width: 24px; height: 24px; flex-shrink: 0; stroke: var(--primary); fill: none; }
+
+.contact-info-item h3 { font-size: 1rem; margin-bottom: 0.25rem; }
+
+.contact-info-item p { font-size: 0.9rem; color: var(--text-light); }
+
+.form-group { margin-bottom: 1.25rem; }
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 0.65rem 0.85rem;
+  border: 1px solid #d6d3d1;
+  border-radius: var(--radius);
+  font-size: 0.95rem;
+  font-family: inherit;
+  line-height: 1.8;
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus { border-color: var(--primary); outline: none; }
+
+.form-group textarea { resize: vertical; min-height: 100px; }
+
+.form-msg {
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius);
+  margin-top: 1rem;
+  display: none;
+  font-size: 0.9rem;
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.form-msg.show { display: block; }
+
+/* === Footer === */
+footer {
+  background: var(--primary-dark);
+  color: rgba(255,255,255,0.8);
+  text-align: center;
+  padding: 1.5rem 1rem;
+  font-size: 0.85rem;
+  margin-top: 2rem;
+}
+
+/* === RWD === */
+@media (max-width: 1024px) {
+  .about-grid, .contact-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 640px) {
+  .menu-toggle { display: block; }
+  nav {
+    display: none;
+    position: absolute;
+    top: 64px;
+    left: 0;
+    right: 0;
+    background: var(--bg-card);
+    flex-direction: column;
+    padding: 0.5rem;
+    box-shadow: var(--shadow);
+  }
+  nav.open { display: flex; }
+  .hero { height: 55vh; min-height: 320px; }
+}
+</style>
+</head>
+<body>
+
+<!-- 頂部導覽列 -->
+<header>
+  <div class="header-inner">
+    <div class="logo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8h1a4 4 0 010 8h-1"/><path d="M3 8h14v9a4 4 0 01-4 4H7a4 4 0 01-4-4V8z"/><line x1="6" y1="2" x2="6" y2="4"/><line x1="10" y1="2" x2="10" y2="4"/><line x1="14" y1="2" x2="14" y2="4"/></svg>
+      小巷咖啡
+    </div>
+    <button class="menu-toggle" onclick="document.querySelector('nav').classList.toggle('open')" aria-label="選單">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <nav>
+      <button class="nav-btn active" data-page="home">首頁</button>
+      <button class="nav-btn" data-page="menu">菜單</button>
+      <button class="nav-btn" data-page="about">關於</button>
+      <button class="nav-btn" data-page="contact">聯絡</button>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- 首頁 -->
+  <section class="page active" id="page-home" data-block="home">
+    <div class="hero">
+      <div class="hero-bg"></div>
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <h1 class="hero-title">小巷咖啡 Alley Coffee</h1>
+        <p class="hero-sub">在城市的轉角，找到屬於你的一杯溫暖</p>
+        <button class="btn" onclick="switchPage('menu')">探索菜單</button>
+      </div>
+    </div>
+    <div class="container" style="text-align:center; max-width:700px;">
+      <h2 class="section-title">每一杯，都是用心</h2>
+      <p>我們堅持手工烘焙、產地直送，用最真誠的態度，為你沖煮每一天的開始。</p>
+    </div>
+  </section>
+
+  <!-- 菜單頁 -->
+  <section class="page" id="page-menu" data-block="menu">
+    <div class="container">
+      <h2 class="section-title">菜單</h2>
+      <!-- 菜單分類切換 -->
+      <div class="menu-tabs">
+        <button class="menu-tab active" data-cat="coffee">咖啡</button>
+        <button class="menu-tab" data-cat="food">輕食</button>
+        <button class="menu-tab" data-cat="dessert">甜點</button>
+      </div>
+
+      <!-- 咖啡分類 -->
+      <div class="menu-category menu-grid active" id="cat-coffee">
+        <div class="menu-card"><img class="menu-card-img" src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=600&h=400&fit=crop" alt="拿鐵"><div class="menu-card-body"><div class="menu-card-name">經典拿鐵</div><div class="menu-card-desc">滑順奶泡與濃縮的完美平衡</div><div class="menu-card-price">$140</div></div></div>
+        <div class="menu-card"><img class="menu-card-img" src="https://images.unsplash.com/photo-1497935586351-b67a49e012bf?w=600&h=400&fit=crop" alt="美式"><div class="menu-card-body"><div class="menu-card-name">手沖美式</div><div class="menu-card-desc">單品豆手沖，風味層次分明</div><div class="menu-card-price">$120</div></div></div>
+        <div class="menu-card"><img class="menu-card-img" src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=600&h=400&fit=crop" alt="卡布奇諾"><div class="menu-card-body"><div class="menu-card-name">卡布奇諾</div><div class="menu-card-desc">濃密奶泡撒上可可粉</div><div class="menu-card-price">$150</div></div></div>
+        <div class="menu-card"><img class="menu-card-img" src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=600&h=400&fit=crop" alt="冰拿鐵"><div class="menu-card-body"><div class="menu-card-name">冰拿鐵</div><div class="menu-card-desc">夏日消暑必備，冰涼順口</div><div class="menu-card-price">$150</div></div></div>
+      </div>
+
+      <!-- 輕食分類 -->
+      <div class="menu-category menu-grid" id="cat-food">
+        <div class="menu-card"><img class="menu-card-img" src="https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=600&h=400&fit=crop" alt="三明治"><div class="menu-card-body"><div class="menu-card-name">酪梨雞肉三明治</div><div class="menu-card-desc">新鮮酪梨搭配嫩雞胸</div><div class="menu-card-price">$180</div></div></div>
+        <div class="menu-card"><img class="menu-card-img" src="https://images.unsplash.com/photo-1484723091739-30a097e8f929?w=600&h=400&fit=crop" alt="法式吐司"><div class="menu-card-body"><div class="menu-card-name">法式吐司</div><div class="menu-card-desc">厚切吐司佐楓糖奶油</div><div class="menu-card-price">$160</div></div></div>
+        <div class="menu-card"><img class="menu-card-img" src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600&h=400&fit=crop" alt="沙拉"><div class="menu-card-body"><div class="menu-card-name">凱薩沙拉</div><div class="menu-card-desc">羅美生菜、帕瑪森起司</div><div class="menu-card-price">$160</div></div></div>
+      </div>
+
+      <!-- 甜點分類 -->
+      <div class="menu-category menu-grid" id="cat-dessert">
+        <div class="menu-card"><img class="menu-card-img" src="https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=600&h=400&fit=crop" alt="提拉米蘇"><div class="menu-card-body"><div class="menu-card-name">提拉米蘇</div><div class="menu-card-desc">手工製作，咖啡酒香四溢</div><div class="menu-card-price">$140</div></div></div>
+        <div class="menu-card"><img class="menu-card-img" src="https://images.unsplash.com/photo-1551024601-bec78aea704b?w=600&h=400&fit=crop" alt="巧克力蛋糕"><div class="menu-card-body"><div class="menu-card-name">熔岩巧克力</div><div class="menu-card-desc">濃郁可可，爆漿口感</div><div class="menu-card-price">$160</div></div></div>
+        <div class="menu-card"><img class="menu-card-img" src="https://images.unsplash.com/photo-1488477181946-6428a0291777?w=600&h=400&fit=crop" alt="司康"><div class="menu-card-body"><div class="menu-card-name">英式司康</div><div class="menu-card-desc">酥鬆鹹甜，搭配奶油果醬</div><div class="menu-card-price">$100</div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 關於頁 -->
+  <section class="page" id="page-about" data-block="about">
+    <div class="container">
+      <div class="about-grid">
+        <img class="about-img" src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=600&h=500&fit=crop" alt="咖啡店內景">
+        <div class="about-text">
+          <h2 class="section-title">創辦故事</h2>
+          <p>2018 年，在台中一條不起眼的小巷裡，我們推開了一扇老木門，決定在這裡開始沖煮咖啡的旅程。</p>
+          <p>創辦人小安曾在澳洲咖啡農場工作三年，從採摘、日曬到烘焙，每個環節都親手參與。回到台灣後，他帶著對精品咖啡的堅持，打造了這個溫暖的角落。</p>
+          <p>我們相信，好咖啡不只是味覺的享受，更是一段與自己對話的時光。</p>
+        </div>
+      </div>
+      <h2 class="section-title" style="text-align:center; margin-bottom:1.5rem;">咖啡豆來源</h2>
+      <div class="bean-cards">
+        <div class="bean-card">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#92400e" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+          <h3>衣索比亞 耶加雪菲</h3>
+          <p>花香、柑橘調性，明亮酸質帶有茶感尾韻</p>
+        </div>
+        <div class="bean-card">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#92400e" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+          <h3>哥倫比亞 薇拉</h3>
+          <p>焦糖、堅果風味，醇厚口感適合拿鐵</p>
+        </div>
+        <div class="bean-card">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#92400e" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+          <h3>巴拿馬 翡翠莊園</h3>
+          <p>藝伎品種，熱帶水果香，絲綢般口感</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 聯絡頁 -->
+  <section class="page" id="page-contact" data-block="contact">
+    <div class="container">
+      <h2 class="section-title">聯絡我們</h2>
+      <div class="contact-grid">
+        <div>
+          <div class="contact-info-item">
+            <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <div><h3>地址</h3><p>台中市西區民生路 123 巷 7 號</p></div>
+          </div>
+          <div class="contact-info-item">
+            <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+            <div><h3>電話</h3><p>04-2345-6789</p></div>
+          </div>
+          <div class="contact-info-item">
+            <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <div><h3>營業時間</h3><p>週一至週五 08:00 – 18:00<br>週六至週日 09:00 – 20:00</p></div>
+          </div>
+        </div>
+        <div>
+          <form id="contact-form">
+            <div class="form-group"><label>姓名</label><input type="text" required placeholder="請輸入姓名"></div>
+            <div class="form-group"><label>Email</label><input type="email" required placeholder="you@example.com"></div>
+            <div class="form-group"><label>訊息</label><textarea required placeholder="想跟我們說什麼？"></textarea></div>
+            <button class="btn" type="submit">送出訊息</button>
+            <div class="form-msg" id="form-msg">感謝您的訊息！我們會儘快回覆您。</div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- 頁尾 -->
+<footer>
+  <p>&copy; 2026 小巷咖啡 Alley Coffee. All rights reserved.</p>
+</footer>
+
+<script>
+/* 頁面切換 */
+function switchPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  document.querySelector('.nav-btn[data-page="' + name + '"]').classList.add('active');
+  document.querySelector('nav').classList.remove('open');
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+document.querySelectorAll('.nav-btn').forEach(btn => {
+  btn.addEventListener('click', () => switchPage(btn.dataset.page));
+});
+
+/* 菜單分類切換 */
+document.querySelectorAll('.menu-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.menu-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.menu-category').forEach(c => c.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('cat-' + tab.dataset.cat).classList.add('active');
+  });
+});
+
+/* 表單提交 */
+document.getElementById('contact-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  var msg = document.getElementById('form-msg');
+  msg.classList.add('show');
+  this.reset();
+  setTimeout(function(){ msg.classList.remove('show'); }, 4000);
+});
+</script>
+</body>
+</html>

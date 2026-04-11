@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>信賴汽車保養 Trust Auto Care</title>
+<style>
+/* === 全域變數 === */
+:root {
+  --primary: #374151;
+  --primary-dark: #1f2937;
+  --accent: #f59e0b;
+  --accent-dark: #d97706;
+  --text: #1f2937;
+  --text-light: #6b7280;
+  --bg: #f9fafb;
+  --white: #ffffff;
+  --border: #e5e7eb;
+  --shadow: 0 1px 3px rgba(0,0,0,.08);
+  --shadow-md: 0 4px 14px rgba(0,0,0,.1);
+  --radius: 10px;
+  --success: #059669;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, "Noto Sans TC", "Helvetica Neue", Arial, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+
+/* === 導覽列 === */
+[data-block="nav"] {
+  background: var(--primary-dark); color: var(--white);
+  position: sticky; top: 0; z-index: 100;
+}
+[data-block="nav"] .inner {
+  max-width: 1100px; margin: 0 auto; padding: 0 24px;
+  display: flex; align-items: center; justify-content: space-between; height: 58px;
+}
+[data-block="nav"] .logo {
+  font-size: 1.15rem; font-weight: 700; display: flex; align-items: center; gap: 8px;
+}
+[data-block="nav"] .logo svg { width: 26px; height: 26px; color: var(--accent); }
+[data-block="nav"] ul { list-style: none; display: flex; gap: 24px; }
+[data-block="nav"] ul a { color: #d1d5db; font-size: .88rem; text-decoration: none; }
+[data-block="nav"] ul a:hover { color: var(--accent); }
+
+/* === Hero === */
+[data-block="hero"] {
+  background: linear-gradient(135deg, var(--primary-dark) 0%, #4b5563 100%);
+  color: var(--white); text-align: center; padding: 52px 24px;
+}
+[data-block="hero"] h1 { font-size: 2rem; margin-bottom: 8px; }
+[data-block="hero"] p { opacity: .8; margin-bottom: 24px; }
+[data-block="hero"] .badges { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+[data-block="hero"] .badge {
+  background: rgba(255,255,255,.12); padding: 8px 18px; border-radius: 20px;
+  font-size: .85rem; display: flex; align-items: center; gap: 6px;
+}
+[data-block="hero"] .badge svg { width: 16px; height: 16px; color: var(--accent); }
+
+/* === 通用區塊 === */
+.section { max-width: 1100px; margin: 0 auto; padding: 48px 24px; }
+.section-title { font-size: 1.5rem; text-align: center; margin-bottom: 8px; }
+.section-sub { text-align: center; color: var(--text-light); margin-bottom: 36px; font-size: .92rem; }
+
+/* === 保養項目 === */
+.services { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 18px; }
+.svc-card {
+  background: var(--white); border-radius: var(--radius); padding: 24px 18px;
+  text-align: center; box-shadow: var(--shadow); transition: transform .2s;
+}
+.svc-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.svc-card .icon { width: 48px; height: 48px; margin: 0 auto 12px; color: var(--accent); }
+.svc-card h3 { font-size: 1rem; margin-bottom: 4px; }
+.svc-card .price { color: var(--text-light); font-size: .85rem; }
+
+/* === 預約表單 === */
+[data-block="booking"] { background: var(--white); border-radius: var(--radius); padding: 32px; box-shadow: var(--shadow); max-width: 680px; margin: 0 auto; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.form-grid .full { grid-column: 1 / -1; }
+.form-grid label { display: flex; flex-direction: column; gap: 4px; font-size: .85rem; font-weight: 600; color: var(--text-light); }
+.form-grid input, .form-grid select { border: 1px solid var(--border); border-radius: 6px; padding: 10px 12px; font-size: .92rem; }
+.form-grid input:focus, .form-grid select:focus { outline: 2px solid var(--accent); border-color: var(--accent); }
+.checkbox-group { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 4px; }
+.checkbox-group label { flex-direction: row; align-items: center; gap: 6px; font-weight: 400; cursor: pointer; }
+.checkbox-group input { accent-color: var(--accent); }
+.btn-submit {
+  grid-column: 1 / -1; background: var(--accent); color: var(--white);
+  border: none; border-radius: 6px; padding: 12px; font-size: 1rem;
+  font-weight: 700; cursor: pointer; margin-top: 8px;
+}
+.btn-submit:hover { background: var(--accent-dark); }
+
+/* === 保養記錄 === */
+.record-search {
+  display: flex; gap: 12px; margin-bottom: 20px; max-width: 400px;
+}
+.record-search input {
+  flex: 1; border: 1px solid var(--border); border-radius: 6px;
+  padding: 10px 12px; font-size: .92rem;
+}
+.record-search button {
+  background: var(--primary); color: var(--white); border: none;
+  border-radius: 6px; padding: 10px 20px; font-weight: 600; cursor: pointer;
+}
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: .88rem; }
+th { background: var(--primary-dark); color: var(--white); padding: 10px 14px; text-align: left; font-weight: 600; }
+td { padding: 10px 14px; border-bottom: 1px solid var(--border); }
+tr:nth-child(even) { background: #f3f4f6; }
+tr:hover { background: #e5e7eb; }
+.status-done { color: var(--success); font-weight: 600; }
+
+/* === Footer === */
+[data-block="footer"] {
+  background: var(--primary-dark); color: #9ca3af; text-align: center;
+  padding: 28px 24px; font-size: .82rem; margin-top: 48px;
+}
+
+/* === RWD === */
+@media (max-width: 640px) {
+  [data-block="nav"] ul { display: none; }
+  .form-grid { grid-template-columns: 1fr; }
+  .services { grid-template-columns: 1fr 1fr; }
+}
+
+/* === sticky footer (batch patch) === */
+html, body { height: 100%; }
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+main { flex: 1 0 auto; }
+.site-footer, footer, [data-block="footer"] { margin-top: auto; }
+
+</style>
+</head>
+<body>
+
+<!-- 導覽列 -->
+<nav data-block="nav">
+  <div class="inner">
+    <div class="logo">
+      <!-- 扳手圖示 -->
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+      信賴汽車保養
+    </div>
+    <ul>
+      <li><a href="#services">保養項目</a></li>
+      <li><a href="#booking">線上預約</a></li>
+      <li><a href="#records">保養記錄</a></li>
+      <li><a href="#contact">聯絡我們</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- Hero -->
+<header data-block="hero">
+  <h1>Trust Auto Care 信賴汽車保養</h1>
+  <p>20 年專業技術，讓每一次進廠都安心</p>
+  <div class="badges">
+    <span class="badge">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      原廠認證
+    </span>
+    <span class="badge">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      快速保養 60 分鐘
+    </span>
+    <span class="badge">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+      保固 12 個月
+    </span>
+  </div>
+</header>
+
+<!-- 保養項目 -->
+<section class="section" id="services">
+  <h2 class="section-title">保養項目</h2>
+  <p class="section-sub">全車系適用，原廠等級零件與工法</p>
+
+  <div class="services">
+    <!-- 機油更換 -->
+    <div class="svc-card">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 3v4M6 21v-4M6 11a4 4 0 100 4"/><path d="M18 7V3m0 18v-4m0-6a4 4 0 110 4"/></svg>
+      <h3>機油更換</h3>
+      <p class="price">$1,200 - $3,500</p>
+    </div>
+    <!-- 輪胎 -->
+    <div class="svc-card">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="8"/><line x1="12" y1="16" x2="12" y2="22"/><line x1="2" y1="12" x2="8" y2="12"/><line x1="16" y1="12" x2="22" y2="12"/></svg>
+      <h3>輪胎更換/定位</h3>
+      <p class="price">$2,000 - $8,000</p>
+    </div>
+    <!-- 煞車 -->
+    <div class="svc-card">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><circle cx="12" cy="12" r="3"/></svg>
+      <h3>煞車系統</h3>
+      <p class="price">$1,500 - $6,000</p>
+    </div>
+    <!-- 冷氣 -->
+    <div class="svc-card">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v20M2 12h20M4.93 4.93l14.14 14.14M19.07 4.93L4.93 19.07"/></svg>
+      <h3>冷氣保養</h3>
+      <p class="price">$800 - $3,000</p>
+    </div>
+    <!-- 電瓶 -->
+    <div class="svc-card">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="6" width="18" height="12" rx="2"/><line x1="23" y1="10" x2="23" y2="14"/><line x1="6" y1="10" x2="6" y2="14"/><line x1="10" y1="10" x2="10" y2="14"/></svg>
+      <h3>電瓶檢測/更換</h3>
+      <p class="price">$1,800 - $4,500</p>
+    </div>
+  </div>
+</section>
+
+<!-- 預約進廠 -->
+<section class="section" id="booking">
+  <h2 class="section-title">線上預約進廠</h2>
+  <p class="section-sub">填寫以下資料，我們將於 30 分鐘內回覆確認</p>
+
+  <form data-block="booking" onsubmit="event.preventDefault(); alert('預約已送出！我們會盡快聯繫您。');">
+    <div class="form-grid">
+      <label>
+        車牌號碼
+        <input type="text" placeholder="ABC-1234" required>
+      </label>
+      <label>
+        品牌車型
+        <select required>
+          <option value="">請選擇</option>
+          <option>Toyota</option><option>Honda</option><option>Mazda</option>
+          <option>BMW</option><option>Mercedes-Benz</option><option>Tesla</option><option>其他</option>
+        </select>
+      </label>
+      <label>
+        目前里程數 (km)
+        <input type="number" placeholder="50000" required>
+      </label>
+      <label>
+        聯絡電話
+        <input type="tel" placeholder="0912-345-678" required>
+      </label>
+
+      <div class="full">
+        <label>保養項目（可複選）</label>
+        <div class="checkbox-group">
+          <label><input type="checkbox"> 機油更換</label>
+          <label><input type="checkbox"> 輪胎更換/定位</label>
+          <label><input type="checkbox"> 煞車系統</label>
+          <label><input type="checkbox"> 冷氣保養</label>
+          <label><input type="checkbox"> 電瓶檢測</label>
+        </div>
+      </div>
+
+      <label>
+        預約日期
+        <input type="date" required>
+      </label>
+      <label>
+        預約時段
+        <select required>
+          <option value="">請選擇</option>
+          <option>09:00 - 11:00</option>
+          <option>11:00 - 13:00</option>
+          <option>14:00 - 16:00</option>
+          <option>16:00 - 18:00</option>
+        </select>
+      </label>
+
+      <button type="submit" class="btn-submit">送出預約</button>
+    </div>
+  </form>
+</section>
+
+<!-- 保養記錄查詢 -->
+<section class="section" id="records">
+  <h2 class="section-title">保養記錄查詢</h2>
+  <p class="section-sub">輸入車牌號碼查看完整保養歷程</p>
+
+  <form class="record-search" onsubmit="event.preventDefault(); document.getElementById('recordTable').style.display='block';">
+    <input type="text" placeholder="輸入車牌號碼，例如 ABC-1234">
+    <button type="submit">查詢</button>
+  </form>
+
+  <!-- 模擬資料表格 -->
+  <div class="table-wrap" id="recordTable" style="display:none;">
+    <table>
+      <thead>
+        <tr><th>日期</th><th>里程 (km)</th><th>保養項目</th><th>技師</th><th>金額</th><th>狀態</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>2026-03-15</td><td>62,300</td><td>機油更換 + 空氣濾芯</td><td>陳師傅</td><td>$2,800</td><td class="status-done">已完成</td></tr>
+        <tr><td>2025-12-08</td><td>55,100</td><td>輪胎定位 + 煞車來令片</td><td>林師傅</td><td>$5,200</td><td class="status-done">已完成</td></tr>
+        <tr><td>2025-08-20</td><td>48,600</td><td>冷氣冷媒補充</td><td>王師傅</td><td>$1,500</td><td class="status-done">已完成</td></tr>
+        <tr><td>2025-04-05</td><td>42,000</td><td>機油更換 + 電瓶檢測</td><td>陳師傅</td><td>$3,100</td><td class="status-done">已完成</td></tr>
+        <tr><td>2024-11-18</td><td>35,200</td><td>全車保養 (大保養)</td><td>張師傅</td><td>$8,500</td><td class="status-done">已完成</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<footer data-block="footer" id="contact">
+  <p>信賴汽車保養 Trust Auto Care &middot; 台中市西屯區工業路 128 號 &middot; 04-2358-9999</p>
+  <p>&copy; 2026 Trust Auto Care. All rights reserved.</p>
+</footer>
+
+</body>
+</html>

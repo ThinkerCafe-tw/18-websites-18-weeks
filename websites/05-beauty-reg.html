@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>花漾美學 Blossom Beauty</title>
+<style>
+/* === 全域變數 === */
+:root {
+  --primary: #db2777;
+  --primary-dark: #be185d;
+  --primary-light: #fdf2f8;
+  --text: #1e293b;
+  --text-light: #64748b;
+  --bg: #fffbfe;
+  --white: #ffffff;
+  --border: #f1e5ec;
+  --radius: 8px;
+  --gold: #d97706;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; height: 100%; }
+/* Sticky footer: 內容少時 footer 仍貼視窗底部 */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Microsoft JhengHei", sans-serif;
+  line-height: 1.8;
+  color: var(--text);
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+[data-block="footer"] { margin-top: auto; flex-shrink: 0; }
+a { color: var(--primary); text-decoration: none; }
+img { max-width: 100%; display: block; }
+
+/* === 導覽列 === */
+[data-block="nav"] {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(255,251,254,.95);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border);
+}
+[data-block="nav"] .inner {
+  max-width: 1000px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 1.25rem; height: 60px;
+}
+.logo { font-size: 1.2rem; font-weight: 700; color: var(--primary); display: flex; align-items: center; gap: .5rem; }
+.nav-links { display: flex; gap: 1.5rem; list-style: none; }
+.nav-links a { color: var(--text); font-size: .9rem; transition: color .2s; }
+.nav-links a:hover { color: var(--primary); }
+.hamburger { display: none; background: none; border: none; cursor: pointer; }
+
+/* === 通用 === */
+.section { padding: 4rem 1.25rem; }
+.container { max-width: 1000px; margin: 0 auto; }
+.section-title { font-size: 1.75rem; text-align: center; margin-bottom: .5rem; }
+.section-sub { text-align: center; color: var(--text-light); margin-bottom: 2.5rem; }
+
+/* === Hero === */
+[data-block="hero"] {
+  background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 50%, #fbcfe8 100%);
+  text-align: center; padding: 5rem 1.25rem;
+}
+[data-block="hero"] h1 { font-size: 2.5rem; color: var(--primary-dark); margin-bottom: .5rem; }
+[data-block="hero"] .sub { font-size: 1rem; color: var(--text-light); margin-bottom: .25rem; }
+[data-block="hero"] p { color: var(--text-light); max-width: 520px; margin: 0 auto 2rem; }
+.hero-btn {
+  display: inline-block; padding: .75rem 2rem;
+  background: var(--primary); color: var(--white);
+  border-radius: var(--radius); font-weight: 600;
+  transition: transform .2s, box-shadow .2s;
+}
+.hero-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(219,39,119,.25); }
+
+/* === 服務項目 === */
+[data-block="services"] { background: var(--white); }
+.services-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem;
+}
+.service-card {
+  border: 1px solid var(--border); border-radius: var(--radius);
+  overflow: hidden; transition: box-shadow .2s, transform .2s;
+}
+.service-card:hover { box-shadow: 0 4px 16px rgba(219,39,119,.1); transform: translateY(-2px); }
+.service-img { width: 100%; height: 180px; object-fit: cover; }
+.service-body { padding: 1.25rem; }
+.service-body h3 { font-size: 1.05rem; margin-bottom: .25rem; }
+.service-body p { font-size: .85rem; color: var(--text-light); margin-bottom: .75rem; }
+.service-price { font-size: 1.1rem; font-weight: 700; color: var(--primary); }
+.service-price span { font-size: .8rem; font-weight: 400; color: var(--text-light); }
+
+/* === 步驟指示器 === */
+.stepper { display: flex; align-items: center; justify-content: center; gap: 0; margin-bottom: 2rem; }
+.step {
+  display: flex; align-items: center; gap: .5rem;
+  padding: .5rem 1rem; font-size: .85rem; color: var(--text-light);
+  position: relative;
+}
+.step-num {
+  width: 32px; height: 32px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: .85rem;
+  border: 2px solid var(--border); background: var(--white); color: var(--text-light);
+  transition: all .3s;
+}
+.step.active .step-num { background: var(--primary); border-color: var(--primary); color: var(--white); }
+.step.done .step-num { background: #22c55e; border-color: #22c55e; color: var(--white); }
+.step-line { width: 40px; height: 2px; background: var(--border); transition: background .3s; }
+.step-line.active { background: var(--primary); }
+.step-line.done { background: #22c55e; }
+
+/* === 註冊表單 === */
+[data-block="register"] .form-wrapper {
+  max-width: 480px; margin: 0 auto;
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 2rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,.04);
+}
+.form-group { margin-bottom: 1.25rem; }
+.form-group label { display: block; font-size: .85rem; font-weight: 600; margin-bottom: .3rem; }
+.form-group input {
+  width: 100%; padding: .65rem .85rem;
+  border: 1px solid var(--border); border-radius: var(--radius);
+  font-size: .9rem; font-family: inherit;
+  transition: border-color .2s;
+}
+.form-group input:focus { outline: none; border-color: var(--primary); }
+.form-group .hint { font-size: .75rem; color: var(--text-light); margin-top: .25rem; }
+.form-group .error { font-size: .75rem; color: #ef4444; margin-top: .25rem; display: none; }
+.form-group.has-error input { border-color: #ef4444; }
+.form-group.has-error .error { display: block; }
+.submit-btn {
+  width: 100%; padding: .75rem;
+  background: var(--primary); color: var(--white);
+  border: none; border-radius: var(--radius);
+  font-size: 1rem; font-weight: 600; cursor: pointer;
+  transition: background .2s;
+}
+.submit-btn:hover { background: var(--primary-dark); }
+/* 確認畫面 */
+.confirm-card {
+  text-align: center; padding: 1rem 0;
+}
+.confirm-card h3 { margin-bottom: 1rem; }
+.confirm-table { width: 100%; text-align: left; border-collapse: collapse; margin-bottom: 1.5rem; }
+.confirm-table td { padding: .5rem; border-bottom: 1px solid var(--border); font-size: .9rem; }
+.confirm-table td:first-child { font-weight: 600; width: 90px; color: var(--text-light); }
+.btn-row { display: flex; gap: .75rem; }
+.btn-outline {
+  flex: 1; padding: .65rem; border: 1px solid var(--border); border-radius: var(--radius);
+  background: var(--white); cursor: pointer; font-size: .9rem; transition: border-color .2s;
+}
+.btn-outline:hover { border-color: var(--primary); color: var(--primary); }
+.btn-fill { flex: 1; padding: .65rem; background: var(--primary); color: var(--white); border: none; border-radius: var(--radius); cursor: pointer; font-size: .9rem; font-weight: 600; }
+/* 完成畫面 */
+.success-card { text-align: center; padding: 2rem 0; }
+.success-icon { margin: 0 auto 1rem; }
+.success-card h3 { color: #22c55e; margin-bottom: .5rem; font-size: 1.25rem; }
+.success-card p { color: var(--text-light); }
+
+/* === 頁尾 === */
+[data-block="footer"] {
+  background: #1e293b; color: rgba(255,255,255,.7);
+  text-align: center; padding: 2rem 1.25rem; font-size: .85rem;
+}
+
+/* === RWD === */
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .hamburger { display: block; }
+  .nav-links.open { display: flex; flex-direction: column; position: absolute; top: 60px; left: 0; right: 0; background: var(--bg); padding: 1rem 1.25rem; border-bottom: 1px solid var(--border); }
+  [data-block="hero"] h1 { font-size: 1.75rem; }
+  .step span:not(.step-num) { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- 導覽列 -->
+<nav data-block="nav">
+  <div class="inner">
+    <div class="logo">
+      <!-- 花朵 SVG -->
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+        <circle cx="14" cy="14" r="4" fill="#db2777"/>
+        <circle cx="14" cy="6" r="4" fill="#f9a8d4" opacity=".8"/>
+        <circle cx="21" cy="10" r="4" fill="#f9a8d4" opacity=".7"/>
+        <circle cx="21" cy="18" r="4" fill="#f9a8d4" opacity=".6"/>
+        <circle cx="14" cy="22" r="4" fill="#f9a8d4" opacity=".7"/>
+        <circle cx="7" cy="18" r="4" fill="#f9a8d4" opacity=".8"/>
+        <circle cx="7" cy="10" r="4" fill="#f9a8d4" opacity=".7"/>
+      </svg>
+      花漾美學
+    </div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#services">服務項目</a></li>
+      <li><a href="#register">會員註冊</a></li>
+    </ul>
+    <button class="hamburger" onclick="document.getElementById('navLinks').classList.toggle('open')" aria-label="選單">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1e293b" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+  </div>
+</nav>
+
+<!-- Hero -->
+<header data-block="hero">
+  <p class="sub">Blossom Beauty</p>
+  <h1>花漾美學</h1>
+  <p>綻放屬於你的獨特光彩。專業造型、細膩呵護，打造由內而外的美麗自信。</p>
+  <a href="#register" class="hero-btn">加入會員</a>
+</header>
+
+<!-- 服務項目 -->
+<section data-block="services" class="section" id="services">
+  <div class="container">
+    <h2 class="section-title">服務項目</h2>
+    <p class="section-sub">每一項服務都是對美的用心詮釋</p>
+    <div class="services-grid">
+      <article class="service-card">
+        <img class="service-img" src="https://images.unsplash.com/photo-1560066984-138dadb4c035?w=400&h=300&fit=crop" alt="剪髮" loading="lazy">
+        <div class="service-body">
+          <h3>精緻剪髮</h3>
+          <p>量身設計髮型，依臉型與個人風格打造最適合你的造型。</p>
+          <div class="service-price">NT$ 600 <span>起</span></div>
+        </div>
+      </article>
+      <article class="service-card">
+        <img class="service-img" src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=400&h=300&fit=crop" alt="染髮" loading="lazy">
+        <div class="service-body">
+          <h3>時尚染髮</h3>
+          <p>選用頂級染劑，提供漸層染、手刷染、挑染等多元技法。</p>
+          <div class="service-price">NT$ 1,800 <span>起</span></div>
+        </div>
+      </article>
+      <article class="service-card">
+        <img class="service-img" src="https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=400&h=300&fit=crop" alt="護髮" loading="lazy">
+        <div class="service-body">
+          <h3>深層護髮</h3>
+          <p>專業護髮療程，修復受損髮質，找回秀髮的柔順與光澤。</p>
+          <div class="service-price">NT$ 1,200 <span>起</span></div>
+        </div>
+      </article>
+      <article class="service-card">
+        <img class="service-img" src="https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?w=400&h=300&fit=crop" alt="造型" loading="lazy">
+        <div class="service-body">
+          <h3>整體造型</h3>
+          <p>婚禮、宴會、拍攝等特殊場合造型，含彩妝與髮型設計。</p>
+          <div class="service-price">NT$ 3,000 <span>起</span></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- 會員註冊 -->
+<section data-block="register" class="section" id="register">
+  <div class="container">
+    <h2 class="section-title">會員註冊</h2>
+    <p class="section-sub">加入花漾美學，享受專屬優惠與點數回饋</p>
+
+    <!-- 步驟指示器 -->
+    <div class="stepper" id="stepper">
+      <div class="step active" data-step="1">
+        <span class="step-num">1</span><span>填寫資料</span>
+      </div>
+      <div class="step-line" data-line="1"></div>
+      <div class="step" data-step="2">
+        <span class="step-num">2</span><span>確認資料</span>
+      </div>
+      <div class="step-line" data-line="2"></div>
+      <div class="step" data-step="3">
+        <span class="step-num">3</span><span>註冊完成</span>
+      </div>
+    </div>
+
+    <div class="form-wrapper" id="formWrapper">
+      <!-- 步驟一：填寫資料 -->
+      <div id="step1">
+        <form id="regForm">
+          <div class="form-group">
+            <label for="regName">姓名</label>
+            <input type="text" id="regName" placeholder="請輸入真實姓名" required>
+          </div>
+          <div class="form-group">
+            <label for="regPhone">電話</label>
+            <input type="tel" id="regPhone" placeholder="09xx-xxx-xxx" required>
+          </div>
+          <div class="form-group">
+            <label for="regEmail">Email</label>
+            <input type="email" id="regEmail" placeholder="your@email.com" required>
+          </div>
+          <div class="form-group">
+            <label for="regPwd">密碼</label>
+            <input type="password" id="regPwd" placeholder="至少 6 個字元" required>
+            <p class="hint">密碼至少需 6 個字元</p>
+            <p class="error" id="pwdError">密碼長度不足</p>
+          </div>
+          <div class="form-group">
+            <label for="regPwd2">確認密碼</label>
+            <input type="password" id="regPwd2" placeholder="再次輸入密碼" required>
+            <p class="error" id="pwd2Error">兩次密碼不一致</p>
+          </div>
+          <button type="submit" class="submit-btn">下一步</button>
+        </form>
+      </div>
+
+      <!-- 步驟二：確認資料 -->
+      <div id="step2" style="display:none;">
+        <div class="confirm-card">
+          <h3>請確認您的資料</h3>
+          <table class="confirm-table">
+            <tr><td>姓名</td><td id="cfName"></td></tr>
+            <tr><td>電話</td><td id="cfPhone"></td></tr>
+            <tr><td>Email</td><td id="cfEmail"></td></tr>
+          </table>
+          <div class="btn-row">
+            <button class="btn-outline" id="backBtn">返回修改</button>
+            <button class="btn-fill" id="confirmBtn">確認註冊</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 步驟三：完成 -->
+      <div id="step3" style="display:none;">
+        <div class="success-card">
+          <svg class="success-icon" width="64" height="64" viewBox="0 0 64 64" fill="none">
+            <circle cx="32" cy="32" r="30" stroke="#22c55e" stroke-width="3"/>
+            <path d="M20 33l8 8 16-16" stroke="#22c55e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <h3>註冊成功！</h3>
+          <p>歡迎加入花漾美學，您可以開始使用會員服務囉。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 頁尾 -->
+<footer data-block="footer">
+  <p>© 2026 花漾美學 Blossom Beauty ｜ 台中市北區美麗大道 123 號 ｜ 04-2222-3333</p>
+</footer>
+
+<script>
+/* === 步驟式註冊流程 === */
+(function() {
+  let currentStep = 1;
+  const steps = document.querySelectorAll('.step');
+  const lines = document.querySelectorAll('.step-line');
+  const panels = { 1: document.getElementById('step1'), 2: document.getElementById('step2'), 3: document.getElementById('step3') };
+
+  /* 更新步驟指示器 */
+  function updateStepper() {
+    steps.forEach(s => {
+      const n = parseInt(s.dataset.step);
+      s.classList.remove('active', 'done');
+      if (n < currentStep) s.classList.add('done');
+      else if (n === currentStep) s.classList.add('active');
+    });
+    lines.forEach(l => {
+      const n = parseInt(l.dataset.line);
+      l.classList.remove('active', 'done');
+      if (n < currentStep) l.classList.add('done');
+      else if (n === currentStep) l.classList.add('active');
+    });
+    Object.keys(panels).forEach(k => {
+      panels[k].style.display = parseInt(k) === currentStep ? 'block' : 'none';
+    });
+  }
+
+  /* 步驟一：表單驗證 */
+  document.getElementById('regForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    let valid = true;
+
+    // 密碼長度
+    const pwd = document.getElementById('regPwd');
+    const pwdGroup = pwd.closest('.form-group');
+    if (pwd.value.length < 6) {
+      pwdGroup.classList.add('has-error');
+      valid = false;
+    } else {
+      pwdGroup.classList.remove('has-error');
+    }
+
+    // 密碼一致
+    const pwd2 = document.getElementById('regPwd2');
+    const pwd2Group = pwd2.closest('.form-group');
+    if (pwd2.value !== pwd.value) {
+      pwd2Group.classList.add('has-error');
+      valid = false;
+    } else {
+      pwd2Group.classList.remove('has-error');
+    }
+
+    if (!valid) return;
+
+    // 填入確認畫面
+    document.getElementById('cfName').textContent = document.getElementById('regName').value;
+    document.getElementById('cfPhone').textContent = document.getElementById('regPhone').value;
+    document.getElementById('cfEmail').textContent = document.getElementById('regEmail').value;
+
+    currentStep = 2;
+    updateStepper();
+  });
+
+  /* 步驟二：返回 */
+  document.getElementById('backBtn').addEventListener('click', function() {
+    currentStep = 1;
+    updateStepper();
+  });
+
+  /* 步驟二：確認 */
+  document.getElementById('confirmBtn').addEventListener('click', function() {
+    currentStep = 3;
+    updateStepper();
+  });
+})();
+</script>
+</body>
+</html>

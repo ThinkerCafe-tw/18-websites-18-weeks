@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>張雅婷策略顧問 Yating Chang Consulting</title>
+<style>
+/* === 設計變數 === */
+:root {
+  --primary: #0369a1;
+  --primary-light: #e0f2fe;
+  --primary-dark: #0c4a6e;
+  --bg: #f8fafc;
+  --text: #0f172a;
+  --text-muted: #64748b;
+  --surface: #ffffff;
+  --border: #e2e8f0;
+  --accent: #f59e0b;
+  --radius: 14px;
+  --shadow: 0 4px 20px rgba(3,105,161,.07);
+  --max-w: 1080px;
+  --transition: .3s ease;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:-apple-system,"Noto Sans TC","Helvetica Neue",sans-serif;background:var(--bg);color:var(--text);line-height:1.7}
+
+.container{max-width:var(--max-w);margin:0 auto;padding:0 24px}
+section{padding:72px 0}
+a{color:var(--primary);text-decoration:none}
+
+/* === 導覽列 === */
+nav{position:sticky;top:0;z-index:100;background:rgba(248,250,252,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:14px 0}
+nav .container{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+nav .logo{font-size:1.1rem;font-weight:700;color:var(--primary-dark)}
+nav .links{display:flex;gap:20px;flex-wrap:wrap}
+nav .links a{color:var(--text-muted);font-size:.9rem;transition:color var(--transition)}
+nav .links a:hover{color:var(--primary)}
+
+/* === 首屏：顧問形象 === */
+[data-block="hero"]{background:linear-gradient(135deg,var(--primary-dark) 0%,var(--primary) 100%);color:#fff;padding:80px 0}
+.hero-inner{display:grid;grid-template-columns:auto 1fr;gap:40px;align-items:center}
+.hero-avatar{width:160px;height:160px;border-radius:50%;object-fit:cover;border:4px solid rgba(255,255,255,.3)}
+.hero-text h1{font-size:clamp(1.6rem,4vw,2.4rem);margin-bottom:8px}
+.hero-text .en{font-size:1rem;opacity:.7;margin-bottom:16px}
+.hero-text p{opacity:.85;max-width:520px;line-height:1.8}
+
+/* === 定價三欄 === */
+[data-block="pricing"]{background:var(--surface)}
+[data-block="pricing"] h2{text-align:center;font-size:1.6rem;margin-bottom:40px;color:var(--primary-dark)}
+.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px}
+.price-card{border:2px solid var(--border);border-radius:var(--radius);padding:32px 24px;text-align:center;transition:transform var(--transition),border-color var(--transition);position:relative}
+.price-card:hover{transform:translateY(-4px);border-color:var(--primary)}
+.price-card.featured{border-color:var(--primary);background:var(--primary-light)}
+.price-card.featured::before{content:'熱門';position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--accent);color:#fff;font-size:.75rem;font-weight:700;padding:3px 14px;border-radius:20px}
+.price-card h3{font-size:1.15rem;margin-bottom:8px}
+.price-card .duration{font-size:.9rem;color:var(--text-muted);margin-bottom:16px}
+.price-card .price{font-size:2rem;font-weight:800;color:var(--primary-dark);margin-bottom:16px}
+.price-card .price span{font-size:.9rem;font-weight:400;color:var(--text-muted)}
+.price-card ul{list-style:none;text-align:left;margin-bottom:24px}
+.price-card li{padding:6px 0;font-size:.9rem;color:var(--text-muted)}
+.price-card li::before{content:'✓ ';color:var(--primary);font-weight:700}
+.price-card .card-cta{display:inline-block;padding:10px 28px;border-radius:8px;font-weight:600;font-size:.95rem;transition:background var(--transition)}
+.price-card .card-cta.outline{border:2px solid var(--primary);color:var(--primary)}
+.price-card .card-cta.outline:hover{background:var(--primary);color:#fff}
+.price-card .card-cta.solid{background:var(--primary);color:#fff}
+.price-card .card-cta.solid:hover{background:var(--primary-dark)}
+
+/* === 金流概念圖 === */
+[data-block="flow"]{text-align:center}
+[data-block="flow"] h2{font-size:1.6rem;margin-bottom:36px;color:var(--primary-dark)}
+.flow-svg{max-width:100%;height:auto}
+
+/* === 預約表單 === */
+[data-block="booking"]{background:var(--surface)}
+[data-block="booking"] h2{text-align:center;font-size:1.6rem;margin-bottom:36px;color:var(--primary-dark)}
+.form-wrap{max-width:620px;margin:0 auto}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.form-group{margin-bottom:18px}
+.form-group label{display:block;font-weight:600;margin-bottom:5px;font-size:.9rem}
+.form-group input,.form-group select,.form-group textarea{width:100%;padding:11px 14px;border:1px solid var(--border);border-radius:8px;font-size:.95rem;font-family:inherit;background:var(--bg);transition:border-color var(--transition)}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(3,105,161,.1)}
+.form-group textarea{resize:vertical;min-height:90px}
+.btn-submit{display:block;width:100%;padding:13px;background:var(--primary);color:#fff;border:none;border-radius:8px;font-size:1rem;font-weight:700;cursor:pointer;transition:background var(--transition)}
+.btn-submit:hover{background:var(--primary-dark)}
+
+/* === 發票選項 === */
+[data-block="invoice"]{background:var(--bg)}
+[data-block="invoice"] h2{text-align:center;font-size:1.6rem;margin-bottom:32px;color:var(--primary-dark)}
+.invoice-wrap{max-width:560px;margin:0 auto}
+.invoice-tabs{display:flex;gap:0;margin-bottom:24px;border-radius:8px;overflow:hidden;border:2px solid var(--border)}
+.invoice-tabs button{flex:1;padding:12px;border:none;background:var(--surface);font-size:.95rem;font-weight:600;cursor:pointer;transition:background var(--transition),color var(--transition);font-family:inherit}
+.invoice-tabs button.active{background:var(--primary);color:#fff}
+.inv-panel{display:none}
+.inv-panel.active{display:block}
+.inv-field{margin-bottom:16px}
+.inv-field label{display:block;font-weight:600;margin-bottom:5px;font-size:.9rem}
+.inv-field input{width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:8px;font-size:.95rem;font-family:inherit;background:var(--surface)}
+.inv-note{font-size:.85rem;color:var(--text-muted);text-align:center;margin-top:20px}
+
+/* === 頁尾 === */
+footer{text-align:center;padding:36px 0;color:var(--text-muted);font-size:.85rem;border-top:1px solid var(--border)}
+
+/* === 提示 === */
+.toast{position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--primary);color:#fff;padding:14px 28px;border-radius:12px;font-size:.95rem;opacity:0;transition:all .4s ease;pointer-events:none;z-index:200}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+
+/* === RWD === */
+@media(max-width:768px){
+  .hero-inner{grid-template-columns:1fr;text-align:center;justify-items:center}
+  .form-row{grid-template-columns:1fr}
+  section{padding:48px 0}
+}
+
+/* === sticky footer (batch patch) === */
+html, body { height: 100%; }
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+main { flex: 1 0 auto; }
+.site-footer, footer, [data-block="footer"] { margin-top: auto; }
+
+</style>
+</head>
+<body>
+
+<!-- 導覽列 -->
+<nav>
+  <div class="container">
+    <div class="logo">YC | 張雅婷策略顧問</div>
+    <div class="links">
+      <a href="#pricing">服務定價</a>
+      <a href="#flow">付款流程</a>
+      <a href="#booking">預約諮詢</a>
+      <a href="#invoice">發票選項</a>
+    </div>
+  </div>
+</nav>
+
+<!-- 首屏 -->
+<section data-block="hero">
+  <div class="container">
+    <div class="hero-inner">
+      <img class="hero-avatar" src="https://images.unsplash.com/photo-1580894732930-0babd100d356?w=300&h=300&fit=crop&crop=faces" alt="張雅婷顧問" loading="lazy">
+      <div class="hero-text">
+        <h1>張雅婷策略顧問</h1>
+        <p class="en">Yating Chang Consulting</p>
+        <p>十二年企業策略與數位轉型經驗。曾任職麥肯錫、Google，服務超過 80 家企業。專注於幫助中小企業找到成長槓桿，用最少資源創造最大價值。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 服務定價 -->
+<section data-block="pricing" id="pricing">
+  <div class="container">
+    <h2>服務方案</h2>
+    <div class="pricing-grid">
+      <!-- 入門 -->
+      <div class="price-card">
+        <h3>入門諮詢</h3>
+        <p class="duration">30 分鐘 / 線上</p>
+        <p class="price">$800 <span>/ 次</span></p>
+        <ul>
+          <li>快速問題診斷</li>
+          <li>一對一視訊會議</li>
+          <li>會後重點摘要 Email</li>
+        </ul>
+        <a href="#booking" class="card-cta outline">預約入門</a>
+      </div>
+      <!-- 深度（熱門） -->
+      <div class="price-card featured">
+        <h3>深度諮詢</h3>
+        <p class="duration">60 分鐘 / 線上或面對面</p>
+        <p class="price">$2,000 <span>/ 次</span></p>
+        <ul>
+          <li>完整策略分析</li>
+          <li>商業模式檢視</li>
+          <li>行動計畫建議書</li>
+          <li>7 天內 Email 追蹤</li>
+        </ul>
+        <a href="#booking" class="card-cta solid">預約深度</a>
+      </div>
+      <!-- 專案 -->
+      <div class="price-card">
+        <h3>專案顧問</h3>
+        <p class="duration">依需求規劃</p>
+        <p class="price">報價制</p>
+        <ul>
+          <li>長期策略夥伴</li>
+          <li>團隊工作坊</li>
+          <li>月度進度追蹤</li>
+          <li>不限次數 Email 諮詢</li>
+        </ul>
+        <a href="#booking" class="card-cta outline">洽詢報價</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 金流概念圖 -->
+<section data-block="flow" id="flow">
+  <div class="container">
+    <h2>付款流程</h2>
+    <!-- SVG 流程圖：選擇方案→填資料→付款→確認→發票 -->
+    <svg class="flow-svg" viewBox="0 0 800 120" xmlns="http://www.w3.org/2000/svg" aria-label="付款流程圖">
+      <!-- 步驟圓圈與文字 -->
+      <g font-family="-apple-system, Noto Sans TC, sans-serif" font-size="13" text-anchor="middle">
+        <!-- 步驟 1 -->
+        <circle cx="80" cy="44" r="28" fill="#e0f2fe" stroke="#0369a1" stroke-width="2"/>
+        <text x="80" y="48" fill="#0c4a6e" font-weight="700" font-size="16">1</text>
+        <text x="80" y="90" fill="#0f172a" font-weight="600">選擇方案</text>
+        <!-- 箭頭 -->
+        <line x1="116" y1="44" x2="188" y2="44" stroke="#cbd5e1" stroke-width="2"/>
+        <polygon points="188,39 198,44 188,49" fill="#cbd5e1"/>
+        <!-- 步驟 2 -->
+        <circle cx="240" cy="44" r="28" fill="#e0f2fe" stroke="#0369a1" stroke-width="2"/>
+        <text x="240" y="48" fill="#0c4a6e" font-weight="700" font-size="16">2</text>
+        <text x="240" y="90" fill="#0f172a" font-weight="600">填寫資料</text>
+        <!-- 箭頭 -->
+        <line x1="276" y1="44" x2="348" y2="44" stroke="#cbd5e1" stroke-width="2"/>
+        <polygon points="348,39 358,44 348,49" fill="#cbd5e1"/>
+        <!-- 步驟 3 -->
+        <circle cx="400" cy="44" r="28" fill="#e0f2fe" stroke="#0369a1" stroke-width="2"/>
+        <text x="400" y="48" fill="#0c4a6e" font-weight="700" font-size="16">3</text>
+        <text x="400" y="90" fill="#0f172a" font-weight="600">線上付款</text>
+        <!-- 箭頭 -->
+        <line x1="436" y1="44" x2="508" y2="44" stroke="#cbd5e1" stroke-width="2"/>
+        <polygon points="508,39 518,44 508,49" fill="#cbd5e1"/>
+        <!-- 步驟 4 -->
+        <circle cx="560" cy="44" r="28" fill="#e0f2fe" stroke="#0369a1" stroke-width="2"/>
+        <text x="560" y="48" fill="#0c4a6e" font-weight="700" font-size="16">4</text>
+        <text x="560" y="90" fill="#0f172a" font-weight="600">預約確認</text>
+        <!-- 箭頭 -->
+        <line x1="596" y1="44" x2="668" y2="44" stroke="#cbd5e1" stroke-width="2"/>
+        <polygon points="668,39 678,44 668,49" fill="#cbd5e1"/>
+        <!-- 步驟 5 -->
+        <circle cx="720" cy="44" r="28" fill="#0369a1" stroke="#0369a1" stroke-width="2"/>
+        <text x="720" y="48" fill="#fff" font-weight="700" font-size="16">5</text>
+        <text x="720" y="90" fill="#0f172a" font-weight="600">開立發票</text>
+      </g>
+    </svg>
+  </div>
+</section>
+
+<!-- 預約表單 -->
+<section data-block="booking" id="booking">
+  <div class="container">
+    <h2>預約諮詢</h2>
+    <div class="form-wrap">
+      <form id="bookingForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="b-name">姓名</label>
+            <input type="text" id="b-name" placeholder="張小明" required>
+          </div>
+          <div class="form-group">
+            <label for="b-company">公司名稱</label>
+            <input type="text" id="b-company" placeholder="選填">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="b-email">Email</label>
+          <input type="email" id="b-email" placeholder="you@company.com" required>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="b-type">諮詢類型</label>
+            <select id="b-type" required>
+              <option value="">— 請選擇 —</option>
+              <option>入門諮詢（30min / $800）</option>
+              <option>深度諮詢（60min / $2,000）</option>
+              <option>專案顧問（依需求報價）</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="b-budget">預算範圍</label>
+            <select id="b-budget">
+              <option>NT$ 5,000 以下</option>
+              <option>NT$ 5,000 – 20,000</option>
+              <option>NT$ 20,000 – 50,000</option>
+              <option>NT$ 50,000 以上</option>
+              <option>尚未確定</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="b-desc">需求描述</label>
+          <textarea id="b-desc" placeholder="請簡述您目前面臨的挑戰或想達成的目標"></textarea>
+        </div>
+        <button type="submit" class="btn-submit">送出預約</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- 發票選項 -->
+<section data-block="invoice" id="invoice">
+  <div class="container">
+    <h2>發票選項</h2>
+    <div class="invoice-wrap">
+      <div class="invoice-tabs">
+        <button class="active" data-tab="personal">個人（二聯式）</button>
+        <button data-tab="company">公司（三聯式）</button>
+      </div>
+      <!-- 個人 -->
+      <div class="inv-panel active" id="panel-personal">
+        <div class="inv-field">
+          <label>收件人姓名</label>
+          <input type="text" placeholder="王小明">
+        </div>
+        <div class="inv-field">
+          <label>Email（電子發票寄送）</label>
+          <input type="email" placeholder="you@example.com">
+        </div>
+      </div>
+      <!-- 公司 -->
+      <div class="inv-panel" id="panel-company">
+        <div class="inv-field">
+          <label>公司名稱</label>
+          <input type="text" placeholder="台灣科技股份有限公司">
+        </div>
+        <div class="inv-field">
+          <label>統一編號</label>
+          <input type="text" placeholder="12345678" maxlength="8" pattern="\d{8}">
+        </div>
+        <div class="inv-field">
+          <label>Email（電子發票寄送）</label>
+          <input type="email" placeholder="accounting@company.com">
+        </div>
+      </div>
+      <p class="inv-note">發票將於付款完成後 3 個工作天內以電子郵件寄送</p>
+    </div>
+  </div>
+</section>
+
+<!-- 頁尾 -->
+<footer>
+  <div class="container">
+    <p>© 2026 張雅婷策略顧問 Yating Chang Consulting</p>
+    <p style="margin-top:4px">yating@example.com ｜ 台北市信義區松仁路 100 號 15 樓</p>
+  </div>
+</footer>
+
+<!-- 提示 -->
+<div class="toast" id="toast"></div>
+
+<script>
+/* === 發票切換 Tab === */
+(function(){
+  var btns = document.querySelectorAll('.invoice-tabs button');
+  btns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      btns.forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      document.querySelectorAll('.inv-panel').forEach(function(p){ p.classList.remove('active'); });
+      document.getElementById('panel-' + btn.dataset.tab).classList.add('active');
+    });
+  });
+})();
+
+/* === 預約表單 === */
+document.getElementById('bookingForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  var t = document.getElementById('toast');
+  t.textContent = '預約已送出，我們將在 24 小時內與您聯繫！';
+  t.classList.add('show');
+  setTimeout(function(){ t.classList.remove('show'); }, 3000);
+  this.reset();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>林若晴 Joanna Lin Photography</title>
+<style>
+/* === 全域變數 === */
+:root {
+  --primary: #18181b;
+  --primary-light: #3f3f46;
+  --bg: #fafafa;
+  --bg-card: #ffffff;
+  --text: #18181b;
+  --text-light: #71717a;
+  --accent: #a1a1aa;
+  --radius: 4px;
+  --shadow: 0 1px 8px rgba(0,0,0,0.06);
+}
+
+/* === Reset === */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans TC", sans-serif;
+  line-height: 1.8;
+  color: var(--text);
+  background: var(--bg);
+}
+
+a { color: var(--text); text-decoration: none; }
+img { max-width: 100%; height: auto; display: block; }
+
+/* === Header === */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(250,250,250,0.92);
+  backdrop-filter: blur(12px);
+}
+
+.header-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+}
+
+.logo {
+  font-size: 1.1rem;
+  font-weight: 300;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.logo strong { font-weight: 600; }
+
+nav { display: flex; gap: 0.5rem; }
+
+.nav-link {
+  padding: 0.4rem 0.85rem;
+  font-size: 0.85rem;
+  color: var(--text-light);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.2s;
+  background: none;
+  border: none;
+  font-family: inherit;
+}
+
+.nav-link:hover, .nav-link.active { color: var(--text); }
+
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+.menu-toggle svg { width: 24px; height: 24px; stroke: var(--text); }
+
+/* === 頁面切換 === */
+.page { display: none; }
+.page.active { display: block; }
+
+/* === 共用 === */
+.container { max-width: 1200px; margin: 0 auto; padding: 3rem 1.5rem; }
+
+.section-title {
+  font-size: 1.5rem;
+  font-weight: 300;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.section-sub {
+  color: var(--text-light);
+  margin-bottom: 2.5rem;
+  font-size: 0.95rem;
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.7rem 2rem;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  cursor: pointer;
+  letter-spacing: 0.06em;
+  transition: background 0.2s;
+  font-family: inherit;
+}
+
+.btn:hover { background: var(--primary-light); }
+
+/* === 英雄區（作品集首頁） === */
+.hero {
+  text-align: center;
+  padding: 6rem 2rem 3rem;
+}
+
+.hero h1 {
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  font-weight: 300;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+
+.hero p {
+  color: var(--text-light);
+  font-size: 1.05rem;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+/* === Masonry 作品牆 === */
+.gallery-grid {
+  columns: 3;
+  column-gap: 1rem;
+  padding: 0 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto 3rem;
+}
+
+.gallery-item {
+  break-inside: avoid;
+  margin-bottom: 1rem;
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+  border-radius: var(--radius);
+}
+
+.gallery-item img {
+  width: 100%;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.gallery-item:hover img { transform: scale(1.03); }
+
+.gallery-item .overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(24,24,27,0.4);
+  opacity: 0;
+  transition: opacity 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gallery-item:hover .overlay { opacity: 1; }
+
+.overlay svg {
+  width: 36px;
+  height: 36px;
+  stroke: #fff;
+  fill: none;
+}
+
+/* === Lightbox === */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0,0,0,0.92);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  cursor: zoom-out;
+}
+
+.lightbox.open { display: flex; }
+
+.lightbox img {
+  max-width: 90vw;
+  max-height: 90vh;
+  object-fit: contain;
+  border-radius: var(--radius);
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+.lightbox-close svg { width: 32px; height: 32px; stroke: #fff; }
+
+.lightbox-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255,255,255,0.15);
+  border: none;
+  cursor: pointer;
+  padding: 1rem 0.75rem;
+  border-radius: var(--radius);
+  transition: background 0.2s;
+}
+
+.lightbox-nav:hover { background: rgba(255,255,255,0.3); }
+
+.lightbox-nav svg { width: 28px; height: 28px; stroke: #fff; fill: none; }
+
+.lightbox-prev { left: 1.5rem; }
+.lightbox-next { right: 1.5rem; }
+
+/* === 關於攝影師 === */
+.about-grid {
+  display: grid;
+  grid-template-columns: 350px 1fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+.about-portrait {
+  width: 100%;
+  aspect-ratio: 3/4;
+  object-fit: cover;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.about-text h2 {
+  font-size: 1.75rem;
+  font-weight: 300;
+  letter-spacing: 0.1em;
+  margin-bottom: 1rem;
+}
+
+.about-text p {
+  margin-bottom: 1rem;
+  color: var(--text);
+}
+
+.about-stats {
+  display: flex;
+  gap: 2.5rem;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e4e4e7;
+}
+
+.stat-item { text-align: center; }
+
+.stat-num {
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  color: var(--text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* === 聯絡頁 === */
+.contact-layout {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.contact-info {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 2.5rem;
+  flex-wrap: wrap;
+}
+
+.contact-info-item {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+}
+
+.contact-info-item svg { width: 20px; height: 20px; stroke: var(--text-light); fill: none; flex-shrink: 0; margin-top: 2px; }
+
+.contact-info-item p { font-size: 0.9rem; color: var(--text-light); }
+
+.form-group { margin-bottom: 1.25rem; }
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-light);
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 0.65rem 0.85rem;
+  border: 1px solid #d4d4d8;
+  border-radius: var(--radius);
+  font-size: 0.95rem;
+  font-family: inherit;
+  line-height: 1.8;
+  transition: border-color 0.2s;
+  background: var(--bg-card);
+}
+
+.form-group input:focus,
+.form-group textarea:focus { border-color: var(--primary); outline: none; }
+
+.form-group textarea { resize: vertical; min-height: 120px; }
+
+.form-msg {
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius);
+  margin-top: 1rem;
+  display: none;
+  font-size: 0.9rem;
+  background: #18181b;
+  color: #fff;
+}
+
+.form-msg.show { display: block; }
+
+/* === Footer === */
+footer {
+  text-align: center;
+  padding: 2rem 1rem;
+  color: var(--text-light);
+  font-size: 0.8rem;
+  border-top: 1px solid #e4e4e7;
+  margin-top: 2rem;
+}
+
+/* === RWD === */
+@media (max-width: 1024px) {
+  .gallery-grid { columns: 2; }
+  .about-grid { grid-template-columns: 1fr; }
+  .about-portrait { max-width: 350px; }
+}
+
+@media (max-width: 640px) {
+  .menu-toggle { display: block; }
+  nav {
+    display: none;
+    position: absolute;
+    top: 64px;
+    left: 0;
+    right: 0;
+    background: rgba(250,250,250,0.98);
+    flex-direction: column;
+    padding: 0.5rem;
+    box-shadow: var(--shadow);
+  }
+  nav.open { display: flex; }
+  .gallery-grid { columns: 1; padding: 0 1rem; }
+  .hero { padding: 4rem 1.5rem 2rem; }
+  .about-stats { gap: 1.5rem; }
+  .contact-info { flex-direction: column; gap: 1rem; }
+}
+
+/* === sticky footer (batch patch) === */
+html, body { height: 100%; }
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+main { flex: 1 0 auto; }
+.site-footer, footer, [data-block="footer"] { margin-top: auto; }
+
+</style>
+</head>
+<body>
+
+<!-- 頂部導覽列 -->
+<header>
+  <div class="header-inner">
+    <div class="logo"><strong>Joanna Lin</strong> Photography</div>
+    <button class="menu-toggle" onclick="document.querySelector('nav').classList.toggle('open')" aria-label="選單">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <nav>
+      <button class="nav-link active" data-page="works">作品</button>
+      <button class="nav-link" data-page="about">關於</button>
+      <button class="nav-link" data-page="contact">聯絡</button>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- 作品集頁 -->
+  <section class="page active" id="page-works" data-block="works">
+    <div class="hero">
+      <h1>林若晴</h1>
+      <p>用光影書寫日常，在每個瞬間找到永恆</p>
+    </div>
+    <!-- 作品 Masonry 牆 -->
+    <div class="gallery-grid" id="gallery">
+      <div class="gallery-item" data-idx="0"><img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&h=900&fit=crop" alt="山景"><div class="overlay"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg></div></div>
+      <div class="gallery-item" data-idx="1"><img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=600&h=400&fit=crop" alt="湖光"><div class="overlay"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg></div></div>
+      <div class="gallery-item" data-idx="2"><img src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=600&h=750&fit=crop" alt="森林"><div class="overlay"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg></div></div>
+      <div class="gallery-item" data-idx="3"><img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?w=600&h=400&fit=crop" alt="星空"><div class="overlay"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg></div></div>
+      <div class="gallery-item" data-idx="4"><img src="https://images.unsplash.com/photo-1433086966358-54859d0ed716?w=600&h=800&fit=crop" alt="瀑布"><div class="overlay"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg></div></div>
+      <div class="gallery-item" data-idx="5"><img src="https://images.unsplash.com/photo-1472214103451-9374bd1c798e?w=600&h=400&fit=crop" alt="田野"><div class="overlay"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg></div></div>
+      <div class="gallery-item" data-idx="6"><img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&h=900&fit=crop" alt="海灘"><div class="overlay"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg></div></div>
+      <div class="gallery-item" data-idx="7"><img src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=600&h=600&fit=crop" alt="花朵"><div class="overlay"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg></div></div>
+      <div class="gallery-item" data-idx="8"><img src="https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=600&h=750&fit=crop" alt="街景"><div class="overlay"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg></div></div>
+      <div class="gallery-item" data-idx="9"><img src="https://images.unsplash.com/photo-1493246507139-91e8fad9978e?w=600&h=400&fit=crop" alt="雲海"><div class="overlay"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg></div></div>
+    </div>
+  </section>
+
+  <!-- 關於攝影師 -->
+  <section class="page" id="page-about" data-block="about">
+    <div class="container">
+      <div class="about-grid">
+        <img class="about-portrait" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=500&h=667&fit=crop&crop=faces" alt="林若晴">
+        <div class="about-text">
+          <h2>林若晴 Joanna Lin</h2>
+          <p>台北人，自由攝影師。大學念的是建築，卻在一次尼泊爾旅行中愛上了按下快門的瞬間。從此，相機成了她觀看世界的方式。</p>
+          <p>她的作品關注自然風景與日常光影，試圖在熟悉的場景中捕捉那些容易被忽略的、安靜的美。作品曾刊載於《國家地理》中文版、《秋刀魚》雜誌，並於台北當代藝術館展出。</p>
+          <p>「我不追求壯觀的場面。我想拍的，是那些讓你停下來深呼吸的畫面。」</p>
+          <div class="about-stats">
+            <div class="stat-item"><div class="stat-num">8</div><div class="stat-label">年經驗</div></div>
+            <div class="stat-item"><div class="stat-num">12</div><div class="stat-label">國家足跡</div></div>
+            <div class="stat-item"><div class="stat-num">3</div><div class="stat-label">個展</div></div>
+            <div class="stat-item"><div class="stat-num">50+</div><div class="stat-label">商業合作</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 聯絡頁 -->
+  <section class="page" id="page-contact" data-block="contact">
+    <div class="container">
+      <div class="contact-layout">
+        <h2 class="section-title">聯絡</h2>
+        <p class="section-sub">商業合作、展覽邀約或任何問題，歡迎來信</p>
+        <div class="contact-info">
+          <div class="contact-info-item">
+            <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <p>hello@joannaphoto.tw</p>
+          </div>
+          <div class="contact-info-item">
+            <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <p>台北市大安區</p>
+          </div>
+          <div class="contact-info-item">
+            <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            <p>@joanna.lin.photo</p>
+          </div>
+        </div>
+        <form id="contact-form">
+          <div class="form-group"><label>姓名</label><input type="text" required placeholder="您的姓名"></div>
+          <div class="form-group"><label>Email</label><input type="email" required placeholder="you@example.com"></div>
+          <div class="form-group"><label>主旨</label><input type="text" required placeholder="合作邀約 / 展覽洽詢 / 其他"></div>
+          <div class="form-group"><label>內容</label><textarea required placeholder="請簡述您的需求..."></textarea></div>
+          <button class="btn" type="submit">送出</button>
+          <div class="form-msg" id="form-msg">訊息已送出，感謝您的聯繫！</div>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- 頁尾 -->
+<footer>
+  <p>&copy; 2026 林若晴 Joanna Lin Photography</p>
+</footer>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" aria-label="關閉"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+  <button class="lightbox-nav lightbox-prev" aria-label="上一張"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+  <img id="lightbox-img" src="" alt="作品放大">
+  <button class="lightbox-nav lightbox-next" aria-label="下一張"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
+</div>
+
+<script>
+/* 頁面切換 */
+function switchPage(name) {
+  document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
+  document.querySelectorAll('.nav-link').forEach(function(b) { b.classList.remove('active'); });
+  document.getElementById('page-' + name).classList.add('active');
+  document.querySelector('.nav-link[data-page="' + name + '"]').classList.add('active');
+  document.querySelector('nav').classList.remove('open');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+document.querySelectorAll('.nav-link').forEach(function(btn) {
+  btn.addEventListener('click', function() { switchPage(btn.dataset.page); });
+});
+
+/* Lightbox */
+var lightbox = document.getElementById('lightbox');
+var lightboxImg = document.getElementById('lightbox-img');
+var items = document.querySelectorAll('.gallery-item');
+var currentIdx = 0;
+
+function getImages() {
+  var imgs = [];
+  items.forEach(function(item) { imgs.push(item.querySelector('img').src.replace('w=600', 'w=1200').replace('h=900', 'h=1200').replace('h=800', 'h=1200').replace('h=750', 'h=1200').replace('h=600', 'h=1200').replace('h=400', 'h=800')); });
+  return imgs;
+}
+
+function openLightbox(idx) {
+  currentIdx = idx;
+  var imgs = getImages();
+  lightboxImg.src = imgs[currentIdx];
+  lightbox.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  lightbox.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function navLightbox(dir) {
+  var imgs = getImages();
+  currentIdx = (currentIdx + dir + imgs.length) % imgs.length;
+  lightboxImg.src = imgs[currentIdx];
+}
+
+items.forEach(function(item) {
+  item.addEventListener('click', function() { openLightbox(parseInt(item.dataset.idx)); });
+});
+
+lightbox.addEventListener('click', function(e) {
+  if (e.target === lightbox) closeLightbox();
+});
+
+document.querySelector('.lightbox-close').addEventListener('click', closeLightbox);
+document.querySelector('.lightbox-prev').addEventListener('click', function(e) { e.stopPropagation(); navLightbox(-1); });
+document.querySelector('.lightbox-next').addEventListener('click', function(e) { e.stopPropagation(); navLightbox(1); });
+
+document.addEventListener('keydown', function(e) {
+  if (!lightbox.classList.contains('open')) return;
+  if (e.key === 'Escape') closeLightbox();
+  if (e.key === 'ArrowLeft') navLightbox(-1);
+  if (e.key === 'ArrowRight') navLightbox(1);
+});
+
+/* 表單提交 */
+document.getElementById('contact-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  var msg = document.getElementById('form-msg');
+  msg.classList.add('show');
+  this.reset();
+  setTimeout(function() { msg.classList.remove('show'); }, 4000);
+});
+</script>
+</body>
+</html>

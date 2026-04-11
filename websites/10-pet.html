@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>毛孩沙龍 Paws Salon</title>
+<style>
+/* === 色彩系統 === */
+:root {
+  --primary: #ea580c;
+  --primary-light: #fb923c;
+  --primary-dark: #c2410c;
+  --primary-bg: #fff7ed;
+  --warm-cream: #fef3c7;
+  --text: #1c1917;
+  --text-muted: #78716c;
+  --surface: #ffffff;
+  --border: #e7e5e4;
+  --radius: 12px;
+  --shadow: 0 4px 24px rgba(234,88,12,0.08);
+  --shadow-lg: 0 12px 40px rgba(234,88,12,0.12);
+  --font: "Noto Sans TC", system-ui, -apple-system, sans-serif;
+  --transition: 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+
+/* === 基礎重置 === */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font);
+  color: var(--text);
+  background: var(--primary-bg);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; height: auto; display: block; }
+a { color: var(--primary); text-decoration: none; }
+
+/* === 排版容器 === */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+section { padding: 80px 0; }
+.section-title {
+  font-size: 2rem;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+.section-subtitle {
+  text-align: center;
+  color: var(--text-muted);
+  margin-bottom: 48px;
+  font-size: 1.05rem;
+}
+
+/* === 導覽列 === */
+[data-block="nav"] {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+[data-block="nav"] .container {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 64px;
+}
+.logo {
+  display: flex; align-items: center; gap: 10px;
+  font-weight: 800; font-size: 1.2rem; color: var(--primary);
+}
+.logo svg { flex-shrink: 0; }
+.nav-links { display: flex; gap: 28px; list-style: none; }
+.nav-links a {
+  color: var(--text-muted); font-size: 0.95rem; font-weight: 500;
+  transition: color var(--transition);
+}
+.nav-links a:hover { color: var(--primary); }
+.nav-toggle { display: none; background: none; border: none; cursor: pointer; }
+
+/* === Hero === */
+[data-block="hero"] {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+  color: #fff; padding: 100px 0 80px; text-align: center;
+  position: relative; overflow: hidden;
+}
+[data-block="hero"]::after {
+  content: ''; position: absolute; bottom: -2px; left: 0; right: 0; height: 60px;
+  background: var(--primary-bg);
+  clip-path: ellipse(55% 100% at 50% 100%);
+}
+.hero-title { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 900; margin-bottom: 16px; }
+.hero-desc { font-size: 1.15rem; opacity: 0.92; max-width: 520px; margin: 0 auto 32px; }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 32px; border-radius: 50px; font-weight: 700;
+  font-size: 1rem; cursor: pointer; border: none;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+.btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+.btn-white { background: #fff; color: var(--primary); }
+.btn-primary { background: var(--primary); color: #fff; }
+
+/* === 服務對比表 === */
+[data-block="services"] { background: var(--surface); }
+.price-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+.price-card {
+  background: var(--primary-bg); border-radius: var(--radius);
+  padding: 36px 28px; text-align: center;
+  border: 2px solid transparent;
+  transition: border-color var(--transition), transform var(--transition);
+}
+.price-card:hover { border-color: var(--primary-light); transform: translateY(-4px); }
+.price-card.featured {
+  border-color: var(--primary); background: #fff;
+  box-shadow: var(--shadow-lg); position: relative;
+}
+.price-card.featured::before {
+  content: '人氣推薦'; position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+  background: var(--primary); color: #fff; padding: 4px 20px; border-radius: 20px;
+  font-size: 0.8rem; font-weight: 700;
+}
+.price-icon { margin: 0 auto 16px; }
+.price-name { font-size: 1.25rem; font-weight: 800; margin-bottom: 8px; }
+.price-amount { font-size: 2.2rem; font-weight: 900; color: var(--primary); margin-bottom: 4px; }
+.price-unit { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px; }
+.price-features { list-style: none; text-align: left; }
+.price-features li {
+  padding: 8px 0; border-bottom: 1px solid var(--border);
+  font-size: 0.95rem; display: flex; align-items: center; gap: 8px;
+}
+.price-features li::before { content: '✓'; color: var(--primary); font-weight: 700; }
+
+/* === 作品集 Before/After === */
+[data-block="gallery"] { background: var(--primary-bg); }
+.gallery-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 32px;
+}
+.gallery-item {
+  background: var(--surface); border-radius: var(--radius);
+  overflow: hidden; box-shadow: var(--shadow);
+}
+.ba-compare {
+  display: grid; grid-template-columns: 1fr 1fr;
+  position: relative;
+}
+.ba-compare img {
+  width: 100%; height: 220px; object-fit: cover;
+}
+.ba-label {
+  position: absolute; bottom: 8px; padding: 3px 12px;
+  border-radius: 4px; font-size: 0.75rem; font-weight: 700; color: #fff;
+}
+.ba-label.before { left: 8px; background: var(--text-muted); }
+.ba-label.after { right: 8px; background: var(--primary); }
+.ba-divider {
+  position: absolute; top: 0; bottom: 0; left: 50%;
+  width: 3px; background: #fff;
+  transform: translateX(-50%);
+}
+.gallery-info { padding: 20px; }
+.gallery-info h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 4px; }
+.gallery-info p { color: var(--text-muted); font-size: 0.9rem; }
+
+/* === 預約表單 === */
+[data-block="booking"] { background: var(--surface); }
+.booking-card {
+  max-width: 600px; margin: 0 auto;
+  background: var(--primary-bg); border-radius: var(--radius);
+  padding: 40px; box-shadow: var(--shadow);
+}
+.form-group { margin-bottom: 20px; }
+.form-group label {
+  display: block; font-weight: 600; margin-bottom: 6px; font-size: 0.95rem;
+}
+.form-group input, .form-group select {
+  width: 100%; padding: 12px 16px; border: 2px solid var(--border);
+  border-radius: 8px; font-size: 1rem; font-family: var(--font);
+  transition: border-color var(--transition); background: #fff;
+}
+.form-group input:focus, .form-group select:focus {
+  outline: none; border-color: var(--primary);
+}
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.form-msg {
+  text-align: center; padding: 16px; border-radius: 8px;
+  background: #dcfce7; color: #166534; font-weight: 600;
+  display: none; margin-top: 16px;
+}
+
+/* === Footer === */
+[data-block="footer"] {
+  background: var(--text); color: #a8a29e; padding: 40px 0;
+  text-align: center; font-size: 0.9rem;
+}
+[data-block="footer"] .logo-text { color: #fff; font-weight: 700; font-size: 1.1rem; margin-bottom: 8px; }
+
+/* === RWD === */
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .nav-toggle { display: block; }
+  .nav-links.open {
+    display: flex; flex-direction: column;
+    position: absolute; top: 64px; left: 0; right: 0;
+    background: #fff; padding: 24px; gap: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .form-row { grid-template-columns: 1fr; }
+  section { padding: 56px 0; }
+  .hero-title { font-size: 2rem; }
+}
+
+/* === sticky footer (batch patch) === */
+html, body { height: 100%; }
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+main { flex: 1 0 auto; }
+.site-footer, footer, [data-block="footer"] { margin-top: auto; }
+
+</style>
+</head>
+<body>
+
+<!-- 導覽列 -->
+<nav data-block="nav">
+  <div class="container">
+    <a href="#" class="logo">
+      <!-- 爪印 SVG -->
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+        <circle cx="10" cy="8" r="4" fill="#ea580c"/>
+        <circle cx="22" cy="8" r="4" fill="#ea580c"/>
+        <circle cx="6" cy="17" r="3.5" fill="#ea580c"/>
+        <circle cx="26" cy="17" r="3.5" fill="#ea580c"/>
+        <ellipse cx="16" cy="23" rx="8" ry="6" fill="#ea580c"/>
+      </svg>
+      毛孩沙龍
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#services">服務項目</a></li>
+      <li><a href="#gallery">造型作品</a></li>
+      <li><a href="#booking">立即預約</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="選單">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1c1917" stroke-width="2.5" stroke-linecap="round">
+        <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+<!-- Hero 區塊 -->
+<header data-block="hero">
+  <div class="container">
+    <h1 class="hero-title">毛孩沙龍 Paws Salon</h1>
+    <p class="hero-desc">專業寵物美容，讓每一位毛孩都自信閃耀。溫柔手法、安全環境，給牠最舒適的沙龍體驗。</p>
+    <a href="#booking" class="btn btn-white">預約美容</a>
+  </div>
+</header>
+
+<!-- 服務項目與價目表 -->
+<section data-block="services" id="services">
+  <div class="container">
+    <h2 class="section-title">服務項目</h2>
+    <p class="section-subtitle">三種方案，滿足不同毛孩的美容需求</p>
+    <div class="price-grid">
+
+      <!-- 基礎洗澡 -->
+      <div class="price-card">
+        <div class="price-icon">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+            <circle cx="24" cy="24" r="22" fill="#fff7ed" stroke="#ea580c" stroke-width="2"/>
+            <path d="M16 28c0-4.4 3.6-8 8-8s8 3.6 8 8" stroke="#ea580c" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="20" cy="20" r="2" fill="#ea580c"/><circle cx="28" cy="20" r="2" fill="#ea580c"/>
+            <path d="M14 32h20" stroke="#ea580c" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3 class="price-name">基礎洗澡</h3>
+        <div class="price-amount">$600</div>
+        <p class="price-unit">小型犬起 / 依體重調整</p>
+        <ul class="price-features">
+          <li>溫水沐浴 + 吹整</li>
+          <li>耳朵清潔</li>
+          <li>指甲修剪</li>
+          <li>肛門腺清理</li>
+          <li>基礎除毛梳理</li>
+        </ul>
+      </div>
+
+      <!-- 造型美容（人氣推薦） -->
+      <div class="price-card featured">
+        <div class="price-icon">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+            <circle cx="24" cy="24" r="22" fill="#fff7ed" stroke="#ea580c" stroke-width="2"/>
+            <path d="M18 16l3 6-3 6M30 16l-3 6 3 6" stroke="#ea580c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="24" cy="34" r="3" fill="#ea580c"/>
+          </svg>
+        </div>
+        <h3 class="price-name">造型美容</h3>
+        <div class="price-amount">$1,200</div>
+        <p class="price-unit">小型犬起 / 含基礎洗澡</p>
+        <ul class="price-features">
+          <li>全套基礎洗澡</li>
+          <li>品種標準造型</li>
+          <li>創意剪裁設計</li>
+          <li>蝴蝶結/配飾裝飾</li>
+          <li>毛髮順滑護理</li>
+          <li>造型完成拍照</li>
+        </ul>
+      </div>
+
+      <!-- SPA 全套 -->
+      <div class="price-card">
+        <div class="price-icon">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+            <circle cx="24" cy="24" r="22" fill="#fff7ed" stroke="#ea580c" stroke-width="2"/>
+            <path d="M24 14v4M18 16l2 3M30 16l-2 3" stroke="#ea580c" stroke-width="2" stroke-linecap="round"/>
+            <ellipse cx="24" cy="30" rx="10" ry="6" fill="none" stroke="#ea580c" stroke-width="2"/>
+            <path d="M18 28c1-2 3-3 6-3s5 1 6 3" stroke="#ea580c" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3 class="price-name">SPA 全套</h3>
+        <div class="price-amount">$2,000</div>
+        <p class="price-unit">小型犬起 / 頂級呵護</p>
+        <ul class="price-features">
+          <li>全套造型美容</li>
+          <li>草本精油 SPA</li>
+          <li>深層皮膚護理</li>
+          <li>牙齒清潔保健</li>
+          <li>舒壓按摩放鬆</li>
+          <li>專屬寫真 3 張</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- 造型作品集 -->
+<section data-block="gallery" id="gallery">
+  <div class="container">
+    <h2 class="section-title">造型作品集</h2>
+    <p class="section-subtitle">Before & After，看見毛孩的華麗變身</p>
+    <div class="gallery-grid">
+
+      <!-- 作品 1 -->
+      <article class="gallery-item">
+        <div class="ba-compare">
+          <img src="https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=400&h=300&fit=crop" alt="造型前的黃金獵犬" loading="lazy">
+          <img src="https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=400&h=300&fit=crop" alt="造型後的黃金獵犬" loading="lazy">
+          <span class="ba-label before">Before</span>
+          <span class="ba-label after">After</span>
+          <div class="ba-divider"></div>
+        </div>
+        <div class="gallery-info">
+          <h3>Lucky｜黃金獵犬</h3>
+          <p>夏日清爽造型，全身修剪 + 耳朵蓬鬆處理</p>
+        </div>
+      </article>
+
+      <!-- 作品 2 -->
+      <article class="gallery-item">
+        <div class="ba-compare">
+          <img src="https://images.unsplash.com/photo-1591946614720-90a587da4a36?w=400&h=300&fit=crop" alt="造型前的貴賓" loading="lazy">
+          <img src="https://images.unsplash.com/photo-1542037104857-ffbb0b9155fb?w=400&h=300&fit=crop" alt="造型後的貴賓" loading="lazy">
+          <span class="ba-label before">Before</span>
+          <span class="ba-label after">After</span>
+          <div class="ba-divider"></div>
+        </div>
+        <div class="gallery-info">
+          <h3>Mochi｜紅貴賓</h3>
+          <p>泰迪熊造型，圓頭圓臉超萌系</p>
+        </div>
+      </article>
+
+      <!-- 作品 3 -->
+      <article class="gallery-item">
+        <div class="ba-compare">
+          <img src="https://images.unsplash.com/photo-1534361960057-19889db9621e?w=400&h=300&fit=crop" alt="造型前的雪納瑞" loading="lazy">
+          <img src="https://images.unsplash.com/photo-1552053831-71594a27632d?w=400&h=300&fit=crop" alt="造型後的雪納瑞" loading="lazy">
+          <span class="ba-label before">Before</span>
+          <span class="ba-label after">After</span>
+          <div class="ba-divider"></div>
+        </div>
+        <div class="gallery-info">
+          <h3>Oreo｜雪納瑞</h3>
+          <p>經典品種標準剪，鬍子線條俐落有型</p>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- 預約表單 -->
+<section data-block="booking" id="booking">
+  <div class="container">
+    <h2 class="section-title">預約美容</h2>
+    <p class="section-subtitle">填寫以下資料，我們將盡快與您確認</p>
+    <div class="booking-card">
+      <form id="bookingForm">
+        <div class="form-group">
+          <label for="petName">寵物姓名</label>
+          <input type="text" id="petName" placeholder="例如：Lucky" required>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="breed">品種</label>
+            <select id="breed" required>
+              <option value="">請選擇品種</option>
+              <option value="golden">黃金獵犬</option>
+              <option value="poodle">貴賓犬</option>
+              <option value="schnauzer">雪納瑞</option>
+              <option value="corgi">柯基</option>
+              <option value="maltese">瑪爾濟斯</option>
+              <option value="shiba">柴犬</option>
+              <option value="pomeranian">博美犬</option>
+              <option value="cat">貓咪</option>
+              <option value="other">其他</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="weight">體重（公斤）</label>
+            <input type="number" id="weight" min="1" max="80" placeholder="例如：8" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="service">服務選擇</label>
+            <select id="service" required>
+              <option value="">請選擇服務</option>
+              <option value="bath">基礎洗澡 $600 起</option>
+              <option value="grooming">造型美容 $1,200 起</option>
+              <option value="spa">SPA 全套 $2,000 起</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="date">預約日期</label>
+            <input type="date" id="date" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="ownerPhone">聯絡電話</label>
+          <input type="tel" id="ownerPhone" placeholder="0912-345-678" required>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">送出預約</button>
+        <div class="form-msg" id="formMsg">預約已送出！我們將於 24 小時內與您聯繫確認。</div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer data-block="footer">
+  <div class="container">
+    <p class="logo-text">毛孩沙龍 Paws Salon</p>
+    <p>台中市西區美村路一段 168 號 ｜ 04-2301-6688</p>
+    <p style="margin-top:8px;">© 2026 Paws Salon. All rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+/* 漢堡選單切換 */
+document.getElementById('navToggle').addEventListener('click', function() {
+  document.getElementById('navLinks').classList.toggle('open');
+});
+
+/* 設定日期最小值為今天 */
+const dateInput = document.getElementById('date');
+const today = new Date().toISOString().split('T')[0];
+dateInput.setAttribute('min', today);
+
+/* 表單送出（preventDefault） */
+document.getElementById('bookingForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  document.getElementById('formMsg').style.display = 'block';
+  this.reset();
+  setTimeout(function() {
+    document.getElementById('formMsg').style.display = 'none';
+  }, 4000);
+});
+</script>
+</body>
+</html>

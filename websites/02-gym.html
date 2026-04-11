@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>鐵人工廠 Iron Factory</title>
+<style>
+/* === 全域變數 === */
+:root {
+  --primary: #dc2626;
+  --primary-light: #ef4444;
+  --primary-dark: #b91c1c;
+  --bg: #0a0a0a;
+  --bg-card: #171717;
+  --bg-elevated: #262626;
+  --text: #fafafa;
+  --text-light: #a3a3a3;
+  --accent: #fbbf24;
+  --radius: 2px;
+  --shadow: 0 2px 16px rgba(0,0,0,0.4);
+}
+
+/* === Reset === */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans TC", sans-serif;
+  line-height: 1.5;
+  color: var(--text);
+  background: var(--bg);
+}
+
+a { color: var(--primary-light); text-decoration: none; }
+img { max-width: 100%; height: auto; display: block; }
+
+/* === Header === */
+header {
+  background: rgba(10,10,10,0.95);
+  border-bottom: 2px solid var(--primary);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(8px);
+}
+
+.header-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+}
+
+.logo {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--text);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.logo svg { width: 26px; height: 26px; }
+
+nav { display: flex; gap: 0.25rem; }
+
+.nav-link {
+  padding: 0.4rem 1rem;
+  color: var(--text-light);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 0.2s;
+  background: none;
+  border: none;
+  font-family: inherit;
+}
+
+.nav-link:hover, .nav-link.active { color: var(--primary); }
+
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+.menu-toggle svg { width: 24px; height: 24px; stroke: var(--text); }
+
+/* === 共用 === */
+.container { max-width: 1100px; margin: 0 auto; padding: 3rem 1rem; }
+.section-title {
+  font-size: 2rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+}
+.section-sub { color: var(--text-light); margin-bottom: 2.5rem; }
+.btn {
+  display: inline-block;
+  padding: 0.75rem 2rem;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  transition: background 0.2s;
+  font-family: inherit;
+}
+.btn:hover { background: var(--primary-light); }
+.btn-outline {
+  background: transparent;
+  border: 2px solid var(--primary);
+  color: var(--primary);
+}
+.btn-outline:hover { background: var(--primary); color: #fff; }
+
+/* === 英雄區 === */
+.hero {
+  position: relative;
+  height: 80vh;
+  min-height: 450px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background: url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1400&h=900&fit=crop') center/cover;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(10,10,10,0.85), rgba(185,28,28,0.3));
+}
+
+.hero-content {
+  position: relative;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.hero-title {
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: 900;
+  text-transform: uppercase;
+  line-height: 1.1;
+  margin-bottom: 1rem;
+}
+
+.hero-title span { color: var(--primary); }
+
+.hero-sub {
+  font-size: 1.15rem;
+  color: var(--text-light);
+  margin-bottom: 2rem;
+  max-width: 500px;
+}
+
+/* === 教練團隊 === */
+.coach-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.coach-card {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: transform 0.2s;
+}
+
+.coach-card:hover { transform: translateY(-4px); }
+
+.coach-img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+}
+
+.coach-body { padding: 1.25rem; }
+
+.coach-name {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 0.15rem;
+}
+
+.coach-role {
+  color: var(--primary);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 0.75rem;
+}
+
+.coach-bio { color: var(--text-light); font-size: 0.9rem; }
+
+/* === 課程 === */
+.course-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.25rem;
+}
+
+.course-card {
+  background: var(--bg-card);
+  border-left: 3px solid var(--primary);
+  padding: 1.5rem;
+  border-radius: var(--radius);
+  transition: background 0.2s;
+}
+
+.course-card:hover { background: var(--bg-elevated); }
+
+.course-icon { margin-bottom: 1rem; }
+.course-icon svg { width: 36px; height: 36px; stroke: var(--primary); fill: none; }
+
+.course-name {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.course-desc { color: var(--text-light); font-size: 0.9rem; }
+
+.course-meta {
+  margin-top: 0.75rem;
+  font-size: 0.8rem;
+  color: var(--text-light);
+  display: flex;
+  gap: 1rem;
+}
+
+.course-meta span { display: flex; align-items: center; gap: 0.3rem; }
+
+/* === 價格方案 === */
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.price-card {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  padding: 2rem 1.5rem;
+  text-align: center;
+  box-shadow: var(--shadow);
+  position: relative;
+  transition: transform 0.2s;
+}
+
+.price-card:hover { transform: translateY(-4px); }
+
+.price-card.featured {
+  border: 2px solid var(--primary);
+  transform: scale(1.03);
+}
+
+.price-card.featured:hover { transform: scale(1.03) translateY(-4px); }
+
+.price-badge {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--primary);
+  color: #fff;
+  padding: 0.2rem 1rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  border-radius: var(--radius);
+}
+
+.price-name {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+}
+
+.price-amount {
+  font-size: 3rem;
+  font-weight: 900;
+  color: var(--text);
+  line-height: 1;
+  margin-bottom: 0.25rem;
+}
+
+.price-amount span { font-size: 1rem; font-weight: 400; color: var(--text-light); }
+
+.price-period {
+  color: var(--text-light);
+  font-size: 0.85rem;
+  margin-bottom: 1.5rem;
+}
+
+.price-features {
+  list-style: none;
+  text-align: left;
+  margin-bottom: 2rem;
+}
+
+.price-features li {
+  padding: 0.4rem 0;
+  font-size: 0.9rem;
+  color: var(--text-light);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.price-features li::before {
+  content: "";
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  background: var(--primary);
+  mask: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E") center/contain no-repeat;
+  flex-shrink: 0;
+}
+
+/* === CTA === */
+.cta-section {
+  text-align: center;
+  background: var(--bg-card);
+  padding: 4rem 2rem;
+}
+
+.cta-section .section-title { margin-bottom: 1rem; }
+
+/* === Footer === */
+footer {
+  background: var(--bg-card);
+  border-top: 1px solid #262626;
+  text-align: center;
+  padding: 1.5rem 1rem;
+  color: var(--text-light);
+  font-size: 0.8rem;
+}
+
+/* === RWD === */
+@media (max-width: 1024px) {
+  .coach-grid, .pricing-grid { grid-template-columns: 1fr 1fr; }
+  .price-card.featured { transform: none; }
+  .price-card.featured:hover { transform: translateY(-4px); }
+}
+
+@media (max-width: 640px) {
+  .menu-toggle { display: block; }
+  nav {
+    display: none;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    right: 0;
+    background: var(--bg);
+    flex-direction: column;
+    padding: 0.5rem;
+    border-bottom: 2px solid var(--primary);
+  }
+  nav.open { display: flex; }
+  .coach-grid, .pricing-grid { grid-template-columns: 1fr; }
+  .hero { height: 60vh; min-height: 350px; }
+}
+
+/* === sticky footer (batch patch) === */
+html, body { height: 100%; }
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+main { flex: 1 0 auto; }
+.site-footer, footer, [data-block="footer"] { margin-top: auto; }
+
+</style>
+</head>
+<body>
+
+<!-- 頂部導覽 -->
+<header>
+  <div class="header-inner">
+    <div class="logo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6.5 6.5h11M4 12h16M6.5 17.5h11"/><circle cx="4" cy="12" r="2"/><circle cx="20" cy="12" r="2"/></svg>
+      鐵人工廠
+    </div>
+    <button class="menu-toggle" onclick="document.querySelector('nav').classList.toggle('open')" aria-label="選單">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <nav>
+      <a href="#hero" class="nav-link active">首頁</a>
+      <a href="#coaches" class="nav-link">教練</a>
+      <a href="#courses" class="nav-link">課程</a>
+      <a href="#pricing" class="nav-link">方案</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- 英雄區 -->
+  <section class="hero" id="hero" data-block="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h1 class="hero-title">改變<br>從<span>今天</span>開始</h1>
+      <p class="hero-sub">不只是健身，是重新打造你自己。專業教練團隊陪你突破每一道極限。</p>
+      <a href="#pricing" class="btn">立即加入</a>
+    </div>
+  </section>
+
+  <!-- 教練團隊 -->
+  <section id="coaches" data-block="coaches">
+    <div class="container">
+      <h2 class="section-title">教練團隊</h2>
+      <p class="section-sub">每位教練都擁有國際認證與超過五年的實戰經驗</p>
+      <div class="coach-grid">
+        <div class="coach-card">
+          <img class="coach-img" src="https://images.unsplash.com/photo-1567013127542-490d757e51fc?w=600&h=500&fit=crop&crop=faces" alt="陳威廷教練">
+          <div class="coach-body">
+            <div class="coach-name">陳威廷</div>
+            <div class="coach-role">重量訓練 / 體態雕塑</div>
+            <p class="coach-bio">NSCA-CSCS 認證，前國家舉重隊選手。擅長增肌減脂與運動表現提升。</p>
+          </div>
+        </div>
+        <div class="coach-card">
+          <img class="coach-img" src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=600&h=500&fit=crop&crop=faces" alt="林小柔教練">
+          <div class="coach-body">
+            <div class="coach-name">林小柔</div>
+            <div class="coach-role">有氧 / 核心訓練</div>
+            <p class="coach-bio">ACE-CPT 認證，瑜珈與皮拉提斯雙證照。專注女性體態與核心穩定。</p>
+          </div>
+        </div>
+        <div class="coach-card">
+          <img class="coach-img" src="https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=600&h=500&fit=crop&crop=faces" alt="張凱翔教練">
+          <div class="coach-body">
+            <div class="coach-name">張凱翔</div>
+            <div class="coach-role">格鬥 / HIIT</div>
+            <p class="coach-bio">前 MMA 職業選手，CrossFit L2 教練。高強度間歇訓練與搏擊體適能。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 課程介紹 -->
+  <section id="courses" data-block="courses" style="background: var(--bg-card);">
+    <div class="container">
+      <h2 class="section-title">課程介紹</h2>
+      <p class="section-sub">從新手到進階，找到最適合你的訓練計畫</p>
+      <div class="course-grid">
+        <div class="course-card">
+          <div class="course-icon"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round"><path d="M6.5 6.5h11M4 12h16M6.5 17.5h11"/><circle cx="4" cy="12" r="1.5"/><circle cx="20" cy="12" r="1.5"/></svg></div>
+          <div class="course-name">重量訓練</div>
+          <p class="course-desc">系統化肌力訓練，從基礎硬舉到進階爆發力，漸進式超負荷打造強壯體格。</p>
+          <div class="course-meta"><span>60 分鐘</span><span>初～進階</span></div>
+        </div>
+        <div class="course-card">
+          <div class="course-icon"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+          <div class="course-name">HIIT 燃脂</div>
+          <p class="course-desc">高強度間歇訓練，30 分鐘燃燒等同跑步 1 小時的卡路里，效率最大化。</p>
+          <div class="course-meta"><span>30 分鐘</span><span>中～進階</span></div>
+        </div>
+        <div class="course-card">
+          <div class="course-icon"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></div>
+          <div class="course-name">瑜珈伸展</div>
+          <p class="course-desc">動態與靜態伸展結合，恢復肌肉彈性、改善柔軟度、預防運動傷害。</p>
+          <div class="course-meta"><span>50 分鐘</span><span>全級別</span></div>
+        </div>
+        <div class="course-card">
+          <div class="course-icon"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round"><path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/></svg></div>
+          <div class="course-name">拳擊有氧</div>
+          <p class="course-desc">融合拳擊技巧與有氧運動，釋放壓力同時訓練全身協調與反應速度。</p>
+          <div class="course-meta"><span>45 分鐘</span><span>初～中階</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 價格方案 -->
+  <section id="pricing" data-block="pricing">
+    <div class="container">
+      <h2 class="section-title" style="text-align:center;">選擇方案</h2>
+      <p class="section-sub" style="text-align:center;">投資自己，永遠是最好的決定</p>
+      <div class="pricing-grid">
+        <div class="price-card">
+          <div class="price-name">月費方案</div>
+          <div class="price-amount">$1,800<span>/月</span></div>
+          <div class="price-period">按月扣款，隨時取消</div>
+          <ul class="price-features">
+            <li>不限次數入場</li>
+            <li>自由重訓區使用</li>
+            <li>團體課程參加</li>
+            <li>淋浴間與置物櫃</li>
+          </ul>
+          <button class="btn btn-outline" onclick="alert('感謝您的興趣！請至櫃台辦理。')">選擇方案</button>
+        </div>
+        <div class="price-card featured">
+          <div class="price-badge">最受歡迎</div>
+          <div class="price-name">季費方案</div>
+          <div class="price-amount">$4,500<span>/季</span></div>
+          <div class="price-period">每月僅 $1,500，省下 $900</div>
+          <ul class="price-features">
+            <li>月費方案全部權益</li>
+            <li>每月 1 堂私人教練課</li>
+            <li>InBody 體脂檢測</li>
+            <li>營養諮詢 1 次</li>
+            <li>專屬置物櫃</li>
+          </ul>
+          <button class="btn" onclick="alert('感謝您的興趣！請至櫃台辦理。')">選擇方案</button>
+        </div>
+        <div class="price-card">
+          <div class="price-name">年費方案</div>
+          <div class="price-amount">$15,000<span>/年</span></div>
+          <div class="price-period">每月僅 $1,250，省下 $6,600</div>
+          <ul class="price-features">
+            <li>季費方案全部權益</li>
+            <li>每月 2 堂私人教練課</li>
+            <li>季度 InBody 追蹤</li>
+            <li>運動毛巾與水壺</li>
+            <li>優先預約熱門時段</li>
+            <li>好友體驗券 ×3</li>
+          </ul>
+          <button class="btn btn-outline" onclick="alert('感謝您的興趣！請至櫃台辦理。')">選擇方案</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA 區 -->
+  <section class="cta-section" data-block="cta">
+    <h2 class="section-title">準備好了嗎？</h2>
+    <p class="section-sub">第一堂體驗課免費，現在就預約！</p>
+    <button class="btn" onclick="alert('感謝預約！我們會盡快聯繫您。')">免費體驗</button>
+  </section>
+</main>
+
+<!-- 頁尾 -->
+<footer>
+  <p>&copy; 2026 鐵人工廠 Iron Factory. All rights reserved.</p>
+</footer>
+
+<script>
+/* 平滑捲動與 active 狀態 */
+document.querySelectorAll('.nav-link').forEach(function(link) {
+  link.addEventListener('click', function(e) {
+    e.preventDefault();
+    var target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth' });
+      document.querySelector('nav').classList.remove('open');
+    }
+  });
+});
+
+/* 捲動監聽 active 狀態 */
+var sections = document.querySelectorAll('section[id]');
+window.addEventListener('scroll', function() {
+  var scrollY = window.scrollY + 100;
+  sections.forEach(function(sec) {
+    var top = sec.offsetTop;
+    var height = sec.offsetHeight;
+    var id = sec.getAttribute('id');
+    var link = document.querySelector('.nav-link[href="#' + id + '"]');
+    if (link) {
+      if (scrollY >= top && scrollY < top + height) {
+        document.querySelectorAll('.nav-link').forEach(function(l) { l.classList.remove('active'); });
+        link.classList.add('active');
+      }
+    }
+  });
+});
+</script>
+</body>
+</html>

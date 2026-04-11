@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>誠信聯合法律事務所</title>
+<style>
+/* === 設計變數 === */
+:root {
+  --primary: #1e3a5f;        /* 深海藍 */
+  --primary-light: #2a5082;
+  --primary-dark: #142942;
+  --accent: #c9a84c;         /* 金色點綴 */
+  --bg: #f7f8fa;
+  --bg-card: #ffffff;
+  --text: #1a1a2e;
+  --text-muted: #5a6377;
+  --border: #dde1e8;
+  --radius: 4px;             /* 信任感：小圓角 */
+  --line-height: 1.6;        /* 信任感：適中行高 */
+  --shadow: 0 2px 12px rgba(30,58,95,0.08);
+  --shadow-hover: 0 4px 20px rgba(30,58,95,0.14);
+}
+
+/* === 重置與基底 === */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: "Noto Serif TC", "Songti TC", Georgia, serif;
+  color: var(--text);
+  background: var(--bg);
+  line-height: var(--line-height);
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; height: auto; display: block; }
+a { color: var(--primary); text-decoration: none; }
+a:hover { color: var(--accent); }
+
+/* === 共用佈局 === */
+.container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+section { padding: 72px 0; }
+section:nth-child(even) { background: var(--bg-card); }
+
+/* === 導覽列 === */
+header {
+  background: var(--primary-dark);
+  color: #fff;
+  padding: 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  max-width: 1080px;
+  margin: 0 auto;
+}
+.logo {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.logo svg { flex-shrink: 0; }
+.nav-links { display: flex; gap: 28px; list-style: none; }
+.nav-links a {
+  color: rgba(255,255,255,0.85);
+  font-size: 0.95rem;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--accent); }
+
+/* 手機選單 */
+.menu-toggle { display: none; background: none; border: none; cursor: pointer; }
+@media (max-width: 768px) {
+  .menu-toggle { display: block; }
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0; right: 0;
+    background: var(--primary-dark);
+    padding: 16px 24px;
+    gap: 16px;
+  }
+  .nav-links.open { display: flex; }
+}
+
+/* === 英雄區 === */
+/* 注意：用 section[data-block="hero"] 以提高特異性，避免被 section:nth-child(even) 的白底蓋掉（hero 實際上是 body 的第 2 個子元素） */
+section[data-block="hero"] {
+  background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 60%, var(--primary-light) 100%) !important;
+  color: #fff;
+  text-align: center;
+  padding: 100px 24px;
+  position: relative;
+  overflow: hidden;
+}
+section[data-block="hero"]::after {
+  content: '';
+  position: absolute;
+  bottom: -2px; left: 0; right: 0;
+  height: 60px;
+  background: var(--bg);
+  clip-path: polygon(0 100%, 100% 100%, 100% 0, 50% 80%, 0 0);
+}
+section[data-block="hero"] h1 {
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  margin-bottom: 16px;
+  letter-spacing: 4px;
+  color: #fff;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.35);
+}
+section[data-block="hero"] p {
+  font-size: 1.15rem;
+  opacity: 0.95;
+  max-width: 560px;
+  margin: 0 auto 32px;
+  color: #fff;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+}
+.hero-cta {
+  display: inline-block;
+  background: var(--accent);
+  color: var(--primary-dark);
+  padding: 14px 36px;
+  border-radius: var(--radius);
+  font-weight: 700;
+  font-size: 1rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.hero-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(201,168,76,0.4);
+  color: var(--primary-dark);
+}
+
+/* === 標題共用 === */
+.section-title {
+  text-align: center;
+  margin-bottom: 48px;
+}
+.section-title h2 {
+  font-size: 1.8rem;
+  color: var(--primary);
+  margin-bottom: 8px;
+}
+.section-title p { color: var(--text-muted); }
+.section-title .bar {
+  display: block;
+  width: 48px;
+  height: 3px;
+  background: var(--accent);
+  margin: 12px auto 0;
+  border-radius: 2px;
+}
+
+/* === 事務所介紹 === */
+[data-block="about"] .content-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: center;
+}
+[data-block="about"] img {
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  aspect-ratio: 4/3;
+  object-fit: cover;
+}
+[data-block="about"] .text h3 {
+  font-size: 1.3rem;
+  color: var(--primary);
+  margin-bottom: 12px;
+}
+[data-block="about"] .text p {
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+.stat-row {
+  display: flex;
+  gap: 32px;
+  margin-top: 24px;
+}
+.stat { text-align: center; }
+.stat .num {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+.stat .label { font-size: 0.85rem; color: var(--text-muted); }
+
+@media (max-width: 768px) {
+  [data-block="about"] .content-grid { grid-template-columns: 1fr; }
+}
+
+/* === 律師團隊 === */
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+.team-card {
+  background: var(--bg);
+  border-radius: var(--radius);
+  padding: 32px 24px;
+  text-align: center;
+  box-shadow: var(--shadow);
+  transition: box-shadow 0.3s, transform 0.3s;
+}
+.team-card:hover {
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-4px);
+}
+.team-card .avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 0 auto 16px;
+  border: 3px solid var(--accent);
+}
+.team-card h3 { color: var(--primary); margin-bottom: 4px; }
+.team-card .title {
+  font-size: 0.85rem;
+  color: var(--accent);
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+.team-card p { font-size: 0.9rem; color: var(--text-muted); }
+
+@media (max-width: 768px) {
+  .team-grid { grid-template-columns: 1fr; max-width: 360px; margin: 0 auto; }
+}
+
+/* === 案例展示（摺疊面板） === */
+.accordion { max-width: 720px; margin: 0 auto; }
+.accordion-item {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 12px;
+  overflow: hidden;
+}
+.accordion-btn {
+  width: 100%;
+  background: var(--bg-card);
+  border: none;
+  padding: 18px 24px;
+  text-align: left;
+  font-size: 1rem;
+  font-family: inherit;
+  color: var(--primary);
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background 0.2s;
+}
+.accordion-btn:hover { background: #f0f3f7; }
+.accordion-btn .icon {
+  transition: transform 0.3s;
+  flex-shrink: 0;
+}
+.accordion-btn[aria-expanded="true"] .icon { transform: rotate(180deg); }
+.accordion-panel {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease;
+}
+.accordion-panel .inner {
+  padding: 0 24px 20px;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+.accordion-panel .tag {
+  display: inline-block;
+  background: var(--primary);
+  color: #fff;
+  padding: 2px 10px;
+  border-radius: 2px;
+  font-size: 0.8rem;
+  margin-bottom: 8px;
+}
+
+/* === 諮詢表單 === */
+[data-block="contact"] form {
+  max-width: 560px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+[data-block="contact"] label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--primary);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+[data-block="contact"] input,
+[data-block="contact"] select,
+[data-block="contact"] textarea {
+  padding: 12px 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-family: inherit;
+  font-size: 0.95rem;
+  transition: border-color 0.2s;
+  width: 100%;
+}
+[data-block="contact"] input:focus,
+[data-block="contact"] select:focus,
+[data-block="contact"] textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+[data-block="contact"] textarea { resize: vertical; min-height: 100px; }
+.submit-btn {
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  padding: 14px;
+  border-radius: var(--radius);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.submit-btn:hover { background: var(--primary-light); }
+
+/* 表單送出成功提示 */
+.form-success {
+  display: none;
+  text-align: center;
+  padding: 32px;
+  color: var(--primary);
+}
+.form-success.show { display: block; }
+.form-success svg { margin: 0 auto 12px; }
+
+/* === 底部 === */
+footer {
+  background: var(--primary-dark);
+  color: rgba(255,255,255,0.7);
+  padding: 40px 24px;
+  text-align: center;
+  font-size: 0.85rem;
+}
+.privacy {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.9);
+}
+footer p { margin-top: 8px; }
+
+/* === sticky footer (batch patch) === */
+html, body { height: 100%; }
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+main { flex: 1 0 auto; }
+.site-footer, footer, [data-block="footer"] { margin-top: auto; }
+
+</style>
+</head>
+<body>
+
+<!-- 導覽列 -->
+<header>
+  <nav>
+    <div class="logo">
+      <!-- 天秤 SVG icon -->
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 3v18"/>
+        <path d="M4 7l8-4 8 4"/>
+        <path d="M4 7c0 3 2 5 4 5s4-2 4-5"/>
+        <path d="M12 7c0 3 2 5 4 5s4-2 4-5"/>
+        <path d="M8 21h8"/>
+      </svg>
+      誠信聯合法律事務所
+    </div>
+    <!-- 手機漢堡選單 -->
+    <button class="menu-toggle" aria-label="選單" onclick="document.querySelector('.nav-links').classList.toggle('open')">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round">
+        <path d="M3 6h18M3 12h18M3 18h18"/>
+      </svg>
+    </button>
+    <ul class="nav-links">
+      <li><a href="#about">事務所簡介</a></li>
+      <li><a href="#team">律師團隊</a></li>
+      <li><a href="#cases">案例展示</a></li>
+      <li><a href="#contact">線上諮詢</a></li>
+    </ul>
+  </nav>
+</header>
+
+<!-- 英雄區 -->
+<section data-block="hero">
+  <div class="container">
+    <h1>守護正義　捍衛權益</h1>
+    <p>三十餘年深耕法律實務，為企業與個人提供最專業、最值得信賴的法律服務。</p>
+    <a href="#contact" class="hero-cta">預約免費諮詢</a>
+  </div>
+</section>
+
+<!-- 事務所介紹 -->
+<section data-block="about" id="about">
+  <div class="container">
+    <div class="section-title">
+      <h2>事務所簡介</h2>
+      <p>以誠為本，以信立業</p>
+      <span class="bar"></span>
+    </div>
+    <div class="content-grid">
+      <img src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=600&h=450&fit=crop" alt="法律事務所辦公室" loading="lazy">
+      <div class="text">
+        <h3>專業、嚴謹、值得託付</h3>
+        <p>誠信聯合法律事務所成立於 1992 年，專精民商事訴訟、刑事辯護、智慧財產權及企業法務顧問等領域。我們秉持「以法為劍，以理服人」的執業理念，為數千位當事人爭取應有的權益。</p>
+        <p>事務所位於台北市中心，擁有舒適的諮詢空間與完善的法律資料庫，確保每一位委託人都能獲得最周全的法律服務。</p>
+        <div class="stat-row">
+          <div class="stat">
+            <div class="num">30+</div>
+            <div class="label">年執業經驗</div>
+          </div>
+          <div class="stat">
+            <div class="num">2,500+</div>
+            <div class="label">成功案件</div>
+          </div>
+          <div class="stat">
+            <div class="num">98%</div>
+            <div class="label">客戶滿意度</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 律師團隊 -->
+<section data-block="team" id="team">
+  <div class="container">
+    <div class="section-title">
+      <h2>律師團隊</h2>
+      <p>經驗豐富、值得信賴的專業團隊</p>
+      <span class="bar"></span>
+    </div>
+    <div class="team-grid">
+      <!-- 律師 1 -->
+      <div class="team-card">
+        <img class="avatar" src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=200&h=200&fit=crop&crop=faces" alt="林正義律師" loading="lazy">
+        <h3>林正義</h3>
+        <div class="title">主持律師 / 合夥人</div>
+        <p>專精民商事訴訟與企業併購，曾主辦多起重大商業糾紛案件，執業逾 25 年。</p>
+      </div>
+      <!-- 律師 2 -->
+      <div class="team-card">
+        <img class="avatar" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=200&h=200&fit=crop&crop=faces" alt="陳雅婷律師" loading="lazy">
+        <h3>陳雅婷</h3>
+        <div class="title">資深律師 / 合夥人</div>
+        <p>專長家事法與勞動法，致力保障弱勢權益，多次獲選最佳法律扶助律師。</p>
+      </div>
+      <!-- 律師 3 -->
+      <div class="team-card">
+        <img class="avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=faces" alt="王建宏律師" loading="lazy">
+        <h3>王建宏</h3>
+        <div class="title">主任律師</div>
+        <p>刑事辯護與智慧財產權專家，熟稔科技法規，協助新創企業建立合規架構。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 案例展示 -->
+<section data-block="cases" id="cases">
+  <div class="container">
+    <div class="section-title">
+      <h2>案例展示</h2>
+      <p>部分代表性案件（已去識別化處理）</p>
+      <span class="bar"></span>
+    </div>
+    <div class="accordion">
+      <!-- 案例 1 -->
+      <div class="accordion-item">
+        <button class="accordion-btn" aria-expanded="false" onclick="toggleAccordion(this)">
+          <span>企業併購糾紛 — 跨國股權爭議調解</span>
+          <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="accordion-panel">
+          <div class="inner">
+            <span class="tag">民商事訴訟</span>
+            <p>委託人為台灣上市公司，因跨國併購案遭對方違約毀約，涉及金額逾新台幣 8 億元。本所組成專案團隊，歷時 18 個月，透過國際仲裁程序成功取得全額賠償判決，並協助委託人完成後續股權交割。</p>
+          </div>
+        </div>
+      </div>
+      <!-- 案例 2 -->
+      <div class="accordion-item">
+        <button class="accordion-btn" aria-expanded="false" onclick="toggleAccordion(this)">
+          <span>勞資爭議 — 違法解僱集體訴訟</span>
+          <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="accordion-panel">
+          <div class="inner">
+            <span class="tag">勞動法</span>
+            <p>代理 42 名遭大型科技公司無預警裁員的員工，主張雇主違反勞動基準法之資遣程序。經調解與訴訟雙軌並行，最終為全數當事人爭取到合理資遣費與額外補償金共計新台幣 3,200 萬元。</p>
+          </div>
+        </div>
+      </div>
+      <!-- 案例 3 -->
+      <div class="accordion-item">
+        <button class="accordion-btn" aria-expanded="false" onclick="toggleAccordion(this)">
+          <span>智財侵權 — 專利侵害損害賠償</span>
+          <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="accordion-panel">
+          <div class="inner">
+            <span class="tag">智慧財產權</span>
+            <p>受託新創生技公司對競爭對手提起專利侵害訴訟，成功證明對方產品落入專利範圍，取得禁制令及新台幣 1.2 億元損害賠償。此案確立了生技領域專利保護的重要判例。</p>
+          </div>
+        </div>
+      </div>
+      <!-- 案例 4 -->
+      <div class="accordion-item">
+        <button class="accordion-btn" aria-expanded="false" onclick="toggleAccordion(this)">
+          <span>刑事辯護 — 企業主涉嫌背信案無罪辯護</span>
+          <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <div class="accordion-panel">
+          <div class="inner">
+            <span class="tag">刑事辯護</span>
+            <p>委託人為上市公司董事長，遭檢察官以背信罪起訴。本所詳細梳理財務紀錄與董事會決議，證明交易決策符合商業判斷法則，歷經三審最終獲判無罪確定。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 線上諮詢 -->
+<section data-block="contact" id="contact">
+  <div class="container">
+    <div class="section-title">
+      <h2>線上諮詢</h2>
+      <p>填寫表單，我們將於一個工作日內與您聯繫</p>
+      <span class="bar"></span>
+    </div>
+    <form id="consultForm" onsubmit="handleSubmit(event)">
+      <label>
+        姓名
+        <input type="text" name="name" required placeholder="請輸入您的姓名">
+      </label>
+      <label>
+        聯絡電話
+        <input type="tel" name="phone" required placeholder="例：0912-345-678">
+      </label>
+      <label>
+        案件類型
+        <select name="caseType" required>
+          <option value="" disabled selected>請選擇案件類型</option>
+          <option value="civil">民事訴訟</option>
+          <option value="criminal">刑事辯護</option>
+          <option value="labor">勞資爭議</option>
+          <option value="ip">智慧財產權</option>
+          <option value="corporate">企業法務</option>
+          <option value="family">家事案件</option>
+          <option value="other">其他</option>
+        </select>
+      </label>
+      <label>
+        案件簡述
+        <textarea name="description" required placeholder="請簡要描述您的案件狀況..."></textarea>
+      </label>
+      <button type="submit" class="submit-btn">送出諮詢</button>
+    </form>
+    <!-- 成功提示 -->
+    <div class="form-success" id="formSuccess">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-5"/></svg>
+      <h3>諮詢已送出</h3>
+      <p>感謝您的信任，我們將盡速與您聯繫。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 底部 -->
+<footer>
+  <div class="container">
+    <div class="privacy">
+      <!-- 鎖頭 SVG icon -->
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="11" width="18" height="11" rx="2"/>
+        <path d="M7 11V7a5 5 0 0110 0v4"/>
+      </svg>
+      隱私聲明：您的個人資料將依法嚴格保密，僅供法律諮詢用途使用。
+    </div>
+    <p>&copy; 2026 誠信聯合法律事務所 All Rights Reserved.</p>
+    <p style="margin-top:4px; font-size:0.8rem; opacity:0.6;">地址：台北市中正區重慶南路一段 100 號 12 樓 ｜ 電話：(02) 2345-6789</p>
+  </div>
+</footer>
+
+<script>
+/* === 摺疊面板邏輯 === */
+function toggleAccordion(btn) {
+  const panel = btn.nextElementSibling;
+  const isOpen = btn.getAttribute('aria-expanded') === 'true';
+
+  /* 關閉所有 */
+  document.querySelectorAll('.accordion-btn').forEach(b => {
+    b.setAttribute('aria-expanded', 'false');
+    b.nextElementSibling.style.maxHeight = null;
+  });
+
+  /* 切換點擊項 */
+  if (!isOpen) {
+    btn.setAttribute('aria-expanded', 'true');
+    panel.style.maxHeight = panel.scrollHeight + 'px';
+  }
+}
+
+/* === 表單送出 === */
+function handleSubmit(e) {
+  e.preventDefault();
+  const form = document.getElementById('consultForm');
+  const success = document.getElementById('formSuccess');
+  form.style.display = 'none';
+  success.classList.add('show');
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI 時代創業工作坊</title>
+<style>
+/* === 設計變數 === */
+:root {
+  --primary: #059669;
+  --primary-light: #d1fae5;
+  --primary-dark: #065f46;
+  --bg: #f8faf9;
+  --text: #111827;
+  --text-muted: #6b7280;
+  --surface: #ffffff;
+  --border: #e5e7eb;
+  --accent: #f59e0b;
+  --radius: 14px;
+  --shadow: 0 4px 20px rgba(5,150,105,.08);
+  --max-w: 1080px;
+  --transition: .3s ease;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:-apple-system,"Noto Sans TC","Helvetica Neue",sans-serif;background:var(--bg);color:var(--text);line-height:1.7}
+
+.container{max-width:var(--max-w);margin:0 auto;padding:0 24px}
+section{padding:72px 0}
+a{color:var(--primary);text-decoration:none}
+
+/* === 導覽列 === */
+nav{position:sticky;top:0;z-index:100;background:rgba(248,250,249,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:14px 0}
+nav .container{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+nav .logo{font-size:1.15rem;font-weight:700;color:var(--primary-dark)}
+nav .links{display:flex;gap:20px;flex-wrap:wrap}
+nav .links a{color:var(--text-muted);font-size:.9rem;transition:color var(--transition)}
+nav .links a:hover{color:var(--primary)}
+
+/* === 首屏 === */
+[data-block="hero"]{background:linear-gradient(135deg,var(--primary-dark) 0%,var(--primary) 100%);color:#fff;padding:80px 0;text-align:center}
+[data-block="hero"] h1{font-size:clamp(1.8rem,4.5vw,3rem);margin-bottom:12px}
+[data-block="hero"] .tagline{font-size:1.1rem;opacity:.85;margin-bottom:36px}
+[data-block="hero"] .cta{display:inline-block;padding:13px 32px;background:#fff;color:var(--primary-dark);border-radius:40px;font-weight:700;transition:transform var(--transition)}
+[data-block="hero"] .cta:hover{transform:translateY(-2px)}
+
+/* === 倒數計時器 === */
+.countdown-bar{background:var(--primary-dark);padding:20px 0;text-align:center}
+.countdown{display:inline-flex;gap:16px}
+.countdown .unit{display:flex;flex-direction:column;align-items:center}
+.countdown .num{font-size:2rem;font-weight:800;color:#fff;background:rgba(255,255,255,.15);padding:8px 16px;border-radius:10px;min-width:64px;text-align:center}
+.countdown .label{font-size:.75rem;color:rgba(255,255,255,.7);margin-top:4px}
+
+/* === 活動資訊 === */
+[data-block="info"]{background:var(--surface)}
+[data-block="info"] h2{font-size:1.6rem;margin-bottom:32px;color:var(--primary-dark);text-align:center}
+.info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
+.info-item{background:var(--bg);border-radius:var(--radius);padding:20px;text-align:center}
+.info-item .icon{font-size:1.6rem;margin-bottom:8px}
+.info-item .key{font-size:.85rem;color:var(--text-muted);margin-bottom:4px}
+.info-item .val{font-size:1.1rem;font-weight:700}
+
+/* === 名額進度條 === */
+.capacity-section{max-width:500px;margin:40px auto 0;text-align:center}
+.capacity-section .text{font-size:.95rem;color:var(--text-muted);margin-bottom:10px}
+.progress-track{height:20px;background:var(--border);border-radius:10px;overflow:hidden;position:relative}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--primary),var(--accent));border-radius:10px;transition:width .6s ease}
+.progress-label{font-size:.85rem;color:var(--text-muted);margin-top:6px}
+
+/* === 報名表單 === */
+[data-block="register"]{background:var(--bg)}
+[data-block="register"] h2{text-align:center;font-size:1.6rem;margin-bottom:36px;color:var(--primary-dark)}
+.form-wrap{max-width:600px;margin:0 auto}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.form-group{margin-bottom:18px}
+.form-group label{display:block;font-weight:600;margin-bottom:5px;font-size:.9rem}
+.form-group input,.form-group select,.form-group textarea{width:100%;padding:11px 14px;border:1px solid var(--border);border-radius:8px;font-size:.95rem;font-family:inherit;background:var(--surface);transition:border-color var(--transition)}
+.form-group input:focus,.form-group select:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(5,150,105,.1)}
+.btn-submit{display:block;width:100%;padding:13px;background:var(--primary);color:#fff;border:none;border-radius:8px;font-size:1rem;font-weight:700;cursor:pointer;transition:background var(--transition)}
+.btn-submit:hover{background:var(--primary-dark)}
+
+/* === 已報名名單 === */
+[data-block="attendees"]{background:var(--surface)}
+[data-block="attendees"] h2{text-align:center;font-size:1.6rem;margin-bottom:32px;color:var(--primary-dark)}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.9rem}
+thead{background:var(--primary-light)}
+th,td{padding:12px 16px;text-align:left;border-bottom:1px solid var(--border)}
+th{font-weight:700;font-size:.85rem;color:var(--primary-dark)}
+.badge{display:inline-block;padding:2px 10px;border-radius:20px;font-size:.8rem;font-weight:600}
+.badge-paid{background:#d1fae5;color:#065f46}
+.badge-pending{background:#fef3c7;color:#92400e}
+
+/* === 頁尾 === */
+footer{text-align:center;padding:36px 0;color:var(--text-muted);font-size:.85rem;border-top:1px solid var(--border)}
+
+/* === 提示 === */
+.toast{position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--primary);color:#fff;padding:14px 28px;border-radius:12px;font-size:.95rem;opacity:0;transition:all .4s ease;pointer-events:none;z-index:200}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+
+/* === RWD === */
+@media(max-width:640px){
+  .form-row{grid-template-columns:1fr}
+  .countdown .num{font-size:1.4rem;min-width:48px;padding:6px 10px}
+  section{padding:48px 0}
+}
+
+/* === sticky footer (batch patch) === */
+html, body { height: 100%; }
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+main { flex: 1 0 auto; }
+.site-footer, footer, [data-block="footer"] { margin-top: auto; }
+
+</style>
+</head>
+<body>
+
+<!-- 導覽列 -->
+<nav>
+  <div class="container">
+    <div class="logo">⚡ AI 時代創業工作坊</div>
+    <div class="links">
+      <a href="#info">活動資訊</a>
+      <a href="#register">立即報名</a>
+      <a href="#attendees">報名名單</a>
+    </div>
+  </div>
+</nav>
+
+<!-- 首屏 -->
+<section data-block="hero">
+  <div class="container">
+    <h1>AI 時代創業工作坊</h1>
+    <p class="tagline">從 0 到 1，用 AI 工具加速你的創業第一步</p>
+    <a href="#register" class="cta">立即報名 →</a>
+  </div>
+</section>
+
+<!-- 倒數計時器 -->
+<div class="countdown-bar">
+  <div class="countdown" id="countdown">
+    <div class="unit"><span class="num" id="cd-days">--</span><span class="label">天</span></div>
+    <div class="unit"><span class="num" id="cd-hours">--</span><span class="label">時</span></div>
+    <div class="unit"><span class="num" id="cd-mins">--</span><span class="label">分</span></div>
+    <div class="unit"><span class="num" id="cd-secs">--</span><span class="label">秒</span></div>
+  </div>
+</div>
+
+<!-- 活動資訊 -->
+<section data-block="info" id="info">
+  <div class="container">
+    <h2>活動資訊</h2>
+    <div class="info-grid">
+      <div class="info-item">
+        <div class="icon">📅</div>
+        <div class="key">日期</div>
+        <div class="val">2026 / 05 / 17（六）</div>
+      </div>
+      <div class="info-item">
+        <div class="icon">⏰</div>
+        <div class="key">時間</div>
+        <div class="val">09:00 – 17:00</div>
+      </div>
+      <div class="info-item">
+        <div class="icon">📍</div>
+        <div class="key">地點</div>
+        <div class="val">台北三創 12F 會議廳</div>
+      </div>
+      <div class="info-item">
+        <div class="icon">🎤</div>
+        <div class="key">講師</div>
+        <div class="val">李承翰｜AI 創業教練</div>
+      </div>
+      <div class="info-item">
+        <div class="icon">💰</div>
+        <div class="key">費用</div>
+        <div class="val">NT$ 1,200 起</div>
+      </div>
+      <div class="info-item">
+        <div class="icon">👥</div>
+        <div class="key">剩餘名額</div>
+        <div class="val" id="seats-left">22 / 80</div>
+      </div>
+    </div>
+    <!-- 名額進度條 -->
+    <div class="capacity-section">
+      <p class="text">報名進度</p>
+      <div class="progress-track">
+        <div class="progress-fill" id="progressBar" style="width:72.5%"></div>
+      </div>
+      <p class="progress-label">已報名 <strong>58</strong> / 80 人</p>
+    </div>
+  </div>
+</section>
+
+<!-- 報名表單 -->
+<section data-block="register" id="register">
+  <div class="container">
+    <h2>線上報名</h2>
+    <div class="form-wrap">
+      <form id="registerForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="r-name">姓名</label>
+            <input type="text" id="r-name" placeholder="王小明" required>
+          </div>
+          <div class="form-group">
+            <label for="r-email">Email</label>
+            <input type="email" id="r-email" placeholder="you@example.com" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="r-phone">電話</label>
+            <input type="tel" id="r-phone" placeholder="0912-345-678" required>
+          </div>
+          <div class="form-group">
+            <label for="r-ticket">票種</label>
+            <select id="r-ticket" required>
+              <option value="">— 請選擇 —</option>
+              <option>一般票 NT$1,500</option>
+              <option>早鳥票 NT$1,200（限前 30 名）</option>
+              <option>團體票 NT$1,000（3 人以上）</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="r-qty">報名人數</label>
+            <select id="r-qty">
+              <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="r-diet">飲食需求</label>
+            <select id="r-diet">
+              <option>葷食</option>
+              <option>素食（蛋奶素）</option>
+              <option>全素 / Vegan</option>
+              <option>不需要餐點</option>
+            </select>
+          </div>
+        </div>
+        <button type="submit" class="btn-submit">確認報名</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- 已報名名單 -->
+<section data-block="attendees" id="attendees">
+  <div class="container">
+    <h2>已報名名單</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>#</th><th>姓名</th><th>票種</th><th>狀態</th></tr></thead>
+        <tbody id="attendeeBody"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- 頁尾 -->
+<footer>
+  <div class="container">
+    <p>© 2026 AI 時代創業工作坊 ｜ 主辦：未來學院 Future Academy</p>
+  </div>
+</footer>
+
+<!-- 提示 -->
+<div class="toast" id="toast"></div>
+
+<script>
+/* === 倒數計時器 === */
+(function(){
+  /* 活動日期：2026-05-17 09:00 UTC+8 */
+  var target = new Date('2026-05-17T09:00:00+08:00').getTime();
+  function tick(){
+    var now = Date.now();
+    var diff = Math.max(0, target - now);
+    var d = Math.floor(diff/86400000);
+    var h = Math.floor((diff%86400000)/3600000);
+    var m = Math.floor((diff%3600000)/60000);
+    var s = Math.floor((diff%60000)/1000);
+    document.getElementById('cd-days').textContent = String(d).padStart(2,'0');
+    document.getElementById('cd-hours').textContent = String(h).padStart(2,'0');
+    document.getElementById('cd-mins').textContent = String(m).padStart(2,'0');
+    document.getElementById('cd-secs').textContent = String(s).padStart(2,'0');
+    if(diff > 0) requestAnimationFrame(function(){ setTimeout(tick, 1000 - (Date.now() % 1000)); });
+  }
+  tick();
+})();
+
+/* === 模擬報名名單（10 人） === */
+(function(){
+  var data = [
+    {name:'陳*琳',ticket:'早鳥票',status:'paid'},
+    {name:'林*廷',ticket:'一般票',status:'paid'},
+    {name:'黃*瑄',ticket:'團體票',status:'pending'},
+    {name:'張*豪',ticket:'早鳥票',status:'paid'},
+    {name:'李*穎',ticket:'一般票',status:'paid'},
+    {name:'王*傑',ticket:'團體票',status:'paid'},
+    {name:'吳*蓉',ticket:'早鳥票',status:'pending'},
+    {name:'劉*宏',ticket:'一般票',status:'paid'},
+    {name:'蔡*庭',ticket:'團體票',status:'paid'},
+    {name:'周*丞',ticket:'一般票',status:'pending'}
+  ];
+  var tbody = document.getElementById('attendeeBody');
+  data.forEach(function(p, i){
+    var tr = document.createElement('tr');
+    var statusClass = p.status === 'paid' ? 'badge-paid' : 'badge-pending';
+    var statusText = p.status === 'paid' ? '已付款' : '待付款';
+    tr.innerHTML = '<td>'+(i+1)+'</td><td>'+p.name+'</td><td>'+p.ticket+'</td><td><span class="badge '+statusClass+'">'+statusText+'</span></td>';
+    tbody.appendChild(tr);
+  });
+})();
+
+/* === 報名表單 === */
+document.getElementById('registerForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  var t = document.getElementById('toast');
+  t.textContent = '報名成功！確認信已寄至您的信箱 ✉️';
+  t.classList.add('show');
+  setTimeout(function(){ t.classList.remove('show'); }, 3000);
+  this.reset();
+});
+</script>
+</body>
+</html>

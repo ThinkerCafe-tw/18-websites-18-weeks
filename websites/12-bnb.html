@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>雲頂小屋 Cloud Top Lodge</title>
+<style>
+/* === 色彩系統 === */
+:root {
+  --primary: #78716c;
+  --primary-light: #a8a29e;
+  --primary-dark: #57534e;
+  --primary-bg: #fafaf9;
+  --warm: #d6d3d1;
+  --text: #1c1917;
+  --text-muted: #78716c;
+  --surface: #ffffff;
+  --border: #e7e5e4;
+  --accent-weekday: #16a34a;
+  --accent-weekend: #ea580c;
+  --accent-holiday: #dc2626;
+  --radius: 12px;
+  --shadow: 0 4px 24px rgba(120,113,108,0.1);
+  --shadow-lg: 0 12px 40px rgba(120,113,108,0.15);
+  --font: "Noto Sans TC", system-ui, -apple-system, sans-serif;
+  --transition: 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+
+/* === 基礎重置 === */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font);
+  color: var(--text);
+  background: var(--primary-bg);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; height: auto; display: block; }
+a { color: var(--primary-dark); text-decoration: none; }
+
+/* === 排版容器 === */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+section { padding: 80px 0; }
+.section-title { font-size: 2rem; font-weight: 800; text-align: center; margin-bottom: 12px; }
+.section-subtitle { text-align: center; color: var(--text-muted); margin-bottom: 48px; font-size: 1.05rem; }
+
+/* === 導覽列 === */
+[data-block="nav"] {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+[data-block="nav"] .container {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 64px;
+}
+.logo { font-weight: 800; font-size: 1.15rem; color: var(--primary-dark); display: flex; align-items: center; gap: 10px; }
+.nav-links { display: flex; gap: 28px; list-style: none; }
+.nav-links a { color: var(--text-muted); font-size: 0.95rem; font-weight: 500; transition: color var(--transition); }
+.nav-links a:hover { color: var(--primary-dark); }
+.nav-toggle { display: none; background: none; border: none; cursor: pointer; }
+
+/* === Hero === */
+[data-block="hero"] {
+  position: relative; height: 520px; overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+}
+.hero-bg {
+  position: absolute; inset: 0; z-index: 0;
+  background: url('https://images.unsplash.com/photo-1510798831971-661eb04b3739?w=1400&h=600&fit=crop') center/cover;
+}
+.hero-overlay {
+  position: absolute; inset: 0; z-index: 1;
+  background: linear-gradient(180deg, rgba(28,25,23,0.3) 0%, rgba(28,25,23,0.7) 100%);
+}
+.hero-content {
+  position: relative; z-index: 2; text-align: center; color: #fff; padding: 24px;
+}
+.hero-title { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 900; margin-bottom: 16px; letter-spacing: 2px; }
+.hero-desc { font-size: 1.15rem; opacity: 0.9; max-width: 480px; margin: 0 auto 28px; }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 32px; border-radius: 50px; font-weight: 700;
+  font-size: 1rem; cursor: pointer; border: none;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+.btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+.btn-white { background: #fff; color: var(--primary-dark); }
+.btn-primary { background: var(--primary-dark); color: #fff; }
+
+/* === 房型卡片 === */
+[data-block="rooms"] { background: var(--surface); }
+.room-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 28px;
+}
+.room-card {
+  border-radius: var(--radius); overflow: hidden;
+  background: var(--primary-bg); box-shadow: var(--shadow);
+  transition: transform var(--transition);
+}
+.room-card:hover { transform: translateY(-4px); }
+.room-img { width: 100%; height: 220px; object-fit: cover; }
+.room-body { padding: 24px; }
+.room-body h3 { font-size: 1.2rem; font-weight: 800; margin-bottom: 8px; }
+.room-icons { display: flex; gap: 16px; margin-bottom: 16px; flex-wrap: wrap; }
+.room-icon { display: flex; align-items: center; gap: 4px; font-size: 0.85rem; color: var(--text-muted); }
+.room-icon svg { flex-shrink: 0; }
+/* 動態定價色彩 */
+.room-pricing { display: flex; gap: 12px; flex-wrap: wrap; }
+.price-tag {
+  padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 700;
+}
+.price-weekday { background: #dcfce7; color: var(--accent-weekday); }
+.price-weekend { background: #ffedd5; color: var(--accent-weekend); }
+.price-holiday { background: #fee2e2; color: var(--accent-holiday); }
+
+/* === 訂房系統 === */
+[data-block="booking"] { background: var(--primary-bg); }
+.booking-layout {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 32px;
+  max-width: 900px; margin: 0 auto;
+}
+/* 日曆 */
+.calendar {
+  background: var(--surface); border-radius: var(--radius);
+  padding: 24px; box-shadow: var(--shadow);
+}
+.cal-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 16px;
+}
+.cal-header h3 { font-size: 1.1rem; font-weight: 700; }
+.cal-nav {
+  background: none; border: 2px solid var(--border); border-radius: 8px;
+  width: 36px; height: 36px; cursor: pointer; font-size: 1.1rem;
+  display: inline-flex; align-items: center; justify-content: center;
+  transition: background var(--transition);
+}
+.cal-nav:hover { background: var(--primary-bg); }
+.cal-grid {
+  display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px;
+  text-align: center;
+}
+.cal-dow { font-size: 0.75rem; font-weight: 700; color: var(--text-muted); padding: 8px 0; }
+.cal-day {
+  aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
+  border-radius: 8px; font-size: 0.9rem; cursor: pointer;
+  transition: background var(--transition);
+  position: relative;
+}
+.cal-day:hover:not(.empty):not(.unavail) { background: var(--warm); }
+.cal-day.empty { cursor: default; }
+.cal-day.today { font-weight: 800; box-shadow: inset 0 0 0 2px var(--primary-dark); }
+.cal-day.selected { background: var(--primary-dark); color: #fff; font-weight: 700; }
+.cal-day.unavail { color: #d4d4d4; cursor: not-allowed; text-decoration: line-through; }
+/* 日曆底部的定價圖例 */
+.cal-day.weekday-price::after { content: ''; position: absolute; bottom: 3px; width: 6px; height: 3px; border-radius: 2px; background: var(--accent-weekday); }
+.cal-day.weekend-price::after { content: ''; position: absolute; bottom: 3px; width: 6px; height: 3px; border-radius: 2px; background: var(--accent-weekend); }
+.cal-day.holiday-price::after { content: ''; position: absolute; bottom: 3px; width: 6px; height: 3px; border-radius: 2px; background: var(--accent-holiday); }
+.cal-legend {
+  display: flex; gap: 16px; margin-top: 16px; justify-content: center; flex-wrap: wrap;
+}
+.legend-item { display: flex; align-items: center; gap: 6px; font-size: 0.8rem; color: var(--text-muted); }
+.legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+.legend-dot.wd { background: var(--accent-weekday); }
+.legend-dot.we { background: var(--accent-weekend); }
+.legend-dot.hd { background: var(--accent-holiday); }
+.legend-dot.ua { background: #d4d4d4; }
+
+/* 訂房表單 */
+.book-form {
+  background: var(--surface); border-radius: var(--radius);
+  padding: 28px; box-shadow: var(--shadow);
+}
+.book-form h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 20px; }
+.form-group { margin-bottom: 18px; }
+.form-group label { display: block; font-weight: 600; margin-bottom: 6px; font-size: 0.95rem; }
+.form-group input, .form-group select {
+  width: 100%; padding: 12px 16px; border: 2px solid var(--border);
+  border-radius: 8px; font-size: 1rem; font-family: var(--font);
+  transition: border-color var(--transition); background: #fff;
+}
+.form-group input:focus, .form-group select:focus { outline: none; border-color: var(--primary-dark); }
+.selected-dates {
+  padding: 12px 16px; background: var(--primary-bg); border-radius: 8px;
+  font-size: 0.9rem; color: var(--text-muted); min-height: 44px;
+  border: 2px solid var(--border);
+}
+.form-msg {
+  text-align: center; padding: 16px; border-radius: 8px;
+  background: #dcfce7; color: #166534; font-weight: 600;
+  display: none; margin-top: 16px;
+}
+
+/* === Footer === */
+[data-block="footer"] {
+  background: var(--text); color: #a8a29e; padding: 40px 0;
+  text-align: center; font-size: 0.9rem;
+}
+[data-block="footer"] .ft-name { color: #fff; font-weight: 700; font-size: 1.1rem; margin-bottom: 8px; }
+
+/* === RWD === */
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .nav-toggle { display: block; }
+  .nav-links.open {
+    display: flex; flex-direction: column;
+    position: absolute; top: 64px; left: 0; right: 0;
+    background: #fff; padding: 24px; gap: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .booking-layout { grid-template-columns: 1fr; }
+  [data-block="hero"] { height: 400px; }
+  section { padding: 56px 0; }
+}
+
+/* === sticky footer (batch patch) === */
+html, body { height: 100%; }
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+main { flex: 1 0 auto; }
+.site-footer, footer, [data-block="footer"] { margin-top: auto; }
+
+</style>
+</head>
+<body>
+
+<!-- 導覽列 -->
+<nav data-block="nav">
+  <div class="container">
+    <a href="#" class="logo">
+      <!-- 山屋 SVG -->
+      <svg width="30" height="28" viewBox="0 0 30 28" fill="none">
+        <path d="M15 2L2 18h26L15 2z" fill="#78716c"/>
+        <path d="M15 2L8 14h14L15 2z" fill="#a8a29e"/>
+        <rect x="12" y="18" width="6" height="8" rx="1" fill="#57534e"/>
+        <rect x="4" y="18" width="22" height="2" rx="1" fill="#57534e"/>
+        <circle cx="22" cy="6" r="3" fill="#d6d3d1"/>
+      </svg>
+      雲頂小屋
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#rooms">房型介紹</a></li>
+      <li><a href="#booking">線上訂房</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="選單">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1c1917" stroke-width="2.5" stroke-linecap="round">
+        <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+<!-- Hero 區塊 -->
+<header data-block="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <h1 class="hero-title">雲頂小屋</h1>
+    <p class="hero-desc">Cloud Top Lodge<br>海拔 1,200 公尺的靜謐山居，遠離喧囂，擁抱雲海</p>
+    <a href="#booking" class="btn btn-white">查看空房</a>
+  </div>
+</header>
+
+<!-- 房型展示 -->
+<section data-block="rooms" id="rooms">
+  <div class="container">
+    <h2 class="section-title">房型介紹</h2>
+    <p class="section-subtitle">三種房型，滿足獨旅、雙人、家庭不同需求</p>
+    <div class="room-grid">
+
+      <!-- 單人房 -->
+      <article class="room-card">
+        <img class="room-img" src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=500&h=300&fit=crop" alt="單人房" loading="lazy">
+        <div class="room-body">
+          <h3>雲霧單人房</h3>
+          <div class="room-icons">
+            <span class="room-icon">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="6" width="12" height="7" rx="1.5" stroke="#78716c" stroke-width="1.5"/><path d="M4 6V4a4 4 0 018 0v2" stroke="#78716c" stroke-width="1.5"/></svg>
+              1 人
+            </span>
+            <span class="room-icon">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="8" width="14" height="6" rx="1" stroke="#78716c" stroke-width="1.5"/><rect x="3" y="5" width="10" height="3" rx="1" stroke="#78716c" stroke-width="1.5"/></svg>
+              單人床
+            </span>
+            <span class="room-icon">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="#78716c" stroke-width="1.5"/><path d="M8 4v4l3 2" stroke="#78716c" stroke-width="1.5" stroke-linecap="round"/></svg>
+              Wi-Fi
+            </span>
+            <span class="room-icon">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 14l3-8h6l3 8" stroke="#78716c" stroke-width="1.5" stroke-linecap="round"/><ellipse cx="8" cy="5" rx="3" ry="2" stroke="#78716c" stroke-width="1.5"/></svg>
+              山景
+            </span>
+          </div>
+          <div class="room-pricing">
+            <span class="price-tag price-weekday">平日 $1,800</span>
+            <span class="price-tag price-weekend">假日 $2,200</span>
+            <span class="price-tag price-holiday">連假 $2,800</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- 雙人房 -->
+      <article class="room-card">
+        <img class="room-img" src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=500&h=300&fit=crop" alt="雙人房" loading="lazy">
+        <div class="room-body">
+          <h3>晨曦雙人房</h3>
+          <div class="room-icons">
+            <span class="room-icon">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="6" width="12" height="7" rx="1.5" stroke="#78716c" stroke-width="1.5"/><path d="M4 6V4a4 4 0 018 0v2" stroke="#78716c" stroke-width="1.5"/></svg>
+              2 人
+            </span>
+            <span class="room-icon">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="8" width="14" height="6" rx="1" stroke="#78716c" stroke-width="1.5"/><rect x="3" y="5" width="10" height="3" rx="1" stroke="#78716c" stroke-width="1.5"/></svg>
+              雙人床
+            </span>
+            <span class="room-icon">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="#78716c" stroke-width="1.5"/><path d="M8 4v4l3 2" stroke="#78716c" stroke-width="1.5" stroke-linecap="round"/></svg>
+              Wi-Fi
+            </span>
+            <span class="room-icon">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="4" width="12" height="8" rx="1.5" stroke="#78716c" stroke-width="1.5"/><path d="M6 8h4" stroke="#78716c" stroke-width="1.5" stroke-linecap="round"/></svg>
+              浴缸
+            </span>
+          </div>
+          <div class="room-pricing">
+            <span class="price-tag price-weekday">平日 $2,800</span>
+            <span class="price-tag price-weekend">假日 $3,500</span>
+            <span class="price-tag price-holiday">連假 $4,200</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- 家庭房 -->
+      <article class="room-card">
+        <img class="room-img" src="https://images.unsplash.com/photo-1566665797739-1674de7a421a?w=500&h=300&fit=crop" alt="家庭房" loading="lazy">
+        <div class="room-body">
+          <h3>星空家庭房</h3>
+          <div class="room-icons">
+            <span class="room-icon">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="6" width="12" height="7" rx="1.5" stroke="#78716c" stroke-width="1.5"/><path d="M4 6V4a4 4 0 018 0v2" stroke="#78716c" stroke-width="1.5"/></svg>
+              4 人
+            </span>
+            <span class="room-icon">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="8" width="14" height="6" rx="1" stroke="#78716c" stroke-width="1.5"/><rect x="3" y="5" width="10" height="3" rx="1" stroke="#78716c" stroke-width="1.5"/></svg>
+              兩大床
+            </span>
+            <span class="room-icon">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="#78716c" stroke-width="1.5"/><path d="M8 4v4l3 2" stroke="#78716c" stroke-width="1.5" stroke-linecap="round"/></svg>
+              Wi-Fi
+            </span>
+            <span class="room-icon">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 12V5a1 1 0 011-1h8a1 1 0 011 1v7" stroke="#78716c" stroke-width="1.5"/><path d="M1 12h14" stroke="#78716c" stroke-width="1.5" stroke-linecap="round"/></svg>
+              陽台
+            </span>
+          </div>
+          <div class="room-pricing">
+            <span class="price-tag price-weekday">平日 $4,200</span>
+            <span class="price-tag price-weekend">假日 $5,200</span>
+            <span class="price-tag price-holiday">連假 $6,500</span>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- 訂房系統 -->
+<section data-block="booking" id="booking">
+  <div class="container">
+    <h2 class="section-title">線上訂房</h2>
+    <p class="section-subtitle">選擇日期與房型，輕鬆完成預訂</p>
+    <div class="booking-layout">
+
+      <!-- 手刻日曆 -->
+      <div class="calendar">
+        <div class="cal-header">
+          <button class="cal-nav" id="calPrev" aria-label="上個月">&lt;</button>
+          <h3 id="calTitle"></h3>
+          <button class="cal-nav" id="calNext" aria-label="下個月">&gt;</button>
+        </div>
+        <div class="cal-grid" id="calGrid">
+          <!-- 星期標題 -->
+          <div class="cal-dow">日</div><div class="cal-dow">一</div><div class="cal-dow">二</div>
+          <div class="cal-dow">三</div><div class="cal-dow">四</div><div class="cal-dow">五</div><div class="cal-dow">六</div>
+        </div>
+        <div class="cal-legend">
+          <span class="legend-item"><span class="legend-dot wd"></span>平日</span>
+          <span class="legend-item"><span class="legend-dot we"></span>假日</span>
+          <span class="legend-item"><span class="legend-dot hd"></span>連假</span>
+          <span class="legend-item"><span class="legend-dot ua"></span>已滿</span>
+        </div>
+      </div>
+
+      <!-- 訂房表單 -->
+      <div class="book-form">
+        <h3>訂房資訊</h3>
+        <form id="bookForm">
+          <div class="form-group">
+            <label>入住日期</label>
+            <div class="selected-dates" id="selectedDates">請在左側日曆選擇日期</div>
+          </div>
+          <div class="form-group">
+            <label for="roomType">房型選擇</label>
+            <select id="roomType" required>
+              <option value="">請選擇房型</option>
+              <option value="single">雲霧單人房</option>
+              <option value="double">晨曦雙人房</option>
+              <option value="family">星空家庭房</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="nights">入住晚數</label>
+            <select id="nights" required>
+              <option value="1">1 晚</option>
+              <option value="2">2 晚</option>
+              <option value="3">3 晚</option>
+              <option value="4">4 晚</option>
+              <option value="5">5 晚</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="guestName">訂房人姓名</label>
+            <input type="text" id="guestName" placeholder="您的姓名" required>
+          </div>
+          <div class="form-group">
+            <label for="guestPhone">聯絡電話</label>
+            <input type="tel" id="guestPhone" placeholder="0912-345-678" required>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">確認訂房</button>
+          <div class="form-msg" id="formMsg">訂房已送出！我們將於 24 小時內以簡訊確認。</div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer data-block="footer">
+  <div class="container">
+    <p class="ft-name">雲頂小屋 Cloud Top Lodge</p>
+    <p>南投縣鹿谷鄉雲頂路 88 號 ｜ 049-275-1688</p>
+    <p style="margin-top:8px;">© 2026 Cloud Top Lodge. All rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+/* 漢堡選單切換 */
+document.getElementById('navToggle').addEventListener('click', function() {
+  document.getElementById('navLinks').classList.toggle('open');
+});
+
+/* === 手刻日曆 === */
+(function() {
+  var now = new Date();
+  var currentYear = now.getFullYear();
+  var currentMonth = now.getMonth();
+  var selectedDate = null;
+
+  /* 連假日期清單（模擬） */
+  var holidays = [
+    '2026-04-03','2026-04-04','2026-04-05','2026-04-06',
+    '2026-05-01','2026-05-02','2026-05-03',
+    '2026-06-25','2026-06-26','2026-06-27','2026-06-28',
+    '2026-10-09','2026-10-10','2026-10-11',
+    '2026-01-01','2026-01-02'
+  ];
+
+  /* 不可訂日期（模擬已滿房） */
+  var unavailable = [
+    '2026-04-11','2026-04-12','2026-04-18','2026-04-25',
+    '2026-05-02','2026-05-03'
+  ];
+
+  function pad(n) { return n < 10 ? '0' + n : '' + n; }
+
+  function isHoliday(dateStr) { return holidays.indexOf(dateStr) !== -1; }
+  function isUnavailable(dateStr) { return unavailable.indexOf(dateStr) !== -1; }
+  function isWeekend(dayOfWeek) { return dayOfWeek === 0 || dayOfWeek === 6; }
+  function isPast(y, m, d) {
+    var check = new Date(y, m, d);
+    var today = new Date();
+    today.setHours(0,0,0,0);
+    return check < today;
+  }
+
+  function renderCalendar(year, month) {
+    var title = document.getElementById('calTitle');
+    var grid = document.getElementById('calGrid');
+    var months = ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
+    title.textContent = year + '年 ' + months[month];
+
+    /* 清除舊的日期格（保留星期標題） */
+    var days = grid.querySelectorAll('.cal-day');
+    for (var i = 0; i < days.length; i++) { grid.removeChild(days[i]); }
+
+    var firstDay = new Date(year, month, 1).getDay();
+    var daysInMonth = new Date(year, month + 1, 0).getDate();
+    var todayStr = now.getFullYear() + '-' + pad(now.getMonth() + 1) + '-' + pad(now.getDate());
+
+    /* 空白填充 */
+    for (var e = 0; e < firstDay; e++) {
+      var empty = document.createElement('div');
+      empty.className = 'cal-day empty';
+      grid.appendChild(empty);
+    }
+
+    /* 日期格 */
+    for (var d = 1; d <= daysInMonth; d++) {
+      var dateStr = year + '-' + pad(month + 1) + '-' + pad(d);
+      var dayOfWeek = new Date(year, month, d).getDay();
+      var el = document.createElement('div');
+      el.className = 'cal-day';
+      el.textContent = d;
+      el.setAttribute('data-date', dateStr);
+
+      if (isPast(year, month, d)) {
+        el.classList.add('unavail');
+      } else if (isUnavailable(dateStr)) {
+        el.classList.add('unavail');
+      } else {
+        /* 定價色彩標記 */
+        if (isHoliday(dateStr)) {
+          el.classList.add('holiday-price');
+        } else if (isWeekend(dayOfWeek)) {
+          el.classList.add('weekend-price');
+        } else {
+          el.classList.add('weekday-price');
+        }
+
+        /* 點擊選擇 */
+        el.addEventListener('click', function() {
+          var prev = grid.querySelector('.cal-day.selected');
+          if (prev) prev.classList.remove('selected');
+          this.classList.add('selected');
+          selectedDate = this.getAttribute('data-date');
+          document.getElementById('selectedDates').textContent = selectedDate;
+        });
+      }
+
+      if (dateStr === todayStr) el.classList.add('today');
+      if (dateStr === selectedDate) el.classList.add('selected');
+
+      grid.appendChild(el);
+    }
+  }
+
+  /* 初始渲染 */
+  renderCalendar(currentYear, currentMonth);
+
+  /* 月份切換 */
+  document.getElementById('calPrev').addEventListener('click', function() {
+    currentMonth--;
+    if (currentMonth < 0) { currentMonth = 11; currentYear--; }
+    renderCalendar(currentYear, currentMonth);
+  });
+  document.getElementById('calNext').addEventListener('click', function() {
+    currentMonth++;
+    if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+    renderCalendar(currentYear, currentMonth);
+  });
+})();
+
+/* 表單送出（preventDefault） */
+document.getElementById('bookForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  var dates = document.getElementById('selectedDates').textContent;
+  if (dates.indexOf('請') !== -1) {
+    alert('請先選擇入住日期');
+    return;
+  }
+  document.getElementById('formMsg').style.display = 'block';
+  this.reset();
+  document.getElementById('selectedDates').textContent = '請在左側日曆選擇日期';
+  setTimeout(function() {
+    document.getElementById('formMsg').style.display = 'none';
+  }, 4000);
+});
+</script>
+</body>
+</html>

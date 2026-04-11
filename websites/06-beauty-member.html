@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>花漾美學 Blossom Beauty — 會員中心</title>
+<style>
+/* === 全域變數 === */
+:root {
+  --primary: #db2777;
+  --primary-dark: #be185d;
+  --primary-light: #fdf2f8;
+  --text: #1e293b;
+  --text-light: #64748b;
+  --bg: #fffbfe;
+  --white: #ffffff;
+  --border: #f1e5ec;
+  --radius: 8px;
+  --bronze: #b45309;
+  --bronze-bg: #fef3c7;
+  --silver: #6b7280;
+  --silver-bg: #f3f4f6;
+  --gold: #d97706;
+  --gold-bg: #fffbeb;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { height: 100%; }
+/* Sticky footer: 內容少時 footer 仍貼視窗底部 */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Microsoft JhengHei", sans-serif;
+  line-height: 1.8;
+  color: var(--text);
+  background: var(--bg);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+[data-block="footer"] { margin-top: auto; flex-shrink: 0; }
+
+/* === 導覽列 === */
+[data-block="nav"] {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(255,251,254,.95);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border);
+}
+[data-block="nav"] .inner {
+  max-width: 1000px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 1.25rem; height: 60px;
+}
+.logo { font-size: 1.2rem; font-weight: 700; color: var(--primary); display: flex; align-items: center; gap: .5rem; }
+.nav-right { display: flex; align-items: center; gap: 1rem; }
+.nav-user { font-size: .85rem; color: var(--text-light); }
+.logout-btn {
+  padding: .35rem .85rem; border: 1px solid var(--border); border-radius: var(--radius);
+  background: var(--white); font-size: .8rem; cursor: pointer; transition: all .2s;
+}
+.logout-btn:hover { border-color: var(--primary); color: var(--primary); }
+
+/* === 登入區塊 === */
+[data-block="login"] {
+  display: flex; align-items: center; justify-content: center;
+  min-height: calc(100vh - 60px); padding: 2rem 1.25rem;
+}
+.login-card {
+  width: 100%; max-width: 400px;
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 2.5rem 2rem;
+  box-shadow: 0 2px 12px rgba(0,0,0,.04);
+  text-align: center;
+}
+.login-card svg { margin: 0 auto 1rem; }
+.login-card h2 { font-size: 1.5rem; margin-bottom: .25rem; }
+.login-card .sub { color: var(--text-light); font-size: .9rem; margin-bottom: 1.5rem; }
+.form-group { margin-bottom: 1rem; text-align: left; }
+.form-group label { display: block; font-size: .85rem; font-weight: 600; margin-bottom: .3rem; }
+.form-group input {
+  width: 100%; padding: .65rem .85rem;
+  border: 1px solid var(--border); border-radius: var(--radius);
+  font-size: .9rem; font-family: inherit; transition: border-color .2s;
+}
+.form-group input:focus { outline: none; border-color: var(--primary); }
+.login-btn {
+  width: 100%; padding: .75rem; margin-top: .5rem;
+  background: var(--primary); color: var(--white);
+  border: none; border-radius: var(--radius);
+  font-size: 1rem; font-weight: 600; cursor: pointer;
+  transition: background .2s;
+}
+.login-btn:hover { background: var(--primary-dark); }
+.login-error { color: #ef4444; font-size: .8rem; margin-top: .75rem; display: none; }
+.login-hint { font-size: .75rem; color: var(--text-light); margin-top: 1rem; }
+
+/* === 會員面板（登入後） === */
+[data-block="dashboard"] { display: none; padding: 2rem 1.25rem; }
+.dashboard-container { max-width: 900px; margin: 0 auto; }
+
+/* 會員資訊卡 */
+.member-card {
+  background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%);
+  border-radius: var(--radius); padding: 2rem;
+  display: flex; align-items: center; gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+.avatar {
+  width: 72px; height: 72px; border-radius: 50%;
+  background: var(--primary); color: var(--white);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.75rem; font-weight: 700; flex-shrink: 0;
+}
+.member-meta h2 { font-size: 1.35rem; margin-bottom: .25rem; }
+.member-meta .level { display: inline-block; padding: .2rem .6rem; border-radius: 4px; font-size: .75rem; font-weight: 600; }
+.level-bronze { background: var(--bronze-bg); color: var(--bronze); }
+.level-silver { background: var(--silver-bg); color: var(--silver); }
+.level-gold { background: var(--gold-bg); color: var(--gold); }
+.member-meta .points { font-size: .9rem; color: var(--text-light); margin-top: .35rem; }
+.points strong { color: var(--primary); font-size: 1.1rem; }
+
+/* 點數進度條 */
+.progress-section { margin-bottom: 2rem; }
+.progress-section h3 { font-size: 1.1rem; margin-bottom: .75rem; }
+.progress-bar-wrap {
+  background: var(--border); border-radius: 20px; height: 24px;
+  position: relative; overflow: hidden;
+}
+.progress-fill {
+  height: 100%; border-radius: 20px;
+  background: linear-gradient(90deg, var(--bronze), var(--primary), var(--gold));
+  transition: width .8s ease;
+}
+.progress-labels {
+  display: flex; justify-content: space-between;
+  margin-top: .35rem; font-size: .75rem; color: var(--text-light);
+}
+.progress-labels span { display: flex; align-items: center; gap: .25rem; }
+.tier-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+/* 優惠券 */
+.coupons-section h3 { font-size: 1.1rem; margin-bottom: 1rem; }
+.coupons-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem;
+}
+.coupon-card {
+  border: 1px solid var(--border); border-radius: var(--radius);
+  overflow: hidden; background: var(--white);
+  display: flex; transition: box-shadow .2s;
+}
+.coupon-card:hover { box-shadow: 0 4px 12px rgba(219,39,119,.1); }
+.coupon-left {
+  width: 90px; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  background: var(--primary-light); padding: 1rem .5rem;
+  border-right: 2px dashed var(--border); flex-shrink: 0;
+}
+.coupon-value { font-size: 1.5rem; font-weight: 800; color: var(--primary); }
+.coupon-unit { font-size: .7rem; color: var(--primary); }
+.coupon-right { padding: 1rem; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+.coupon-right h4 { font-size: .95rem; margin-bottom: .25rem; }
+.coupon-right .expire { font-size: .75rem; color: var(--text-light); margin-bottom: .5rem; }
+.coupon-right .cost { font-size: .75rem; color: var(--text-light); }
+.redeem-btn {
+  align-self: flex-start; margin-top: .5rem;
+  padding: .35rem .85rem; border: 1px solid var(--primary);
+  border-radius: var(--radius); background: var(--white);
+  color: var(--primary); font-size: .8rem; font-weight: 600;
+  cursor: pointer; transition: all .2s;
+}
+.redeem-btn:hover { background: var(--primary); color: var(--white); }
+.redeem-btn.redeemed { background: var(--border); border-color: var(--border); color: var(--text-light); cursor: default; }
+
+/* === Toast === */
+.toast {
+  position: fixed; bottom: 2rem; right: 2rem; background: var(--primary);
+  color: var(--white); padding: 1rem 1.5rem; border-radius: var(--radius);
+  box-shadow: 0 4px 12px rgba(0,0,0,.2); transform: translateY(120%);
+  transition: transform .3s; z-index: 200; font-size: .9rem;
+}
+.toast.show { transform: translateY(0); }
+
+/* === 頁尾 === */
+[data-block="footer"] {
+  background: #1e293b; color: rgba(255,255,255,.7);
+  text-align: center; padding: 2rem 1.25rem; font-size: .85rem;
+}
+
+/* === RWD === */
+@media (max-width: 768px) {
+  .member-card { flex-direction: column; text-align: center; }
+  .coupon-card { flex-direction: column; }
+  .coupon-left { width: 100%; flex-direction: row; gap: .5rem; border-right: none; border-bottom: 2px dashed var(--border); padding: .75rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- 導覽列 -->
+<nav data-block="nav">
+  <div class="inner">
+    <div class="logo">
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+        <circle cx="14" cy="14" r="4" fill="#db2777"/>
+        <circle cx="14" cy="6" r="4" fill="#f9a8d4" opacity=".8"/>
+        <circle cx="21" cy="10" r="4" fill="#f9a8d4" opacity=".7"/>
+        <circle cx="21" cy="18" r="4" fill="#f9a8d4" opacity=".6"/>
+        <circle cx="14" cy="22" r="4" fill="#f9a8d4" opacity=".7"/>
+        <circle cx="7" cy="18" r="4" fill="#f9a8d4" opacity=".8"/>
+        <circle cx="7" cy="10" r="4" fill="#f9a8d4" opacity=".7"/>
+      </svg>
+      花漾美學
+    </div>
+    <div class="nav-right" id="navRight">
+      <!-- 登入後顯示 -->
+    </div>
+  </div>
+</nav>
+
+<!-- 登入畫面 -->
+<section data-block="login" id="loginSection">
+  <div class="login-card">
+    <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
+      <circle cx="28" cy="28" r="26" stroke="#db2777" stroke-width="2"/>
+      <circle cx="28" cy="22" r="8" stroke="#db2777" stroke-width="2"/>
+      <path d="M12 46c0-8.837 7.163-16 16-16s16 7.163 16 16" stroke="#db2777" stroke-width="2"/>
+    </svg>
+    <h2>會員登入</h2>
+    <p class="sub">登入花漾美學，查看點數與優惠</p>
+    <form id="loginForm">
+      <div class="form-group">
+        <label for="loginEmail">Email</label>
+        <input type="email" id="loginEmail" placeholder="your@email.com" required>
+      </div>
+      <div class="form-group">
+        <label for="loginPwd">密碼</label>
+        <input type="password" id="loginPwd" placeholder="請輸入密碼" required>
+      </div>
+      <button type="submit" class="login-btn">登入</button>
+      <p class="login-error" id="loginError">Email 或密碼錯誤，請重新輸入</p>
+    </form>
+    <p class="login-hint">測試帳號：demo@blossom.com ／ 密碼：任意輸入</p>
+  </div>
+</section>
+
+<!-- 會員面板 -->
+<section data-block="dashboard" id="dashboardSection">
+  <div class="dashboard-container">
+    <!-- 會員資訊 -->
+    <div class="member-card">
+      <div class="avatar" id="avatarLetter">林</div>
+      <div class="member-meta">
+        <h2 id="memberName">林小花</h2>
+        <span class="level level-silver" id="memberLevel">銀卡會員</span>
+        <p class="points">目前點數：<strong id="memberPoints">1,280</strong> 點</p>
+      </div>
+    </div>
+
+    <!-- 點數進度 -->
+    <div class="progress-section">
+      <h3>會員等級進度</h3>
+      <div class="progress-bar-wrap">
+        <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+      </div>
+      <div class="progress-labels">
+        <span><span class="tier-dot" style="background:var(--bronze)"></span> 銅卡 0</span>
+        <span><span class="tier-dot" style="background:var(--silver)"></span> 銀卡 500</span>
+        <span><span class="tier-dot" style="background:var(--gold)"></span> 金卡 2000</span>
+      </div>
+    </div>
+
+    <!-- 優惠券 -->
+    <div class="coupons-section">
+      <h3>可兌換優惠券</h3>
+      <div class="coupons-grid" id="couponsGrid">
+        <!-- JS 產生 -->
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 頁尾 -->
+<footer data-block="footer">
+  <p>© 2026 花漾美學 Blossom Beauty ｜ 台中市北區美麗大道 123 號 ｜ 04-2222-3333</p>
+</footer>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+/* === 模擬會員資料 === */
+(function() {
+  const MEMBER = {
+    name: '林小花',
+    email: 'demo@blossom.com',
+    points: 1280,
+    level: 'silver', // bronze < 500, silver 500-1999, gold >= 2000
+    coupons: [
+      { id: 1, title: '剪髮 9 折優惠', value: '9折', unit: '折扣', expire: '2026-06-30', cost: 200 },
+      { id: 2, title: '護髮折抵 NT$200', value: '200', unit: '元', expire: '2026-05-15', cost: 400 },
+      { id: 3, title: '全服務 85 折', value: '85折', unit: '折扣', expire: '2026-07-31', cost: 600 }
+    ]
+  };
+
+  const loginSection = document.getElementById('loginSection');
+  const dashboardSection = document.getElementById('dashboardSection');
+  const navRight = document.getElementById('navRight');
+  let currentPoints = MEMBER.points;
+
+  /* 登入處理 */
+  document.getElementById('loginForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const email = document.getElementById('loginEmail').value;
+    // 模擬驗證：接受任何輸入（或 demo@blossom.com）
+    if (email) {
+      loginSection.style.display = 'none';
+      dashboardSection.style.display = 'block';
+      renderDashboard();
+      renderNavUser();
+    }
+  });
+
+  /* 渲染導覽列用戶資訊 */
+  function renderNavUser() {
+    navRight.innerHTML = '<span class="nav-user">' + MEMBER.name + '</span><button class="logout-btn" id="logoutBtn">登出</button>';
+    document.getElementById('logoutBtn').addEventListener('click', logout);
+  }
+
+  /* 登出 */
+  function logout() {
+    dashboardSection.style.display = 'none';
+    loginSection.style.display = 'flex';
+    navRight.innerHTML = '';
+    document.getElementById('loginForm').reset();
+  }
+
+  /* 渲染會員面板 */
+  function renderDashboard() {
+    document.getElementById('avatarLetter').textContent = MEMBER.name[0];
+    document.getElementById('memberName').textContent = MEMBER.name;
+    document.getElementById('memberPoints').textContent = currentPoints.toLocaleString();
+
+    // 等級
+    const levelEl = document.getElementById('memberLevel');
+    if (currentPoints >= 2000) {
+      levelEl.textContent = '金卡會員'; levelEl.className = 'level level-gold';
+    } else if (currentPoints >= 500) {
+      levelEl.textContent = '銀卡會員'; levelEl.className = 'level level-silver';
+    } else {
+      levelEl.textContent = '銅卡會員'; levelEl.className = 'level level-bronze';
+    }
+
+    // 進度條（0-2000 映射到 0-100%）
+    const pct = Math.min((currentPoints / 2000) * 100, 100);
+    setTimeout(() => {
+      document.getElementById('progressFill').style.width = pct + '%';
+    }, 100);
+
+    // 優惠券
+    renderCoupons();
+  }
+
+  /* 渲染優惠券 */
+  function renderCoupons() {
+    const grid = document.getElementById('couponsGrid');
+    grid.innerHTML = '';
+
+    MEMBER.coupons.forEach(c => {
+      const card = document.createElement('div');
+      card.className = 'coupon-card';
+      const canRedeem = currentPoints >= c.cost;
+      card.innerHTML = `
+        <div class="coupon-left">
+          <span class="coupon-value">${c.value}</span>
+          <span class="coupon-unit">${c.unit}</span>
+        </div>
+        <div class="coupon-right">
+          <div>
+            <h4>${c.title}</h4>
+            <p class="expire">有效期限：${c.expire}</p>
+            <p class="cost">兌換需 ${c.cost} 點</p>
+          </div>
+          <button class="redeem-btn ${canRedeem ? '' : 'redeemed'}" data-id="${c.id}" data-cost="${c.cost}" ${canRedeem ? '' : 'disabled'}>
+            ${canRedeem ? '立即兌換' : '點數不足'}
+          </button>
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+
+    // 綁定兌換事件
+    grid.querySelectorAll('.redeem-btn:not(.redeemed)').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const cost = parseInt(this.dataset.cost);
+        currentPoints -= cost;
+        this.textContent = '已兌換';
+        this.classList.add('redeemed');
+        this.disabled = true;
+        showToast(`兌換成功！扣除 ${cost} 點，剩餘 ${currentPoints.toLocaleString()} 點`);
+        renderDashboard();
+      });
+    });
+  }
+
+  /* Toast 提示 */
+  function showToast(msg) {
+    const toast = document.getElementById('toast');
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 3000);
+  }
+})();
+</script>
+</body>
+</html>
