@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>驗收總覽 — 18 週網站課程</title>
+<style>
+  :root{
+    --bg:#1a1b26;
+    --bg2:#16161e;
+    --panel:#1f2335;
+    --panel2:#24283b;
+    --border:#2f3549;
+    --text:#c0caf5;
+    --dim:#9aa5ce;
+    --muted:#565f89;
+    --accent:#7aa2f7;
+    --accent2:#bb9af7;
+    --ok:#9ece6a;
+    --warn:#e0af68;
+    --err:#f7768e;
+    --coffee:#c89b6d;
+    --coffee-dark:#6b4423;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  a{color:var(--accent);text-decoration:none}
+  a:hover{text-decoration:underline;color:var(--accent2)}
+  .wrap{max-width:1200px;margin:0 auto;padding:24px 20px 80px}
+  h1{font-size:26px;margin:0 0 6px;color:#fff;letter-spacing:.5px}
+  h2{font-size:18px;margin:32px 0 12px;color:var(--accent2);border-left:3px solid var(--accent2);padding-left:10px}
+  h3{font-size:15px;margin:18px 0 8px;color:var(--coffee)}
+  .subtitle{color:var(--dim);font-size:13px;margin-bottom:18px}
+
+  .hero{background:linear-gradient(135deg,var(--panel) 0%,var(--panel2) 100%);
+    border:1px solid var(--border);border-radius:12px;padding:22px 24px;margin-bottom:22px;
+    box-shadow:0 4px 20px rgba(0,0,0,.25)}
+  .hero-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-top:16px}
+  .stat{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:12px 14px}
+  .stat .n{font-size:22px;font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums}
+  .stat .l{font-size:11px;color:var(--dim);margin-top:2px;letter-spacing:.3px}
+  .stat.ok .n{color:var(--ok)}
+  .stat.warn .n{color:var(--warn)}
+  .stat.err .n{color:var(--err)}
+
+  .meta{display:flex;flex-wrap:wrap;gap:16px;margin-top:8px;font-size:12px;color:var(--dim)}
+  .meta b{color:var(--text);font-weight:600}
+  .deadline{color:var(--err);font-weight:700}
+
+  .progress{height:10px;background:var(--bg2);border-radius:5px;overflow:hidden;border:1px solid var(--border);margin-top:14px}
+  .progress > div{height:100%;background:linear-gradient(90deg,var(--ok),var(--accent));width:100%;transition:width .4s}
+
+  table{width:100%;border-collapse:collapse;background:var(--panel);border:1px solid var(--border);border-radius:8px;overflow:hidden}
+  thead{background:var(--panel2)}
+  th,td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--border);font-size:13px;vertical-align:middle}
+  th{color:var(--dim);font-weight:600;font-size:11px;letter-spacing:.5px;text-transform:uppercase}
+  tbody tr:hover{background:rgba(122,162,247,.06)}
+  tbody tr:last-child td{border-bottom:none}
+  td.num{font-variant-numeric:tabular-nums;color:var(--dim)}
+  td.wc{font-variant-numeric:tabular-nums;font-weight:600}
+  .wc.ok{color:var(--ok)}
+  .wc.warn{color:var(--warn)}
+  .wc.err{color:var(--err)}
+  td.ck{width:52px;text-align:center}
+  input[type=checkbox]{accent-color:var(--accent);width:16px;height:16px;cursor:pointer}
+
+  .chip{display:inline-block;padding:2px 8px;border-radius:999px;font-size:11px;background:var(--bg2);color:var(--dim);border:1px solid var(--border);margin-left:6px}
+
+  .btnbar{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0 20px}
+  button,.btn{background:var(--panel2);color:var(--text);border:1px solid var(--border);padding:9px 14px;border-radius:8px;
+    font-size:13px;cursor:pointer;font-family:inherit;transition:all .15s}
+  button:hover,.btn:hover{background:var(--accent);color:#1a1b26;border-color:var(--accent)}
+  .code{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:10px 12px;
+    font-family:"SF Mono",Menlo,Consolas,monospace;font-size:12px;color:var(--coffee);margin-top:8px;overflow-x:auto}
+
+  .checklist{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:18px 22px}
+  .checklist ol{margin:0;padding:0;list-style:none;counter-reset:step}
+  .checklist li{counter-increment:step;padding:10px 0;border-bottom:1px dashed var(--border);display:flex;align-items:flex-start;gap:12px}
+  .checklist li:last-child{border-bottom:none}
+  .checklist li::before{content:counter(step);flex-shrink:0;width:26px;height:26px;border-radius:50%;
+    background:var(--panel2);color:var(--coffee);display:flex;align-items:center;justify-content:center;
+    font-weight:700;font-size:12px;border:1px solid var(--border)}
+  .checklist label{flex:1;cursor:pointer;display:flex;align-items:center;gap:10px}
+  .checklist li.done label{color:var(--muted);text-decoration:line-through}
+  .counter{margin-top:14px;padding:12px 16px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;
+    font-size:13px;color:var(--dim);text-align:center}
+  .counter b{color:var(--ok);font-size:16px;font-variant-numeric:tabular-nums}
+
+  .assets{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+  .asset{background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:12px 14px}
+  .asset .t{color:var(--coffee);font-size:12px;letter-spacing:.3px;margin-bottom:4px}
+  .asset a{font-size:13px;word-break:break-all}
+
+  .foot{margin-top:40px;text-align:center;color:var(--muted);font-size:11px}
+
+  @media (max-width:640px){
+    table{font-size:11px}
+    th,td{padding:6px 8px}
+    .hero{padding:16px}
+    h1{font-size:20px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- HERO -->
+  <div class="hero">
+    <h1>驗收總覽 — 華視空院「AI 時代個人網站開發實戰」</h1>
+    <div class="subtitle">18 週課程 · 主教材 + 函授週刊 + 示範網站 一頁驗收</div>
+    <div class="meta">
+      <span>作者：<b>鄒慶士、湯明軒</b></span>
+      <span>首次交稿：<span class="deadline">2026-04-17</span></span>
+      <span>今日：<b id="today"></b></span>
+    </div>
+    <div class="hero-grid">
+      <div class="stat"><div class="n">19</div><div class="l">主教材講次</div></div>
+      <div class="stat"><div class="n">110,327</div><div class="l">主教材中文字</div></div>
+      <div class="stat"><div class="n">18</div><div class="l">函授週刊期數</div></div>
+      <div class="stat"><div class="n">18</div><div class="l">示範網站</div></div>
+      <div class="stat"><div class="n">9</div><div class="l">引用來源 URL</div></div>
+      <div class="stat ok"><div class="n">RED=0</div><div class="l">事實查核</div></div>
+      <div class="stat warn"><div class="n">YELLOW=6</div><div class="l">待確認項</div></div>
+    </div>
+    <div class="progress"><div id="overallBar" style="width:0%"></div></div>
+    <div style="margin-top:8px;font-size:12px;color:var(--dim);text-align:right">
+      整體驗收：<b id="overallText" style="color:var(--accent)">0 / 55</b> 項
+    </div>
+  </div>
+
+  <!-- QUICK ACTIONS -->
+  <h2>快速操作</h2>
+  <div class="btnbar">
+    <a class="btn" href="file:///Users/sulaxd/Documents/18-websites-18-weeks/book-preview.html" target="_blank">開啟 book-preview</a>
+    <a class="btn" href="file:///Users/sulaxd/Documents/18-websites-18-weeks/inbox/" target="_blank">打開 inbox 目錄</a>
+    <button onclick="showFactCheck()">顯示 fact-check 指令</button>
+    <a class="btn" href="file:///Users/sulaxd/Documents/18-websites-18-weeks/" target="_blank">專案根目錄</a>
+  </div>
+  <div id="factCheckCmd" style="display:none">
+    <div class="code" id="fcCmd">cd /Users/sulaxd/Documents/18-websites-18-weeks &amp;&amp; python3 fact-check.py</div>
+    <div style="font-size:11px;color:var(--dim);margin-top:4px">點擊上方區塊複製</div>
+  </div>
+
+  <!-- 主教材 -->
+  <h2>主教材 19 講 <span class="chip">110,327 字</span></h2>
+  <table id="tblChapters">
+    <thead>
+      <tr>
+        <th>講次</th>
+        <th>標題</th>
+        <th>字數</th>
+        <th>教材連結</th>
+        <th>示範網站</th>
+        <th class="ck">審稿</th>
+      </tr>
+    </thead>
+    <tbody id="chaptersBody"></tbody>
+  </table>
+
+  <!-- 函授週刊 -->
+  <h2>函授週刊 18 週 <span class="chip">每期約 1700-2400 字</span></h2>
+  <table id="tblWeekly">
+    <thead>
+      <tr>
+        <th>期</th>
+        <th>店名</th>
+        <th>字數</th>
+        <th>檔案連結</th>
+        <th class="ck">審稿</th>
+      </tr>
+    </thead>
+    <tbody id="weeklyBody"></tbody>
+  </table>
+
+  <!-- 其他資產 -->
+  <h2>其他資產</h2>
+  <div class="assets">
+    <div class="asset"><div class="t">整本書預覽</div>
+      <a href="file:///Users/sulaxd/Documents/18-websites-18-weeks/book-preview.html" target="_blank">book-preview.html</a></div>
+    <div class="asset"><div class="t">引用來源清單</div>
+      <a href="file:///Users/sulaxd/Documents/18-websites-18-weeks/citations.md" target="_blank">citations.md</a></div>
+    <div class="asset"><div class="t">事實查核腳本</div>
+      <a href="file:///Users/sulaxd/Documents/18-websites-18-weeks/fact-check.py" target="_blank">fact-check.py</a></div>
+    <div class="asset"><div class="t">圓桌會議記錄</div>
+      <a href="file:///Users/sulaxd/Documents/18-websites-18-weeks/hanshou-weekly/roundtable.md" target="_blank">hanshou-weekly/roundtable.md</a></div>
+    <div class="asset"><div class="t">華視函授格式偵察</div>
+      <a href="file:///Users/sulaxd/Documents/18-websites-18-weeks/hanshou-weekly/format-reference.md" target="_blank">hanshou-weekly/format-reference.md</a></div>
+    <div class="asset"><div class="t">寄華視 email 草稿</div>
+      <a href="file:///Users/sulaxd/Documents/18-websites-18-weeks/hanshou-weekly/email-to-cts-draft.md" target="_blank">hanshou-weekly/email-to-cts-draft.md</a></div>
+  </div>
+
+  <!-- Checklist -->
+  <h2>驗收 Checklist（9 步）</h2>
+  <div class="checklist">
+    <ol id="checklistList"></ol>
+    <div class="counter">你已經驗收 <b id="checklistCount">0</b> / 9 項</div>
+  </div>
+
+  <div class="foot">
+    資料來源：/Users/sulaxd/Documents/18-websites-18-weeks · 狀態使用 localStorage 保存在瀏覽器本機
+    · 產出時間 <span id="ts"></span>
+  </div>
+</div>
+
+<script>
+const ROOT = 'file:///Users/sulaxd/Documents/18-websites-18-weeks/';
+const LS_KEY = 'verif18w_v1';
+
+// ========== DATA ==========
+const chapters = [
+  {n:'01', title:'咖啡廳網站',        wc:5161, file:'01-教材內容/第01講-咖啡廳網站.md',            site:'websites/01-cafe.html'},
+  {n:'02', title:'健身房網站',        wc:7194, file:'01-教材內容/第02講-健身房網站.md',            site:'websites/02-gym.html'},
+  {n:'03', title:'攝影師作品集',      wc:5523, file:'01-教材內容/第03講-攝影師作品集.md',          site:'websites/03-portfolio.html'},
+  {n:'04', title:'診所預約網站',      wc:5242, file:'01-教材內容/第04講-診所預約網站.md',          site:'websites/04-clinic.html'},
+  {n:'05', title:'美容院會員網站(上)',wc:6354, file:'01-教材內容/第05講-美容院會員網站(上).md',    site:'websites/05-beauty-reg.html'},
+  {n:'06', title:'美容院會員網站(下)',wc:6505, file:'01-教材內容/第06講-美容院會員網站(下).md',    site:'websites/06-beauty-member.html'},
+  {n:'07', title:'法律事務所網站',    wc:6157, file:'01-教材內容/第07講-法律事務所網站.md',        site:'websites/07-law.html'},
+  {n:'08', title:'餐廳訂位網站',      wc:6147, file:'01-教材內容/第08講-餐廳訂位網站.md',          site:'websites/08-restaurant.html'},
+  {n:'09', title:'瑜伽教室網站',      wc:5791, file:'01-教材內容/第09講-瑜伽教室網站.md',          site:'websites/09-yoga.html'},
+  {n:'10', title:'寵物美容網站',      wc:5922, file:'01-教材內容/第10講-寵物美容網站.md',          site:'websites/10-pet.html'},
+  {n:'11', title:'個人教練網站',      wc:5676, file:'01-教材內容/第11講-個人教練網站.md',          site:'websites/11-trainer.html'},
+  {n:'12', title:'民宿訂房網站',      wc:5810, file:'01-教材內容/第12講-民宿訂房網站.md',          site:'websites/12-bnb.html'},
+  {n:'13', title:'家教媒合網站',      wc:6010, file:'01-教材內容/第13講-家教媒合網站.md',          site:'websites/13-tutor.html'},
+  {n:'14', title:'汽車保養網站',      wc:6508, file:'01-教材內容/第14講-汽車保養網站.md',          site:'websites/14-auto.html'},
+  {n:'15', title:'才藝教室網站',      wc:5792, file:'01-教材內容/第15講-才藝教室網站.md',          site:'websites/15-talent.html'},
+  {n:'16', title:'諮商預約網站',      wc:5247, file:'01-教材內容/第16講-諮商預約網站.md',          site:'websites/16-counseling.html'},
+  {n:'17', title:'活動報名網站',      wc:5114, file:'01-教材內容/第17講-活動報名網站.md',          site:'websites/17-event.html'},
+  {n:'18', title:'顧問預約網站',      wc:5072, file:'01-教材內容/第18講-顧問預約網站.md',          site:'websites/18-consultant.html'},
+  {n:'19', title:'總複習與商業應用',  wc:5102, file:'01-教材內容/第19講-總複習與商業應用.md',      site:null},
+];
+
+const weekly = [
+  {n:'W01', title:'巷口的咖啡廳',        wc:1797, file:'hanshou-weekly/W01-巷口的咖啡廳.md'},
+  {n:'W02', title:'鐵人工廠',            wc:1798, file:'hanshou-weekly/W02-鐵人工廠.md'},
+  {n:'W03', title:'林若晴攝影工作室',    wc:1855, file:'hanshou-weekly/W03-林若晴攝影工作室.md'},
+  {n:'W04', title:'安心家醫診所',        wc:1718, file:'hanshou-weekly/W04-安心家醫診所.md'},
+  {n:'W05', title:'花漾美學',            wc:1795, file:'hanshou-weekly/W05-花漾美學.md'},
+  {n:'W06', title:'花漾美學之二',        wc:1931, file:'hanshou-weekly/W06-花漾美學之二.md'},
+  {n:'W07', title:'誠信聯合法律',        wc:1774, file:'hanshou-weekly/W07-誠信聯合法律.md'},
+  {n:'W08', title:'暖食堂',              wc:1878, file:'hanshou-weekly/W08-暖食堂.md'},
+  {n:'W09', title:'靜心瑜伽',            wc:1730, file:'hanshou-weekly/W09-靜心瑜伽.md'},
+  {n:'W10', title:'毛孩沙龍',            wc:2129, file:'hanshou-weekly/W10-毛孩沙龍.md'},
+  {n:'W11', title:'陳柏翰Fitness',       wc:2052, file:'hanshou-weekly/W11-陳柏翰Fitness.md'},
+  {n:'W12', title:'雲頂小屋',            wc:2401, file:'hanshou-weekly/W12-雲頂小屋.md'},
+  {n:'W13', title:'家教好手',            wc:1797, file:'hanshou-weekly/W13-家教好手.md'},
+  {n:'W14', title:'信賴汽車保養',        wc:1800, file:'hanshou-weekly/W14-信賴汽車保養.md'},
+  {n:'W15', title:'創藝星球',            wc:1800, file:'hanshou-weekly/W15-創藝星球.md'},
+  {n:'W16', title:'心安諮商',            wc:1797, file:'hanshou-weekly/W16-心安諮商.md'},
+  {n:'W17', title:'一個人的顧問辦公室',  wc:1769, file:'hanshou-weekly/W17-一個人的顧問辦公室.md'},
+  {n:'W18', title:'回到街口',            wc:2067, file:'hanshou-weekly/W18-回到街口.md'},
+];
+
+const checklistSteps = [
+  '讀 book-preview.html 快速掃 19 講',
+  '讀 W01 + W18 確認首尾函授風格',
+  '讀 W09 + W10 確認低谷 → 重新呼吸的轉折',
+  '讀 3 個代表函授（W01 / W09 / W18）',
+  '點開 3 個代表網站（cafe / clinic / consultant）',
+  '確認 citations.md 的 9 個真實來源 URL',
+  '跑 fact-check.py 確認 RED=0',
+  '撰寫給鄒老師的審稿 email',
+  '確認 4/17 實際要交什麼（問鄒老師）',
+];
+
+// ========== STATE ==========
+function loadState(){
+  try { return JSON.parse(localStorage.getItem(LS_KEY) || '{}'); }
+  catch(e){ return {}; }
+}
+function saveState(s){ localStorage.setItem(LS_KEY, JSON.stringify(s)); }
+let state = loadState();
+state.chapters = state.chapters || {};
+state.weekly   = state.weekly   || {};
+state.check    = state.check    || {};
+
+// ========== HELPERS ==========
+function wcClass(wc, type){
+  // 主教材：目標 5000-6500 合格，>7000 警告，<5000 警告
+  // 函授：目標 1700-1900 合格，>2000 警告，<1700 警告
+  if(type==='ch'){
+    if(wc<5000 || wc>7000) return 'wc err';
+    if(wc<5200 || wc>6700) return 'wc warn';
+    return 'wc ok';
+  }else{
+    if(wc<1700 || wc>2200) return 'wc warn';
+    if(wc>2400) return 'wc err';
+    return 'wc ok';
+  }
+}
+function enc(p){ return encodeURI(p); }
+
+// ========== RENDER CHAPTERS ==========
+const chBody = document.getElementById('chaptersBody');
+chapters.forEach(c=>{
+  const tr = document.createElement('tr');
+  const fileUrl = ROOT + enc(c.file);
+  const siteUrl = c.site ? ROOT + enc(c.site) : null;
+  tr.innerHTML = `
+    <td class="num">第${c.n}講</td>
+    <td>${c.title}</td>
+    <td class="${wcClass(c.wc,'ch')}">${c.wc.toLocaleString()}</td>
+    <td><a href="${fileUrl}" target="_blank" data-tick="ch-${c.n}">開啟教材</a></td>
+    <td>${siteUrl ? `<a href="${siteUrl}" target="_blank" data-tick="ch-${c.n}">預覽站</a>` : '<span style="color:var(--muted)">—</span>'}</td>
+    <td class="ck"><input type="checkbox" data-type="ch" data-id="${c.n}" ${state.chapters[c.n]?'checked':''}></td>
+  `;
+  chBody.appendChild(tr);
+});
+
+// ========== RENDER WEEKLY ==========
+const wkBody = document.getElementById('weeklyBody');
+weekly.forEach(w=>{
+  const tr = document.createElement('tr');
+  const fileUrl = ROOT + enc(w.file);
+  tr.innerHTML = `
+    <td class="num">${w.n}</td>
+    <td>${w.title}</td>
+    <td class="${wcClass(w.wc,'wk')}">${w.wc.toLocaleString()}</td>
+    <td><a href="${fileUrl}" target="_blank" data-tick="wk-${w.n}">開啟週刊</a></td>
+    <td class="ck"><input type="checkbox" data-type="wk" data-id="${w.n}" ${state.weekly[w.n]?'checked':''}></td>
+  `;
+  wkBody.appendChild(tr);
+});
+
+// ========== CHECKLIST ==========
+const clList = document.getElementById('checklistList');
+checklistSteps.forEach((txt,i)=>{
+  const id = 'step'+i;
+  const li = document.createElement('li');
+  if(state.check[id]) li.classList.add('done');
+  li.innerHTML = `<label>
+    <input type="checkbox" data-type="ck" data-id="${id}" ${state.check[id]?'checked':''}>
+    <span>${txt}</span>
+  </label>`;
+  clList.appendChild(li);
+});
+
+// ========== EVENTS ==========
+document.addEventListener('change', e=>{
+  const t = e.target;
+  if(t.tagName!=='INPUT' || t.type!=='checkbox') return;
+  const type = t.dataset.type, id = t.dataset.id;
+  if(type==='ch') state.chapters[id] = t.checked;
+  else if(type==='wk') state.weekly[id] = t.checked;
+  else if(type==='ck'){
+    state.check[id] = t.checked;
+    t.closest('li').classList.toggle('done', t.checked);
+  }
+  saveState(state);
+  updateCounters();
+});
+
+// 點連結自動打勾
+document.addEventListener('click', e=>{
+  const a = e.target.closest('a[data-tick]');
+  if(!a) return;
+  const tick = a.dataset.tick;
+  if(tick.startsWith('ch-')){
+    const id = tick.slice(3);
+    state.chapters[id] = true;
+    const cb = document.querySelector(`input[data-type="ch"][data-id="${id}"]`);
+    if(cb) cb.checked = true;
+  } else if(tick.startsWith('wk-')){
+    const id = tick.slice(3);
+    state.weekly[id] = true;
+    const cb = document.querySelector(`input[data-type="wk"][data-id="${id}"]`);
+    if(cb) cb.checked = true;
+  }
+  saveState(state);
+  updateCounters();
+});
+
+function updateCounters(){
+  const chDone = Object.values(state.chapters).filter(Boolean).length;
+  const wkDone = Object.values(state.weekly).filter(Boolean).length;
+  const ckDone = Object.values(state.check).filter(Boolean).length;
+  const total = chapters.length + weekly.length + 18; // 19 + 18 + 18 = 55
+  const done = chDone + wkDone + Math.min(wkDone,18); // site count = weekly count (placeholder)
+  // 更精準：用章節(19) + 週刊(18) + 網站視為週刊一起算
+  const realDone = chDone + wkDone + wkDone; // 不正確
+  // 簡化：直接用 chDone + wkDone，總數 19+18=37 ... 但需求是 55
+  // 55 = 19(主教材) + 18(函授) + 18(網站)
+  // 視 chapter check 代表教材+網站一起已驗收 → 19*1 + 18*1 + 18*1 = 55 需分開
+  // 這裡簡化：chapter checkbox = 已驗收該講(含網站)，算作 2 項（教材+網站）除了第19講
+  const siteCount = 18;
+  const chCheckedArr = chapters.filter(c=>state.chapters[c.n]);
+  const chTextDone = chCheckedArr.length;
+  const chSiteDone = chCheckedArr.filter(c=>c.site).length;
+  const grand = chTextDone + chSiteDone + wkDone;
+  document.getElementById('overallText').textContent = `${grand} / 55`;
+  document.getElementById('overallBar').style.width = (grand/55*100).toFixed(1)+'%';
+  document.getElementById('checklistCount').textContent = ckDone;
+}
+updateCounters();
+
+// ========== MISC ==========
+document.getElementById('today').textContent = new Date().toLocaleDateString('zh-TW',{year:'numeric',month:'2-digit',day:'2-digit'});
+document.getElementById('ts').textContent = new Date().toLocaleString('zh-TW');
+
+function showFactCheck(){
+  const el = document.getElementById('factCheckCmd');
+  el.style.display = el.style.display==='none'?'block':'none';
+}
+document.addEventListener('click', e=>{
+  if(e.target.id==='fcCmd'){
+    navigator.clipboard.writeText(e.target.textContent.trim()).then(()=>{
+      e.target.style.color = 'var(--ok)';
+      setTimeout(()=>e.target.style.color='var(--coffee)', 800);
+    });
+  }
+});
+</script>
+</body>
+</html>
