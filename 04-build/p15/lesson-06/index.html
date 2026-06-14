@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>明安法律事務所｜新北商務合約與民事糾紛・預約初談</title>
+<meta name="description" content="新北板橋的法律事務所，專注商務合約糾紛、民事債務與常年法律顧問。清楚的案件類型、初談流程、收費方式與委任邊界，線上預約初談前先完成利益衝突檢查。">
+<style>
+  :root {
+    --bg: #ffffff;
+    --bg-soft: #f3f4f2;    /* 低飽和淺灰 */
+    --ink: #22303c;        /* 墨藍 */
+    --ink-soft: #5d6b76;
+    --accent: #1f3a5f;     /* 深藍 */
+    --line: #dde1e4;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Noto Sans TC", "PingFang TC", sans-serif;
+    color: var(--ink);
+    background: var(--bg);
+    line-height: 1.8;
+  }
+  header {
+    padding: 1.2rem 6vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--line);
+  }
+  header .brand { font-weight: 700; letter-spacing: 0.08em; color: var(--accent); }
+  header nav a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    margin-left: 1.2rem;
+    font-size: 0.95rem;
+  }
+  header nav a:hover { color: var(--accent); }
+  section { padding: 4rem 6vw; }
+  h1 { font-size: 2rem; font-weight: 700; letter-spacing: 0.06em; }
+  h2 { font-size: 1.4rem; margin-bottom: 1.5rem; letter-spacing: 0.08em; color: var(--accent); }
+  h3 { font-size: 1.05rem; margin-bottom: 0.4rem; }
+  .hero { background: var(--bg-soft); text-align: center; padding: 6rem 6vw; }
+  .hero p.position { margin-top: 0.6rem; color: var(--ink-soft); letter-spacing: 0.1em; }
+  .hero p.tagline { margin: 1.2rem auto 2rem; max-width: 30em; }
+  .btn {
+    display: inline-block;
+    min-height: 44px;
+    padding: 0.7rem 2rem;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    text-decoration: none;
+    margin: 0 0.5rem;
+  }
+  .btn:hover { background: var(--bg); }
+  .btn.primary { background: var(--accent); color: #fff; }
+  .btn.primary:hover { background: #2c4d7a; }
+  .lawyers { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+  .lawyer { display: grid; grid-template-columns: 140px 1fr; gap: 1.2rem; align-items: start; }
+  .lawyer img { width: 100%; height: auto; display: block; }
+  .lawyer ul { list-style: none; margin-top: 0.4rem; }
+  .lawyer li { font-size: 0.92rem; color: var(--ink-soft); padding: 0.1rem 0; }
+  .rules { margin-top: 2.5rem; max-width: 44em; }
+  .rules p { color: var(--ink-soft); }
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.2rem;
+  }
+  .card { border: 1px solid var(--line); padding: 1.5rem; background: var(--bg); }
+  .card ul { list-style: none; margin-top: 0.6rem; }
+  .card li { font-size: 0.92rem; color: var(--ink-soft); padding: 0.15rem 0; }
+  .card .fee { font-weight: 700; margin-top: 0.6rem; color: var(--accent); }
+  .card .limit { font-size: 0.85rem; color: var(--ink-soft); margin-top: 0.6rem; border-top: 1px dashed var(--line); padding-top: 0.6rem; }
+  .steps { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 2rem; }
+  .steps div {
+    flex: 1;
+    min-width: 120px;
+    background: var(--bg-soft);
+    padding: 1rem;
+    text-align: center;
+    font-size: 0.95rem;
+  }
+  table.slots { border-collapse: collapse; width: 100%; max-width: 36em; font-size: 0.95rem; }
+  table.slots th, table.slots td { border: 1px solid var(--line); padding: 0.5rem 0.8rem; text-align: left; }
+  table.slots th { background: var(--bg-soft); font-weight: 700; }
+  table.slots .full { color: var(--ink-soft); }
+  form { max-width: 36em; }
+  form label { display: block; margin-top: 1rem; font-size: 0.95rem; }
+  form input, form select, form textarea {
+    width: 100%;
+    min-height: 44px;
+    padding: 0.5rem 0.7rem;
+    border: 1px solid var(--line);
+    font-size: 1rem;
+    margin-top: 0.3rem;
+    background: var(--bg);
+  }
+  form input:focus, form select:focus, form textarea:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+  }
+  form textarea { min-height: 110px; }
+  form .agree { display: flex; gap: 0.6rem; align-items: flex-start; margin-top: 1.2rem; font-size: 0.92rem; }
+  form .agree input { width: auto; min-height: auto; margin-top: 0.4rem; }
+  form button {
+    margin-top: 1.5rem;
+    min-height: 48px;
+    padding: 0.8rem 2.5rem;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  form button:hover { background: #2c4d7a; }
+  .confirm-demo {
+    margin-top: 1.5rem;
+    max-width: 36em;
+    border-left: 4px solid var(--accent);
+    background: var(--bg-soft);
+    padding: 1rem 1.2rem;
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+  }
+  .policy-list { max-width: 44em; }
+  .policy-list h3 { margin-top: 1.6rem; }
+  .policy-list p, .policy-list li { color: var(--ink-soft); font-size: 0.95rem; }
+  .policy-list ul { padding-left: 1.4rem; }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: start; }
+  .contact-grid p { margin-bottom: 0.6rem; }
+  .contact-grid img { width: 100%; height: auto; display: block; }
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 2.5rem 6vw;
+    color: var(--ink-soft);
+    font-size: 0.9rem;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  /* 平板：案件類型卡片改為兩欄，律師欄改為單欄 */
+  @media (max-width: 1024px) {
+    .cards { grid-template-columns: repeat(2, 1fr); }
+    .lawyers { grid-template-columns: 1fr; }
+    .contact-grid { grid-template-columns: 1fr; }
+  }
+  /* 手機：全部單欄，header 改為直向，按鈕與表單欄位維持易點 */
+  @media (max-width: 640px) {
+    header { flex-direction: column; align-items: flex-start; gap: 0.4rem; }
+    header nav a { margin-left: 0; margin-right: 1rem; }
+    section { padding: 3rem 5vw; }
+    .hero { padding: 4rem 5vw; }
+    h1 { font-size: 1.6rem; }
+    .cards { grid-template-columns: 1fr; }
+    .lawyer { grid-template-columns: 1fr; }
+    .steps { flex-direction: column; }
+    .btn { display: block; margin: 0.5rem auto; max-width: 280px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">明安法律事務所</div>
+  <nav>
+    <a href="#services">案件類型</a>
+    <a href="#process">初談流程</a>
+    <a href="#trust">律師資歷</a>
+    <a href="#policy">收費與規則</a>
+    <a href="#booking">預約初談</a>
+  </nav>
+</header>
+
+<main>
+
+  <!-- 首頁主視覺 -->
+  <section class="hero">
+    <h1>明安法律事務所</h1>
+    <p class="position">新北板橋｜商務合約糾紛・民事債務・常年法律顧問</p>
+    <p class="tagline">一封陌生的法院公文，對大多數人來說是人生中第一次。我們接過很多這樣的第一次：先聽你說發生什麼事，再告訴你下一步可以怎麼走。</p>
+    <a class="btn primary" href="#booking">預約初談</a>
+    <a class="btn" href="#services">了解案件類型</a>
+  </section>
+
+  <!-- 信任證據：律師資歷與辦案原則 -->
+  <section id="trust">
+    <h2>律師資歷與辦案原則</h2>
+    <div class="lawyers">
+      <div class="lawyer">
+        <!-- 替換為 images/lawyer-chen.jpg -->
+        <img src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=800&h=600&fit=crop&auto=format" alt="主持律師陳明安工作照">
+        <div>
+          <h3>陳明安 律師（主持律師）</h3>
+          <ul>
+            <li>中華民國律師高考及格</li>
+            <li>執業 14 年，專注商務合約與民事糾紛</li>
+            <li>服務語言：華語、台語</li>
+          </ul>
+        </div>
+      </div>
+      <div class="lawyer">
+        <!-- 替換為 images/lawyer-hsu.jpg -->
+        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=800&h=600&fit=crop&auto=format" alt="受僱律師許文心工作照">
+        <div>
+          <h3>許文心 律師</h3>
+          <ul>
+            <li>中華民國律師高考及格</li>
+            <li>執業 6 年，專注債務請求與契約審閱</li>
+            <li>服務語言：華語、英語</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="rules">
+      <h3>我們的辦案原則</h3>
+      <p>我們不對任何案件保證結果。初談時會直接告訴你：這個案件的難點在哪裡、不確定的因素是什麼、值不值得走訴訟。委任後費用分階段計算，每兩週提供一次書面進度回報，你隨時知道案件走到哪裡、每一筆費用在付什麼。</p>
+      <p>常見的合約糾紛案件，我們會先說明爭點與可能的處理方向，例如先行協商、聲請調解或提起訴訟；至於哪一條路適合你，要等了解完整事實之後才能評估。</p>
+    </div>
+  </section>
+
+  <!-- 核心流程之一：案件類型 -->
+  <section id="services" style="background: var(--bg-soft)">
+    <h2>案件類型</h2>
+    <div class="cards">
+      <div class="card">
+        <h3>商務合約糾紛</h3>
+        <ul>
+          <li>合約解釋、違約求償、契約解除</li>
+          <li>協商、調解、訴訟代理</li>
+          <li>初談 60 分鐘，說明爭點與可行方向</li>
+        </ul>
+        <p class="fee">初談費 NT$ 2,000／60 分鐘</p>
+        <p class="limit">限制：不承接已逾法定時效，或與本所現有委任人利益衝突之案件。</p>
+      </div>
+      <div class="card">
+        <h3>民事債務糾紛</h3>
+        <ul>
+          <li>欠款請求、本票裁定、強制執行</li>
+          <li>債權保全的可行性評估</li>
+          <li>初談 60 分鐘，先評估證據與執行可能</li>
+        </ul>
+        <p class="fee">初談費 NT$ 2,000／60 分鐘</p>
+        <p class="limit">限制：對造財產狀況不明時，會先說明執行風險，不建議貿然興訟。</p>
+      </div>
+      <div class="card">
+        <h3>常年法律顧問</h3>
+        <ul>
+          <li>合約審閱、法律諮詢、法律意見書</li>
+          <li>適合中小企業與新創團隊</li>
+          <li>每月固定費用，依服務範圍議定</li>
+        </ul>
+        <p class="fee">月費 NT$ 10,000 起（依範圍議定）</p>
+        <p class="limit">限制：顧問服務不含訴訟代理，訴訟另以委任契約約定。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 核心流程之二：初談流程與時段 -->
+  <section id="process">
+    <h2>初談流程</h2>
+    <div class="steps">
+      <div>1. 送出初談表單<br>留下案件基本資訊</div>
+      <div>2. 利益衝突檢查<br>確認本所可否受理</div>
+      <div>3. 確認初談時段<br>一個工作日內回覆</div>
+      <div>4. 進行初談<br>說明爭點與可行方向</div>
+      <div>5. 決定是否委任<br>雙方確認範圍與費用</div>
+    </div>
+    <h3>近期初談時段（示意）</h3>
+    <table class="slots">
+      <tr><th>日期</th><th>時段</th><th>名額</th><th>狀態</th></tr>
+      <tr><td>6 月 16 日（一）</td><td>10:00–12:00</td><td>2</td><td>可預約</td></tr>
+      <tr><td>6 月 17 日（二）</td><td>14:00–17:00</td><td>3</td><td>可預約</td></tr>
+      <tr><td>6 月 19 日（四）</td><td>10:00–12:00</td><td>0</td><td class="full">已額滿</td></tr>
+      <tr><td>6 月 20 日（五）</td><td>14:00–17:00</td><td>1</td><td>可預約</td></tr>
+    </table>
+  </section>
+
+  <!-- 資料表單：預約初談 -->
+  <section id="booking" style="background: var(--bg-soft)">
+    <h2>預約初談</h2>
+    <form>
+      <label>姓名
+        <input type="text" name="name" placeholder="您的稱呼" required>
+      </label>
+      <label>聯絡方式（電話或 Email）
+        <input type="text" name="contact" placeholder="手機號碼或 example@mail.example" required>
+      </label>
+      <label>案件類型
+        <select name="case-type">
+          <option>商務合約糾紛</option>
+          <option>民事債務糾紛</option>
+          <option>常年法律顧問</option>
+          <option>還不確定，想先初談</option>
+        </select>
+      </label>
+      <label>對造或相關人名稱（供利益衝突檢查）
+        <input type="text" name="counterparty" placeholder="例如：對方公司或個人名稱">
+      </label>
+      <label>希望初談時段
+        <select name="slot">
+          <option>6 月 16 日（一）10:00–12:00</option>
+          <option>6 月 17 日（二）14:00–17:00</option>
+          <option>6 月 20 日（五）14:00–17:00</option>
+          <option>以上皆不行，請與我另約</option>
+        </select>
+      </label>
+      <label>簡述發生什麼事（備註）
+        <textarea name="message" placeholder="例如：收到法院公文、合約對方未付款、想簽顧問合約。不需要寫得完整，初談時律師會再詢問細節。"></textarea>
+      </label>
+      <div class="agree">
+        <input type="checkbox" id="agree" required>
+        <label for="agree">我已了解：送出表單不代表本所已接受委任。本所需完成利益衝突檢查與初步確認後，才會安排正式初談或委任。</label>
+      </div>
+      <button type="submit">送出初談申請</button>
+    </form>
+    <div class="confirm-demo">
+      送出後您會在頁面上看到這則確認訊息（本原型為靜態示意，不會真的送出資料）：<br>
+      「已收到您的初談申請。我們會先進行利益衝突檢查，並在一個工作日內以您留下的聯絡方式回覆初談時段。」
+    </div>
+  </section>
+
+  <!-- 規則說明：收費、取消與服務邊界 -->
+  <section id="policy">
+    <h2>收費與規則說明</h2>
+    <div class="policy-list">
+      <h3>收費方式</h3>
+      <ul>
+        <li>初談費：NT$ 2,000／60 分鐘，初談當日決定委任者，初談費折抵委任費用。</li>
+        <li>委任費：依案件類型與複雜度，採固定費或分階段計費，於委任契約書面約定。</li>
+        <li>其他費用：裁判費、鑑定費等法院規費由委任人實支實付，事前告知。</li>
+      </ul>
+      <h3>取消與改期</h3>
+      <ul>
+        <li>初談時段可於 24 小時前免費改期一次。</li>
+        <li>未事先取消且未出席者，已繳初談費不予退還。</li>
+      </ul>
+      <h3>隱私與保密</h3>
+      <ul>
+        <li>表單資料僅用於利益衝突檢查與初談安排，不另作行銷使用。</li>
+        <li>無論最後是否委任，律師對初談內容均負保密義務。</li>
+      </ul>
+      <h3>服務邊界</h3>
+      <ul>
+        <li>閱讀本網站內容，不形成律師與當事人關係。</li>
+        <li>送出表單不代表本所已接受委任。</li>
+        <li>個案法律意見，需在律師了解完整事實後才能提供。</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 聯絡與後續 -->
+  <section id="contact" style="background: var(--bg-soft)">
+    <h2>聯絡我們</h2>
+    <div class="contact-grid">
+      <div>
+        <p>電話：02-0000-0000（週一至週五 09:00–18:00）</p>
+        <p>LINE 官方帳號：@mingan-law（示意）</p>
+        <p>Email：contact@mingan-law.example</p>
+        <p>地址：新北市板橋區○○路 100 號 8 樓（示意地址）</p>
+        <p>送出初談表單後，我們會在一個工作日內回覆；若屬急迫的保全或時效案件，請直接來電說明。</p>
+      </div>
+      <!-- 替換為 images/map-banqiao.jpg -->
+      <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&h=600&fit=crop&auto=format" alt="明安法律事務所位置地圖示意">
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div>
+    明安法律事務所<br>
+    Email：contact@mingan-law.example
+  </div>
+  <div>
+    本網站內容為一般法律資訊，不構成個案法律意見。<br>
+    © 2026 明安法律事務所
+  </div>
+</footer>
+
+</body>
+</html>

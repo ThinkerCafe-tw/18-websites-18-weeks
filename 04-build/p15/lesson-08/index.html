@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>靜巷瑜伽｜台北陰瑜伽、哈達與流動瑜伽課程報名</title>
+<meta name="description" content="台北靜巷瑜伽教室。陰瑜伽、哈達、流動與孕婦瑜伽課程，課表名額透明、候補與取消規則清楚，僵硬的身體更歡迎來，歡迎預約第一堂體驗課。">
+<style>
+  :root {
+    --bg: #faf7f1;
+    --bg-soft: #f1ece2;
+    --ink: #3d3a33;
+    --ink-soft: #8a8376;
+    --line: #e3ddd2;
+    --accent: #6e7f6a;
+    --accent-dark: #56644f;
+    --full: #a8552f;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.8;
+  }
+  .site-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 6vw;
+    border-bottom: 1px solid var(--line);
+    background: var(--bg);
+  }
+  .site-header .brand { font-size: 1.25rem; font-weight: 700; letter-spacing: 2px; }
+  .site-header nav a {
+    color: var(--ink);
+    text-decoration: none;
+    margin-left: 22px;
+    font-size: 0.95rem;
+  }
+  .site-header nav a:hover { color: var(--accent-dark); }
+  main section { padding: 64px 6vw; }
+  h1 { font-size: 2.1rem; letter-spacing: 3px; line-height: 1.5; }
+  h2 { font-size: 1.5rem; letter-spacing: 2px; margin-bottom: 8px; }
+  .section-note { color: var(--ink-soft); margin-bottom: 28px; }
+  .hero {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 40px;
+    align-items: center;
+    background: var(--bg-soft);
+  }
+  .hero p.slogan { margin: 18px 0 8px; font-size: 1.1rem; }
+  .hero p.sub { color: var(--ink-soft); margin-bottom: 26px; }
+  .hero img { width: 100%; border-radius: 14px; display: block; }
+  .btn {
+    display: inline-block;
+    padding: 12px 26px;
+    min-height: 44px;
+    border-radius: 999px;
+    border: 1px solid var(--accent-dark);
+    text-decoration: none;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .btn.primary:hover { background: var(--accent-dark); }
+  .btn.ghost { background: transparent; color: var(--accent-dark); margin-left: 12px; }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .card {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 22px;
+  }
+  .card img { width: 100%; border-radius: 10px; margin-bottom: 14px; display: block; }
+  .card h3 { font-size: 1.1rem; margin-bottom: 6px; }
+  .card .meta { color: var(--ink-soft); font-size: 0.9rem; margin-bottom: 10px; }
+  .tag {
+    display: inline-block;
+    background: var(--bg-soft);
+    border-radius: 999px;
+    padding: 2px 12px;
+    font-size: 0.85rem;
+    margin: 0 6px 6px 0;
+  }
+  .schedule-table { width: 100%; border-collapse: collapse; background: #fff; }
+  .schedule-table th, .schedule-table td {
+    border: 1px solid var(--line);
+    padding: 10px 12px;
+    text-align: left;
+    font-size: 0.95rem;
+  }
+  .schedule-table th { background: var(--bg-soft); font-weight: 600; }
+  .schedule-table button {
+    padding: 8px 18px;
+    min-height: 40px;
+    border-radius: 999px;
+    border: 1px solid var(--accent-dark);
+    background: var(--accent);
+    color: #fff;
+    cursor: pointer;
+    font-size: 0.9rem;
+  }
+  .schedule-table button.waitlist { background: #fff; color: var(--full); border-color: var(--full); }
+  .status-open { color: var(--accent-dark); }
+  .status-full { color: var(--full); }
+  .signup-form { max-width: 640px; }
+  .signup-form label { display: block; margin: 16px 0 6px; font-weight: 600; }
+  .signup-form input, .signup-form select, .signup-form textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    font-size: 1rem;
+    background: #fff;
+    font-family: inherit;
+  }
+  .signup-form textarea { min-height: 110px; }
+  .course-info {
+    margin-top: 10px;
+    padding: 12px 16px;
+    background: var(--bg-soft);
+    border-radius: 10px;
+    font-size: 0.95rem;
+  }
+  .signup-form .btn { margin-top: 22px; border: none; }
+  .form-result {
+    margin-top: 18px;
+    padding: 14px 16px;
+    border-radius: 10px;
+    background: #fff;
+    border: 1px solid var(--accent);
+    display: none;
+  }
+  .rule-list { max-width: 720px; }
+  .rule-list li { margin-bottom: 10px; }
+  .site-footer {
+    border-top: 1px solid var(--line);
+    padding: 36px 6vw;
+    color: var(--ink-soft);
+    font-size: 0.9rem;
+    text-align: center;
+  }
+  /* 平板：老師與課程卡片改成兩欄 */
+  @media (max-width: 1024px) {
+    .grid { grid-template-columns: repeat(2, 1fr); }
+    .hero { grid-template-columns: 1fr; }
+  }
+  /* 手機：全部單欄，課表改成直向卡片，按鈕放大成整排 */
+  @media (max-width: 640px) {
+    .site-header { flex-direction: column; gap: 10px; text-align: center; }
+    .site-header nav a { margin: 0 8px; }
+    .grid { grid-template-columns: 1fr; }
+    .btn.ghost { margin-left: 0; margin-top: 12px; }
+    .schedule-table thead { display: none; }
+    .schedule-table tr { display: block; border: 1px solid var(--line); border-radius: 12px; margin-bottom: 14px; padding: 6px 14px; background: #fff; }
+    .schedule-table td { display: flex; justify-content: space-between; gap: 12px; border: none; padding: 7px 0; }
+    .schedule-table td::before { content: attr(data-label); color: var(--ink-soft); }
+    .schedule-table td:last-child::before { display: none; }
+    .schedule-table button, .signup-form .btn { width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="brand">靜巷瑜伽</div>
+  <nav>
+    <a href="#teachers">老師</a>
+    <a href="#classes">課程</a>
+    <a href="#schedule">週課表</a>
+    <a href="#signup">報名</a>
+  </nav>
+</header>
+
+<main>
+  <section class="hero">
+    <div>
+      <h1>僵硬的身體，<br>更歡迎來。</h1>
+      <p class="slogan">這裡的六十分鐘，只屬於你自己。不用跟任何人比。</p>
+      <p class="sub">台北・陰瑜伽／哈達／流動／孕婦瑜伽。第一次來請提早十分鐘，有人帶你熟悉環境和課堂節奏。</p>
+      <a class="btn primary" href="#signup">預約第一堂體驗課</a>
+      <a class="btn ghost" href="#schedule">查看本週課表</a>
+    </div>
+    <!-- 替換為 images/studio-hero.jpg -->
+    <img src="https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=800&h=600&fit=crop&auto=format" alt="靜巷瑜伽教室空間，木質地板與柔和自然光">
+  </section>
+
+  <section id="teachers">
+    <h2>老師介紹</h2>
+    <p class="section-note">每一位老師的認證都可以在 Yoga Alliance 官網查詢。我們不寫資歷神話，只寫上課時你會遇到的人。</p>
+    <div class="grid">
+      <article class="card">
+        <!-- 替換為 images/teacher-lin.jpg -->
+        <img src="https://images.unsplash.com/photo-1594381898411-846e7d193883?w=800&h=600&fit=crop&auto=format" alt="林書儀老師在教室引導學員調整姿勢">
+        <h3>林書儀</h3>
+        <p class="meta">RYT200｜陰瑜伽、基礎哈達</p>
+        <p>說話很慢，會記得每個人上週說過哪裡痠。課堂上最常說的話是「做到你今天做得到的位置就好」。</p>
+      </article>
+      <article class="card">
+        <!-- 替換為 images/teacher-chen.jpg -->
+        <img src="https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=800&h=600&fit=crop&auto=format" alt="陳以恆老師示範流動瑜伽串聯動作">
+        <h3>陳以恆</h3>
+        <p class="meta">RYT500｜哈達、流動瑜伽</p>
+        <p>口令清楚、節奏穩定，會給每個動作三種版本，讓你自己選今天的強度。下課不推銷任何東西。</p>
+      </article>
+      <article class="card">
+        <!-- 替換為 images/teacher-chou.jpg -->
+        <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=800&h=600&fit=crop&auto=format" alt="周曼寧老師帶領孕婦瑜伽課程">
+        <h3>周曼寧</h3>
+        <p class="meta">RYT200、孕婦瑜伽師資培訓結業｜孕婦瑜伽</p>
+        <p>兩個孩子的媽媽。課前一定先問週數與身體狀況，課堂上的每個動作都有椅子或抱枕的替代版本。</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="classes" style="background: var(--bg-soft)">
+    <h2>課程類型</h2>
+    <p class="section-note">先看「適合對象」再選課。不確定的話，從陰瑜伽入門開始最安全。</p>
+    <div class="grid">
+      <article class="card">
+        <h3>陰瑜伽入門</h3>
+        <p class="meta">難度 ★☆☆</p>
+        <span class="tag">適合：完全沒接觸過、身體僵硬、想安靜下來的人</span>
+        <p>長時間靜態姿勢，搭配抱枕與瑜伽磚。注意事項：課堂節奏很慢，想流汗的人會覺得無聊。</p>
+      </article>
+      <article class="card">
+        <h3>哈達基礎</h3>
+        <p class="meta">難度 ★★☆</p>
+        <span class="tag">適合：上過幾堂課、想把基本動作做穩的人</span>
+        <p>一個動作一個動作慢慢拆解。注意事項：手腕或膝蓋受過傷請在報名表寫明，老師會準備替代動作。</p>
+      </article>
+      <article class="card">
+        <h3>流動瑜伽</h3>
+        <p class="meta">難度 ★★★</p>
+        <span class="tag">適合：有規律練習、想要連續串聯與心肺感的人</span>
+        <p>動作跟著呼吸連續進行。注意事項：不適合第一次接觸瑜伽的人，請先上過哈達基礎。</p>
+      </article>
+      <article class="card">
+        <h3>孕婦瑜伽</h3>
+        <p class="meta">難度 ★☆☆</p>
+        <span class="tag">適合：懷孕十四週以上、經醫師同意運動的孕媽媽</span>
+        <p>以呼吸、骨盆與下背舒緩為主。注意事項：報名時請填寫週數，課程內容不取代產檢與醫療建議。</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="schedule">
+    <h2>本週課表</h2>
+    <p class="section-note">名額即時更新。額滿的課可以登記候補，有人取消就依順位通知。</p>
+    <table class="schedule-table">
+      <thead>
+        <tr>
+          <th>星期</th><th>時間</th><th>課程</th><th>老師</th><th>教室</th><th>名額</th><th>狀態</th><th>報名</th>
+        </tr>
+      </thead>
+      <tbody id="schedule-body"></tbody>
+    </table>
+  </section>
+
+  <section id="signup" style="background: var(--bg-soft)">
+    <h2>體驗課報名</h2>
+    <p class="section-note">第一堂體驗課三百元。送出後我們會以電話確認，不會把你的資料拿去做其他用途。</p>
+    <form class="signup-form" id="signup-form">
+      <label for="name">姓名</label>
+      <input type="text" id="name" name="name" required placeholder="怎麼稱呼你">
+      <label for="phone">電話</label>
+      <input type="tel" id="phone" name="phone" required placeholder="0912-345-678">
+      <label for="session">想上的課程</label>
+      <select id="session" name="session" required></select>
+      <div class="course-info" id="course-info"></div>
+      <label for="level">經驗程度</label>
+      <select id="level" name="level">
+        <option>第一次接觸瑜伽</option>
+        <option>上過幾堂課</option>
+        <option>規律練習一年以內</option>
+        <option>規律練習一年以上</option>
+      </select>
+      <label for="condition">身體狀況（受傷史、孕期週數、想讓老師注意的地方）</label>
+      <textarea id="condition" name="condition" placeholder="例如：右膝半年前受傷、久坐腰痠、懷孕十六週"></textarea>
+      <button type="submit" class="btn primary" id="submit-btn">送出報名</button>
+      <div class="form-result" id="form-result"></div>
+    </form>
+  </section>
+
+  <section id="waitlist">
+    <h2>候補怎麼運作</h2>
+    <ul class="rule-list">
+      <li><strong>候補順位：</strong>課程額滿後仍可登記，依登記時間排序，送出後會立刻看到你的順位。</li>
+      <li><strong>通知方式：</strong>有人取消時，依順位以簡訊通知遞補，不會跳過任何人。</li>
+      <li><strong>保留回覆時間：</strong>收到通知後保留兩小時回覆；逾時未回覆，名額自動通知下一順位，你仍保留在名單上。</li>
+    </ul>
+  </section>
+
+  <section id="rules" style="background: var(--bg-soft)">
+    <h2>取消與扣堂規則</h2>
+    <ul class="rule-list">
+      <li><strong>取消期限：</strong>開課前二十四小時可在線上或電話免費取消，名額會立即釋出給候補。</li>
+      <li><strong>二十四小時內取消或未到：</strong>扣一堂；臨時加班或身體不適，當月有一次免扣額度。</li>
+      <li><strong>遲到：</strong>開課十分鐘內可入場，請從教室後方輕聲進入；超過十分鐘為了課堂安全不開放入場，以未到處理。</li>
+    </ul>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <p>靜巷瑜伽｜台北市大安區靜巷二段 8 號 2 樓（場址為示意）</p>
+  <p>Email：hello@jingxiang-yoga.example</p>
+  <p>© 2026 靜巷瑜伽 Jingxiang Yoga Studio</p>
+</footer>
+
+<script>
+// ===== 資料模型示範（對應教材的六個資料表）=====
+// Teacher：老師資料
+const teachers = [
+  { id: "t1", name: "林書儀", cert: "RYT200", specialty: ["陰瑜伽", "基礎哈達"], intro: "節奏慢、記得每個人的身體狀況" },
+  { id: "t2", name: "陳以恆", cert: "RYT500", specialty: ["哈達", "流動瑜伽"], intro: "口令清楚、每個動作給三種版本" },
+  { id: "t3", name: "周曼寧", cert: "RYT200、孕婦瑜伽師資培訓結業", specialty: ["孕婦瑜伽"], intro: "課前必問週數與身體狀況" }
+];
+
+// ClassType：課程種類
+const classTypes = [
+  { id: "c1", name: "陰瑜伽入門", level: "★☆☆", audience: "零基礎、身體僵硬者", note: "節奏很慢" },
+  { id: "c2", name: "哈達基礎", level: "★★☆", audience: "想把基本動作做穩的人", note: "受傷史請先填寫" },
+  { id: "c3", name: "流動瑜伽", level: "★★★", audience: "有規律練習者", note: "不適合第一次接觸" },
+  { id: "c4", name: "孕婦瑜伽", level: "★☆☆", audience: "懷孕十四週以上", note: "需醫師同意運動" }
+];
+
+// ClassSession：某一天某一堂課（capacity 為名額上限）
+const classSessions = [
+  { id: "s1", classTypeId: "c2", teacherId: "t2", room: "A 教室", weekday: "週一", time: "19:00", capacity: 12 },
+  { id: "s2", classTypeId: "c3", teacherId: "t2", room: "B 教室", weekday: "週二", time: "12:10", capacity: 10 },
+  { id: "s3", classTypeId: "c1", teacherId: "t1", room: "A 教室", weekday: "週三", time: "19:00", capacity: 12 },
+  { id: "s4", classTypeId: "c4", teacherId: "t3", room: "B 教室", weekday: "週四", time: "19:00", capacity: 8 },
+  { id: "s5", classTypeId: "c1", teacherId: "t1", room: "A 教室", weekday: "週六", time: "10:00", capacity: 12 },
+  { id: "s6", classTypeId: "c3", teacherId: "t2", room: "A 教室", weekday: "週日", time: "10:00", capacity: 12 }
+];
+
+// Enrollment：報名紀錄（confirmed 表示已確認，會占用名額）
+const enrollments = [
+  { sessionId: "s1", confirmed: 7 },
+  { sessionId: "s2", confirmed: 9 },
+  { sessionId: "s3", confirmed: 12 },
+  { sessionId: "s4", confirmed: 5 },
+  { sessionId: "s5", confirmed: 8 },
+  { sessionId: "s6", confirmed: 10 }
+];
+
+// WaitlistEntry：候補名單（order 為順位）
+const waitlistEntries = [
+  { sessionId: "s3", order: 1, notified: false },
+  { sessionId: "s3", order: 2, notified: false }
+];
+
+// StudentNote：學員身體狀況，僅供老師課前參考的示範欄位
+const studentNotes = [
+  { student: "王小姐", condition: "久坐腰痠", history: "無", level: "第一次接觸瑜伽" }
+];
+
+// ===== 工具函式 =====
+function findType(s) { return classTypes.find(c => c.id === s.classTypeId); }
+function findTeacher(s) { return teachers.find(t => t.id === s.teacherId); }
+function confirmedOf(sessionId) {
+  const e = enrollments.find(x => x.sessionId === sessionId);
+  return e ? e.confirmed : 0;
+}
+function remainingOf(s) { return s.capacity - confirmedOf(s.id); }
+function waitlistCount(sessionId) {
+  return waitlistEntries.filter(w => w.sessionId === sessionId).length;
+}
+
+// ===== 課表渲染：剩餘名額為 0 時，按鈕改成「加入候補」 =====
+function renderSchedule() {
+  const tbody = document.getElementById("schedule-body");
+  tbody.innerHTML = "";
+  classSessions.forEach(s => {
+    const remaining = remainingOf(s);
+    const full = remaining <= 0;
+    const tr = document.createElement("tr");
+    tr.innerHTML =
+      '<td data-label="星期">' + s.weekday + "</td>" +
+      '<td data-label="時間">' + s.time + "</td>" +
+      '<td data-label="課程">' + findType(s).name + "</td>" +
+      '<td data-label="老師">' + findTeacher(s).name + "</td>" +
+      '<td data-label="教室">' + s.room + "</td>" +
+      '<td data-label="名額">' + (full ? "0 / " + s.capacity : remaining + " / " + s.capacity) + "</td>" +
+      '<td data-label="狀態">' + (full
+        ? '<span class="status-full">已額滿，可候補</span>'
+        : '<span class="status-open">開放報名</span>') + "</td>" +
+      '<td data-label="報名"><button type="button" class="' + (full ? "waitlist" : "") +
+        '" data-session="' + s.id + '">' + (full ? "加入候補" : "報名") + "</button></td>";
+    tbody.appendChild(tr);
+  });
+  tbody.querySelectorAll("button").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.getElementById("session").value = btn.dataset.session;
+      updateCourseInfo();
+      document.getElementById("signup").scrollIntoView({ behavior: "smooth" });
+    });
+  });
+}
+
+// ===== 報名表單：選擇不同課程時顯示不同老師與難度 =====
+function buildSessionSelect() {
+  const select = document.getElementById("session");
+  classSessions.forEach(s => {
+    const opt = document.createElement("option");
+    opt.value = s.id;
+    opt.textContent = s.weekday + " " + s.time + "　" + findType(s).name;
+    select.appendChild(opt);
+  });
+  select.addEventListener("change", updateCourseInfo);
+}
+
+function updateCourseInfo() {
+  const s = classSessions.find(x => x.id === document.getElementById("session").value);
+  const remaining = remainingOf(s);
+  const full = remaining <= 0;
+  document.getElementById("course-info").innerHTML =
+    "老師：" + findTeacher(s).name + "｜難度：" + findType(s).level +
+    "｜剩餘名額：" + Math.max(remaining, 0) +
+    (full ? "（已額滿，送出後將登記候補）" : "");
+  document.getElementById("submit-btn").textContent = full ? "登記候補" : "送出報名";
+}
+
+// ===== 送出：額滿課程進候補並顯示順位，未額滿則完成報名 =====
+document.getElementById("signup-form").addEventListener("submit", e => {
+  e.preventDefault();
+  const s = classSessions.find(x => x.id === document.getElementById("session").value);
+  const result = document.getElementById("form-result");
+  if (remainingOf(s) <= 0) {
+    const order = waitlistCount(s.id) + 1;
+    waitlistEntries.push({ sessionId: s.id, order: order, notified: false });
+    result.textContent = "已為你登記「" + findType(s).name + "」候補，目前順位第 " + order +
+      " 位。有名額釋出時會依順位以簡訊通知，保留兩小時回覆。";
+  } else {
+    const e2 = enrollments.find(x => x.sessionId === s.id);
+    e2.confirmed += 1;
+    result.textContent = "已收到你的「" + findType(s).name + "」體驗課報名，我們會以電話確認時間與注意事項。";
+    renderSchedule();
+    updateCourseInfo();
+  }
+  result.style.display = "block";
+});
+
+renderSchedule();
+buildSessionSelect();
+updateCourseInfo();
+</script>
+
+</body>
+</html>

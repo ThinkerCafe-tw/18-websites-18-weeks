@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>品牌行銷實務工作坊｜活動報名網站原型（台北一日工作坊）</title>
+<meta name="description" content="品牌行銷實務工作坊報名頁原型：活動資訊、早鳥與學生票種、名額與候補規則、報名表單與通知流程一次看懂。本頁為教學原型，尚未接正式金流。">
+<style>
+  :root {
+    --ink: #1f2933;
+    --muted: #5b6b79;
+    --line: #dfe5ea;
+    --bg: #f7f8f9;
+    --accent: #b04a2f;
+    --accent-dark: #8d3a24;
+    --ok: #2f7d4f;
+    --warn: #a06a00;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+    color: var(--ink);
+    background: var(--bg);
+    line-height: 1.7;
+  }
+  .proto-banner {
+    background: #fdf3e7;
+    border-bottom: 1px solid #efd9bd;
+    color: #7a4a12;
+    text-align: center;
+    font-size: 0.85rem;
+    padding: 8px 16px;
+  }
+  header {
+    background: #fff;
+    border-bottom: 1px solid var(--line);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  header .inner {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 14px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+  }
+  .brand { font-weight: 700; font-size: 1.05rem; }
+  .brand small { display: block; font-weight: 400; color: var(--muted); font-size: 0.78rem; }
+  nav a {
+    color: var(--ink);
+    text-decoration: none;
+    font-size: 0.92rem;
+    margin-left: 14px;
+  }
+  nav a:hover { color: var(--accent); }
+  main { max-width: 1080px; margin: 0 auto; padding: 0 20px 48px; }
+  section { padding: 44px 0 8px; }
+  h1 { font-size: 1.9rem; line-height: 1.35; }
+  h2 {
+    font-size: 1.35rem;
+    border-left: 4px solid var(--accent);
+    padding-left: 10px;
+    margin-bottom: 18px;
+  }
+  h3 { font-size: 1.05rem; margin-bottom: 8px; }
+  p.lead { color: var(--muted); margin-top: 10px; }
+  .hero {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 40px 32px;
+    margin-top: 24px;
+  }
+  .hero .tagline { color: var(--accent); font-weight: 600; letter-spacing: 0.05em; font-size: 0.9rem; }
+  .hero .meta { margin-top: 12px; color: var(--muted); font-size: 0.95rem; }
+  .btn {
+    display: inline-block;
+    border: 1px solid var(--accent);
+    border-radius: 8px;
+    padding: 12px 22px;
+    margin: 18px 12px 0 0;
+    font-size: 1rem;
+    text-decoration: none;
+    cursor: pointer;
+    background: #fff;
+    color: var(--accent);
+    min-height: 44px;
+  }
+  .btn.primary { background: var(--accent); color: #fff; }
+  .btn.primary:hover { background: var(--accent-dark); }
+  .trust-grid, .ticket-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+  }
+  .card {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 18px;
+  }
+  .card img { width: 100%; height: auto; border-radius: 6px; display: block; }
+  .card .note { font-size: 0.85rem; color: var(--muted); margin-top: 10px; }
+  .info-list { list-style: none; }
+  .info-list li {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 10px;
+  }
+  .info-list b { display: inline-block; min-width: 5.5em; color: var(--accent-dark); }
+  .agenda { width: 100%; border-collapse: collapse; background: #fff; margin-top: 10px; }
+  .agenda th, .agenda td { border: 1px solid var(--line); padding: 8px 12px; font-size: 0.92rem; text-align: left; }
+  .agenda th { background: #f1ece8; }
+  .ticket-card h3 { display: flex; justify-content: space-between; align-items: baseline; }
+  .price { font-size: 1.5rem; color: var(--accent-dark); font-weight: 700; }
+  .ticket-meta { font-size: 0.88rem; color: var(--muted); margin: 8px 0; }
+  .badge {
+    display: inline-block;
+    font-size: 0.78rem;
+    border-radius: 99px;
+    padding: 2px 10px;
+    border: 1px solid var(--line);
+    color: var(--muted);
+  }
+  .badge.on { background: #e8f3ec; color: var(--ok); border-color: #bcd9c6; }
+  .badge.soon { background: #f4f1ea; color: var(--warn); border-color: #e3d4ad; }
+  .badge.full { background: #f6e9e6; color: var(--accent-dark); border-color: #e3c2b8; }
+  .flow-track {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 16px;
+    font-size: 0.92rem;
+  }
+  .flow-track .step { background: #f1ece8; border-radius: 6px; padding: 6px 12px; }
+  .flow-track .arrow { color: var(--muted); }
+  .demo-panel {
+    background: #fff;
+    border: 1px dashed var(--accent);
+    border-radius: 10px;
+    padding: 18px;
+    margin-top: 16px;
+  }
+  .demo-panel .state { font-size: 1.05rem; margin: 6px 0 12px; }
+  .demo-panel .state b { color: var(--accent-dark); }
+  .sim-btn {
+    border: 1px solid var(--line);
+    background: #f7f8f9;
+    border-radius: 6px;
+    padding: 10px 14px;
+    margin: 0 8px 8px 0;
+    font-size: 0.9rem;
+    cursor: pointer;
+    min-height: 44px;
+  }
+  .sim-btn:hover { border-color: var(--accent); color: var(--accent-dark); }
+  .log-box {
+    background: #f7f8f9;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    margin-top: 12px;
+    padding: 12px 16px;
+    font-size: 0.86rem;
+    max-height: 180px;
+    overflow-y: auto;
+  }
+  .log-box li { margin-left: 18px; }
+  form { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 22px; }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 18px; }
+  .field label { display: block; font-size: 0.9rem; font-weight: 600; margin-bottom: 4px; }
+  .field input, .field select, .field textarea {
+    width: 100%;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 10px;
+    font-size: 0.95rem;
+    font-family: inherit;
+  }
+  .field.full { grid-column: 1 / -1; }
+  .consent { font-size: 0.88rem; margin-top: 6px; }
+  .consent label { font-weight: 400; display: flex; gap: 8px; align-items: flex-start; }
+  .form-msg { margin-top: 12px; font-size: 0.92rem; color: var(--ok); min-height: 1.4em; }
+  .rules-list { list-style: none; }
+  .rules-list li {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 10px;
+    font-size: 0.93rem;
+  }
+  footer {
+    background: #2b333b;
+    color: #cfd6dc;
+    margin-top: 40px;
+    padding: 32px 20px;
+    font-size: 0.9rem;
+  }
+  footer .inner { max-width: 1080px; margin: 0 auto; }
+  footer a { color: #fff; }
+  footer .fine { color: #97a3ad; font-size: 0.8rem; margin-top: 12px; }
+
+  /* 平板：票種與信任證據改為兩欄 */
+  @media (max-width: 1024px) {
+    .ticket-grid, .trust-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  /* 手機：全部單欄，header 改直向排列，按鈕放大成整排可點 */
+  @media (max-width: 640px) {
+    .ticket-grid, .trust-grid, .form-grid { grid-template-columns: 1fr; }
+    header .inner { flex-direction: column; align-items: flex-start; }
+    nav a { margin: 0 12px 0 0; }
+    .btn, .sim-btn { display: block; width: 100%; text-align: center; margin-right: 0; }
+    h1 { font-size: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="proto-banner">本頁為活動報名流程原型：票種、名額、付款與通知皆為前端示意資料，尚未接正式金流、通知服務或後台資料庫。</div>
+
+<header>
+  <div class="inner">
+    <div class="brand">品牌行銷實務工作坊
+      <small>主辦：好聚學習工作室（示範活動）</small>
+    </div>
+    <nav>
+      <a href="#info">活動資訊</a>
+      <a href="#tickets">票種</a>
+      <a href="#flow">報名流程</a>
+      <a href="#signup">報名表單</a>
+      <a href="#rules">規則</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <section class="hero">
+    <p class="tagline">一日密集工作坊・台北</p>
+    <h1>把品牌策略變成你帶得走的工作表</h1>
+    <p class="lead">六小時實作課程。你不是來聽趨勢名詞的，是來完成一份當天就能帶回公司用的品牌定位工作表。</p>
+    <p class="meta">2026 年 9 月 12 日（六）09:30–17:00｜台北市・場地於報名確認信公布｜名額 100 人</p>
+    <a class="btn primary" href="#tickets">查看票種</a>
+    <a class="btn" href="#signup">立即報名</a>
+  </section>
+
+  <section id="trust">
+    <h2>信任證據</h2>
+    <div class="trust-grid">
+      <div class="card">
+        <!-- 替換為 images/student-work-01.jpg -->
+        <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800&h=600&fit=crop&auto=format" alt="上一屆學員完成的品牌定位工作表照片（佔位圖）">
+        <h3>學員實作產出</h3>
+        <p class="note">此版位放上一屆學員「實際完成」的品牌定位工作表照片，不放形容詞式好評。</p>
+      </div>
+      <div class="card">
+        <!-- 替換為 images/classroom-01.jpg -->
+        <img src="https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=800&h=600&fit=crop&auto=format" alt="工作坊小組討論現場照片（佔位圖）">
+        <h3>課程現場</h3>
+        <p class="note">放真實上課與小組討論照片，讓報名者看見「跟我一起上課的人是誰」。</p>
+      </div>
+      <div class="card">
+        <!-- 替換為 images/instructor-01.jpg -->
+        <img src="https://images.unsplash.com/photo-1511578314322-379afb476865?w=800&h=600&fit=crop&auto=format" alt="講師工作照（佔位圖）">
+        <h3>講師介紹</h3>
+        <p class="note">此版位放講師真實經歷與一個實際操作過的失敗案例，不堆疊頭銜。</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="info">
+    <h2>活動資訊</h2>
+    <ul class="info-list">
+      <li><b>日期時間</b>2026 年 9 月 12 日（六）09:30–17:00（09:00 開放報到）</li>
+      <li><b>地點</b>台北市中正區（詳細場地與交通方式將於報名確認信公布）</li>
+      <li><b>適合對象</b>工作 2 到 8 年、需要自己提品牌或行銷企劃的在職企劃與小型品牌經營者</li>
+      <li><b>講者</b>由實務品牌顧問帶課；講師經歷與代表案例以本頁更新為準，不另列未經確認的頭銜</li>
+    </ul>
+    <table class="agenda">
+      <caption style="text-align:left;font-size:0.88rem;color:#5b6b79;margin-bottom:6px;">當日議程</caption>
+      <tr><th>時間</th><th>內容</th><th>你會完成什麼</th></tr>
+      <tr><td>09:30–12:00</td><td>品牌定位拆解</td><td>完成自己品牌的定位草稿</td></tr>
+      <tr><td>13:00–15:30</td><td>訊息與通路實作</td><td>完成一頁訊息架構表</td></tr>
+      <tr><td>15:45–17:00</td><td>小組互評與講師回饋</td><td>帶走可直接套用的品牌定位工作表</td></tr>
+    </table>
+  </section>
+
+  <section id="tickets">
+    <h2>票種與名額</h2>
+    <p class="lead">名額與剩餘張數連動下方報名示範：每送出一筆報名，剩餘名額就會真的減一；售完的票種會改為「加入候補」。</p>
+    <div class="ticket-grid" id="ticketGrid"></div>
+  </section>
+
+  <section id="flow">
+    <h2>報名流程</h2>
+    <div class="flow-track">
+      <span class="step">送出報名（待付款）</span><span class="arrow">→</span>
+      <span class="step">已付款</span><span class="arrow">→</span>
+      <span class="step">已確認</span>
+      <span class="arrow">｜</span>
+      <span class="step">付款逾時 → 取消並釋出名額</span>
+      <span class="arrow">｜</span>
+      <span class="step">額滿 → 候補中</span>
+    </div>
+    <div class="demo-panel">
+      <h3>狀態示範面板</h3>
+      <p class="state">目前報名狀態：<b id="regState">尚未送出報名</b></p>
+      <button class="sim-btn" id="btnPay" type="button">模擬付款成功</button>
+      <button class="sim-btn" id="btnExpire" type="button">模擬付款逾時</button>
+      <button class="sim-btn" id="btnCancel" type="button">取消報名</button>
+      <button class="sim-btn" id="btnPromote" type="button">模擬候補遞補</button>
+      <h3 style="margin-top:10px;">通知紀錄（NotificationLog）</h3>
+      <div class="log-box"><ul id="notifyLog"><li>尚無通知。送出報名或切換狀態後，每一筆通知都會記錄在這裡。</li></ul></div>
+    </div>
+  </section>
+
+  <section id="waitlist">
+    <h2>候補規則</h2>
+    <ul class="rules-list">
+      <li>票種售完後，報名會進入候補名單，依送出順序排序（WaitlistEntry 的候補順位）。</li>
+      <li>有名額釋出時，系統依順位通知「一位」候補者，並保留 48 小時付款期限。</li>
+      <li>保留期限內未完成付款，名額自動釋出給下一位候補者，不重複保留。</li>
+    </ul>
+  </section>
+
+  <section id="notify">
+    <h2>通知說明</h2>
+    <ul class="rules-list">
+      <li><b>報名成功通知：</b>付款完成後寄出，內容包含活動資訊、票種與報到方式。</li>
+      <li><b>付款提醒：</b>送出報名但未付款時寄出，註明付款期限與逾時取消規則。</li>
+      <li><b>活動前提醒：</b>活動前 3 天寄出時間、地點、交通與攜帶物。</li>
+      <li><b>異動通知：</b>時間、地點或講師變更時寄出，並附退票選項。</li>
+    </ul>
+  </section>
+
+  <section id="signup">
+    <h2>報名表單</h2>
+    <form id="regForm" novalidate>
+      <div class="form-grid">
+        <div class="field">
+          <label for="fName">姓名 *</label>
+          <input type="text" id="fName" name="name" required autocomplete="name">
+        </div>
+        <div class="field">
+          <label for="fEmail">Email *</label>
+          <input type="email" id="fEmail" name="email" required autocomplete="email">
+        </div>
+        <div class="field">
+          <label for="fPhone">手機 *</label>
+          <input type="tel" id="fPhone" name="phone" required autocomplete="tel">
+        </div>
+        <div class="field">
+          <label for="fTicket">票種 *</label>
+          <select id="fTicket" name="ticket" required></select>
+        </div>
+        <div class="field full">
+          <label for="fNote">備註（飲食、發票或其他需求）</label>
+          <textarea id="fNote" name="note" rows="3"></textarea>
+        </div>
+        <div class="field full consent">
+          <label><input type="checkbox" id="cRequired" required>
+            <span>我同意主辦單位將以上資料用於「本活動報名、聯絡與活動前後通知」（必要，ConsentRecord 會記錄同意時間與撤回方式）。*</span></label>
+          <label><input type="checkbox" id="cMarketing">
+            <span>我願意收到主辦單位「後續課程資訊」（選填，預設不勾選；本原型不含合作夥伴行銷授權）。</span></label>
+        </div>
+      </div>
+      <button class="btn primary" type="submit" id="submitBtn">送出報名（進入待付款）</button>
+      <p class="form-msg" id="formMsg" role="status"></p>
+    </form>
+  </section>
+
+  <section id="rules">
+    <h2>規則說明</h2>
+    <ul class="rules-list">
+      <li><b>取消與退款：</b>活動 7 日前可全額退款；3 至 7 日退 70%；3 日內不退。改期時提供全額退款選項。</li>
+      <li><b>名額保留：</b>送出報名後保留名額 48 小時，逾時未付款自動取消並釋出名額。</li>
+      <li><b>隱私：</b>報名資料僅用於本活動報名與通知；行銷用途採選填同意，且可隨時來信撤回。</li>
+    </ul>
+  </section>
+
+</main>
+
+<footer>
+  <div class="inner">
+    <p>好聚學習工作室（示範活動）｜Email：<a href="mailto:hello@brand-workshop.example">hello@brand-workshop.example</a>｜活動地區：台北</p>
+    <p class="fine">本頁為《AI 時代個人網站開發實戰》第 16 講教學原型，所有活動、票價與名額皆為示意資料，尚未接正式金流、通知服務或後台資料庫。© 2026 好聚學習工作室</p>
+  </div>
+</footer>
+
+<script>
+// ===== 資料結構示範（對應本講資料模型）=====
+const eventData = { // Event
+  name: "品牌行銷實務工作坊", date: "2026-09-12", venue: "台北市中正區（場地待公布）",
+  organizer: "好聚學習工作室", status: "報名中"
+};
+const sessions = [ // EventSession
+  { id: "S1", label: "全日場", start: "09:30", end: "17:00", capacity: 100 }
+];
+const ticketTypes = [ // TicketType
+  { id: "early", name: "早鳥票", price: 3800, saleStart: "2026-06-15", saleEnd: "2026-07-31", quota: 40, remaining: 12, status: "販售中" },
+  { id: "regular", name: "一般票", price: 5000, saleStart: "2026-08-01", saleEnd: "2026-09-10", quota: 50, remaining: 50, status: "尚未開賣" },
+  { id: "student", name: "學生票", price: 2500, saleStart: "2026-06-15", saleEnd: "2026-09-10", quota: 10, remaining: 2, status: "販售中" }
+];
+let registration = null;   // Registration：報名人、票種、付款狀態、報到狀態
+let paymentRecord = null;  // PaymentRecord：金額、付款方式、付款結果、交易時間
+const waitlist = [];       // WaitlistEntry：候補順位、通知時間、保留期限
+const notificationLog = []; // NotificationLog：對象、內容、通道、發送狀態
+const consentRecords = []; // ConsentRecord：個資用途、同意時間、撤回方式
+
+const grid = document.getElementById("ticketGrid");
+const select = document.getElementById("fTicket");
+const stateEl = document.getElementById("regState");
+const logEl = document.getElementById("notifyLog");
+const msgEl = document.getElementById("formMsg");
+const submitBtn = document.getElementById("submitBtn");
+
+function badgeFor(t) {
+  if (t.status === "尚未開賣") return '<span class="badge soon">尚未開賣</span>';
+  if (t.remaining <= 0) return '<span class="badge full">售完・候補中</span>';
+  return '<span class="badge on">販售中</span>';
+}
+function renderTickets() {
+  grid.innerHTML = ticketTypes.map(t => `
+    <div class="card ticket-card">
+      <h3>${t.name} ${badgeFor(t)}</h3>
+      <p class="price">NT$ ${t.price.toLocaleString()}</p>
+      <p class="ticket-meta">開賣 ${t.saleStart}｜截止 ${t.saleEnd}<br>名額 ${t.quota} 張｜剩餘 <b>${Math.max(t.remaining, 0)}</b> 張</p>
+      <button class="btn" type="button" data-pick="${t.id}">${t.status === "尚未開賣" ? "開賣後可選" : (t.remaining > 0 ? "選這個票種" : "加入候補")}</button>
+    </div>`).join("");
+  select.innerHTML = ticketTypes.map(t =>
+    `<option value="${t.id}" ${t.status === "尚未開賣" ? "disabled" : ""}>
+      ${t.name}（NT$ ${t.price.toLocaleString()}${t.remaining <= 0 ? "・售完改候補" : "・剩 " + t.remaining + " 張"}）
+    </option>`).join("");
+}
+function pushNotify(content) { // 每次狀態變更都留下通知紀錄
+  notificationLog.push({ to: registration ? registration.name : "報名者", content, channel: "Email（示意）", status: "已送出" });
+  logEl.innerHTML = notificationLog.map(n =>
+    `<li>${n.channel}→${n.to}：${n.content}（${n.status}）</li>`).join("");
+}
+function setState(text) { stateEl.textContent = text; }
+
+grid.addEventListener("click", e => {
+  const id = e.target.dataset.pick;
+  if (!id) return;
+  select.value = id;
+  document.getElementById("signup").scrollIntoView({ behavior: "smooth" });
+});
+
+document.getElementById("regForm").addEventListener("submit", e => {
+  e.preventDefault();
+  const name = document.getElementById("fName").value.trim();
+  const email = document.getElementById("fEmail").value.trim();
+  const phone = document.getElementById("fPhone").value.trim();
+  if (!name || !email || !phone || !document.getElementById("cRequired").checked) {
+    msgEl.textContent = "請填妥姓名、Email、手機，並勾選必要的個資同意。";
+    msgEl.style.color = "#a03022";
+    return;
+  }
+  const t = ticketTypes.find(x => x.id === select.value);
+  consentRecords.push({ purpose: "活動報名與通知", time: new Date().toLocaleString(), withdraw: "來信撤回" });
+  if (document.getElementById("cMarketing").checked) {
+    consentRecords.push({ purpose: "後續課程資訊（選填）", time: new Date().toLocaleString(), withdraw: "來信撤回" });
+  }
+  if (t.remaining <= 0) { // 售完 → 候補
+    waitlist.push({ order: waitlist.length + 1, name, notifiedAt: null, holdUntil: null });
+    registration = { name, ticket: t.name, paymentStatus: "候補中", checkinStatus: "—" };
+    setState(`候補中（${t.name}，順位第 ${waitlist.length} 位）`);
+    pushNotify(`您已加入「${t.name}」候補名單，順位第 ${waitlist.length} 位；名額釋出將保留 48 小時。`);
+  } else { // 建立報名與待付款保留
+    t.remaining -= 1;
+    registration = { name, ticket: t.name, paymentStatus: "待付款", checkinStatus: "未報到" };
+    paymentRecord = { amount: t.price, method: "（示意）", result: "待付款", time: new Date().toLocaleString() };
+    setState(`待付款（${t.name}，名額已保留 48 小時）`);
+    pushNotify(`已收到您的報名（${t.name}），請於 48 小時內完成付款 NT$ ${t.price.toLocaleString()}。`);
+  }
+  msgEl.style.color = "#2f7d4f";
+  msgEl.textContent = "報名已送出，狀態與通知請見上方「報名流程」示範面板。";
+  renderTickets();
+});
+
+document.getElementById("btnPay").addEventListener("click", () => {
+  if (!registration || registration.paymentStatus !== "待付款") { setState("沒有待付款的報名可以付款"); return; }
+  registration.paymentStatus = "已確認";
+  paymentRecord.result = "付款成功";
+  setState(`已付款 → 已確認（${registration.ticket}）`);
+  pushNotify("報名成功：已確認您的座位，活動資訊與報到方式請見信件內容。");
+});
+document.getElementById("btnExpire").addEventListener("click", () => {
+  if (!registration || registration.paymentStatus !== "待付款") { setState("沒有待付款的報名可以逾時"); return; }
+  const t = ticketTypes.find(x => x.name === registration.ticket);
+  t.remaining += 1; // 釋出名額
+  registration.paymentStatus = "付款逾時取消";
+  setState(`付款逾時 → 已取消，名額已釋出（${t.name} 剩 ${t.remaining} 張）`);
+  pushNotify("付款期限已過，您的報名已取消；如仍要參加請重新報名。");
+  renderTickets();
+});
+document.getElementById("btnCancel").addEventListener("click", () => {
+  if (!registration || ["付款逾時取消", "已取消"].includes(registration.paymentStatus)) { setState("沒有可取消的報名"); return; }
+  if (registration.paymentStatus !== "候補中") {
+    const t = ticketTypes.find(x => x.name === registration.ticket);
+    t.remaining += 1;
+    renderTickets();
+  }
+  registration.paymentStatus = "已取消";
+  setState("已取消（票種庫存、付款與通知一起更新）");
+  pushNotify("您的報名已取消；退款規則依本頁「規則說明」辦理。");
+});
+document.getElementById("btnPromote").addEventListener("click", () => {
+  if (waitlist.length === 0) { setState("目前沒有候補名單可遞補"); return; }
+  const next = waitlist.shift();
+  next.notifiedAt = new Date().toLocaleString();
+  setState(`候補遞補：通知順位第 ${next.order} 位（${next.name}），保留 48 小時`);
+  pushNotify(`名額釋出：已通知候補第 ${next.order} 位 ${next.name}，請於 48 小時內完成付款。`);
+});
+
+renderTickets();
+</script>
+</body>
+</html>

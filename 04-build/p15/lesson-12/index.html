@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>家教媒合平台原型｜先審核再推薦的家教媒合示範</title>
+<meta name="description" content="家教媒合平台原型：家長提交需求後，平台依科目、地區、預算與時段精選三到五位通過審核的老師，並清楚說明審核流程、媒合費用、試教、退款與替換老師保障。">
+<style>
+  :root {
+    --ink: #2b2f36;
+    --ink-soft: #5a616b;
+    --line: #e3e6ea;
+    --bg: #ffffff;
+    --bg-soft: #f6f7f9;
+    --accent: #2f6f8f;
+    --accent-dark: #245a75;
+    --ok: #2e7d4f;
+    --pending: #946200;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+    color: var(--ink);
+    background: var(--bg);
+    line-height: 1.7;
+  }
+
+  /* 共用版面 */
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+  section { padding: 56px 0; }
+  section h2 { font-size: 1.6rem; margin-bottom: 8px; }
+  .section-lead { color: var(--ink-soft); margin-bottom: 28px; max-width: 46em; }
+
+  .btn {
+    display: inline-block;
+    padding: 12px 28px;
+    border-radius: 6px;
+    border: 1px solid var(--accent);
+    background: var(--accent);
+    color: #fff;
+    font-size: 1rem;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .btn:hover { background: var(--accent-dark); }
+  .btn-ghost { background: transparent; color: var(--accent); }
+  .btn-ghost:hover { background: var(--bg-soft); }
+
+  /* 頁首 */
+  .site-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 24px;
+    max-width: 1120px;
+    margin: 0 auto;
+  }
+  .brand { font-size: 1.15rem; font-weight: 700; }
+  .brand small { display: block; font-size: 0.75rem; font-weight: 400; color: var(--ink-soft); }
+  .site-nav { display: flex; gap: 20px; }
+  .site-nav a { color: var(--ink-soft); text-decoration: none; font-size: 0.95rem; }
+  .site-nav a:hover { color: var(--accent); }
+
+  /* 首頁主視覺 */
+  .hero { background: var(--bg-soft); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .hero h1 { font-size: 2rem; line-height: 1.4; margin-bottom: 12px; max-width: 22em; }
+  .hero p { color: var(--ink-soft); max-width: 38em; margin-bottom: 20px; }
+  .subject-chips { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 28px; }
+  .subject-chips li {
+    list-style: none;
+    border: 1px solid var(--line);
+    background: #fff;
+    border-radius: 999px;
+    padding: 4px 16px;
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+  }
+  .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+
+  /* 家長需求表 */
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px 24px;
+    margin-bottom: 20px;
+  }
+  .field label { display: block; font-weight: 600; font-size: 0.95rem; margin-bottom: 6px; }
+  .field input, .field select, .field textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    font-size: 1rem;
+    font-family: inherit;
+    background: #fff;
+    min-height: 44px;
+  }
+  .field-full { grid-column: 1 / -1; }
+  .form-note { font-size: 0.85rem; color: var(--ink-soft); margin-top: 12px; }
+  .submit-result {
+    display: none;
+    margin-top: 16px;
+    padding: 12px 16px;
+    border: 1px solid var(--accent);
+    border-radius: 6px;
+    background: #eef4f8;
+    font-size: 0.95rem;
+  }
+  .submit-result.show { display: block; }
+
+  /* 篩選列 */
+  .filter-bar {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    padding: 16px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--bg-soft);
+    margin-bottom: 24px;
+  }
+  .filter-bar label { display: block; font-size: 0.85rem; color: var(--ink-soft); margin-bottom: 4px; }
+  .filter-bar select {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    font-size: 0.95rem;
+    background: #fff;
+    min-height: 44px;
+  }
+  .filter-count { font-size: 0.9rem; color: var(--ink-soft); margin-bottom: 16px; }
+
+  /* 教師卡片 */
+  .tutor-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .tutor-card {
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+  }
+  .tutor-card img { width: 100%; height: auto; display: block; border-bottom: 1px solid var(--line); }
+  .tutor-body { padding: 16px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+  .tutor-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+  .tutor-head h3 { font-size: 1.1rem; }
+  .badge {
+    font-size: 0.78rem;
+    padding: 2px 10px;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+  .badge-verified { background: #e7f3ec; color: var(--ok); border: 1px solid #bedccb; }
+  .badge-pending { background: #fdf3e1; color: var(--pending); border: 1px solid #ecd9ae; }
+  .tutor-facts { font-size: 0.92rem; }
+  .tutor-facts div { display: flex; gap: 8px; padding: 2px 0; }
+  .tutor-facts dt { color: var(--ink-soft); flex: 0 0 5.5em; }
+  .tutor-facts dd { flex: 1; }
+  .match-reason {
+    margin-top: auto;
+    background: var(--bg-soft);
+    border-left: 3px solid var(--accent);
+    padding: 8px 12px;
+    font-size: 0.88rem;
+    color: var(--ink-soft);
+  }
+  .match-reason strong { color: var(--ink); }
+  .empty-state { display: none; padding: 24px; border: 1px dashed var(--line); border-radius: 8px; color: var(--ink-soft); }
+  .empty-state.show { display: block; }
+
+  /* 媒合流程狀態條 */
+  .stepper {
+    display: flex;
+    gap: 8px;
+    list-style: none;
+    counter-reset: step;
+    margin-bottom: 20px;
+  }
+  .stepper li {
+    flex: 1;
+    counter-increment: step;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 14px 12px;
+    background: #fff;
+    font-size: 0.92rem;
+  }
+  .stepper li::before {
+    content: counter(step);
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--bg-soft);
+    color: var(--ink-soft);
+    text-align: center;
+    line-height: 24px;
+    margin-right: 8px;
+    font-size: 0.82rem;
+  }
+  .stepper li.current { border-color: var(--accent); background: #eef4f8; }
+  .stepper li.current::before { background: var(--accent); color: #fff; }
+  .stepper li small { display: block; color: var(--ink-soft); font-size: 0.8rem; margin-top: 4px; }
+  .process-note { font-size: 0.92rem; color: var(--ink-soft); max-width: 46em; }
+
+  /* 審核說明與費用保障 */
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+  .info-card {
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 18px;
+    background: #fff;
+  }
+  .info-card h3 { font-size: 1.02rem; margin-bottom: 6px; }
+  .info-card p { font-size: 0.92rem; color: var(--ink-soft); }
+  .alt-bg { background: var(--bg-soft); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+
+  /* 頁尾 */
+  .site-footer { padding: 32px 0; }
+  .site-footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  .site-footer p { font-size: 0.88rem; color: var(--ink-soft); }
+
+  /* 平板：教師卡片改為兩欄 */
+  @media (max-width: 1024px) {
+    .tutor-grid { grid-template-columns: repeat(2, 1fr); }
+    .filter-bar { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  /* 手機：全部單欄，header 改為直向排列，按鈕與欄位放大易點 */
+  @media (max-width: 640px) {
+    .site-header { flex-direction: column; align-items: flex-start; }
+    .site-nav { flex-wrap: wrap; gap: 12px; }
+    .hero h1 { font-size: 1.5rem; }
+    .tutor-grid, .form-grid, .filter-bar, .info-grid { grid-template-columns: 1fr; }
+    .field-full { grid-column: auto; }
+    .stepper { flex-direction: column; }
+    .btn { display: block; width: 100%; text-align: center; }
+    .hero-actions { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="brand">安心家教媒合<small>課程示範原型</small></div>
+  <nav class="site-nav" aria-label="主選單">
+    <a href="#request">提交需求</a>
+    <a href="#tutors">精選教師</a>
+    <a href="#process">媒合流程</a>
+    <a href="#verification">審核說明</a>
+    <a href="#fees">費用保障</a>
+  </nav>
+</header>
+
+<main>
+
+  <!-- 首頁主視覺 -->
+  <section class="hero" aria-label="平台主張">
+    <div class="wrap">
+      <h1>先審核，再推薦：每次只給你三到五位通過查核的老師</h1>
+      <p>提交孩子的年級、科目、地區、預算與可上課時間，平台先審核需求，再從通過身分與學歷查核的老師中精選推薦，並陪你走完試教與確認。</p>
+      <ul class="subject-chips" aria-label="服務科目">
+        <li>數學</li>
+        <li>英文</li>
+        <li>國文</li>
+        <li>理化</li>
+      </ul>
+      <div class="hero-actions">
+        <a class="btn" href="#request">開始媒合</a>
+        <a class="btn btn-ghost" href="#process">先看媒合流程</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 家長需求表 -->
+  <section id="request" aria-label="家長需求表">
+    <div class="wrap">
+      <h2>家長需求表</h2>
+      <p class="section-lead">填得越具體，推薦越準。送出後平台會先審核需求，再推薦三到五位老師，不會把整份名單丟給你。</p>
+      <form id="request-form" novalidate>
+        <div class="form-grid">
+          <div class="field">
+            <label for="grade">年級</label>
+            <select id="grade" name="grade" required>
+              <option value="">請選擇</option>
+              <option>國小</option>
+              <option>國中</option>
+              <option>高中</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="subject">科目</label>
+            <select id="subject" name="subject" required>
+              <option value="">請選擇</option>
+              <option>數學</option>
+              <option>英文</option>
+              <option>國文</option>
+              <option>理化</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="region">地區</label>
+            <select id="region" name="region" required>
+              <option value="">請選擇</option>
+              <option>桃園</option>
+              <option>台北</option>
+              <option>台中</option>
+              <option>線上上課</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="budget">每小時預算</label>
+            <select id="budget" name="budget" required>
+              <option value="">請選擇</option>
+              <option>600 元以下</option>
+              <option>601 到 800 元</option>
+              <option>801 元以上</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="timeslot">可上課時間</label>
+            <select id="timeslot" name="timeslot" required>
+              <option value="">請選擇</option>
+              <option>平日下午</option>
+              <option>平日晚上</option>
+              <option>週末</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="goal">學習目標</label>
+            <input type="text" id="goal" name="goal" placeholder="例如：會考前把數學基礎題穩住" required>
+          </div>
+        </div>
+        <button class="btn" type="submit">送出需求</button>
+        <p class="form-note">本原型不會把資料送到後端；送出後可在「媒合流程」區看到狀態變化。</p>
+        <p class="submit-result" id="submit-result" role="status"></p>
+      </form>
+    </div>
+  </section>
+
+  <!-- 精選教師卡片與篩選條件 -->
+  <section id="tutors" class="alt-bg" aria-label="精選教師">
+    <div class="wrap">
+      <h2>精選教師</h2>
+      <p class="section-lead">以下教師卡片為課程示範用的示意資料。每位老師顯示審核狀態與匹配理由，最多同時呈現五位，避免選擇超載。</p>
+
+      <form class="filter-bar" aria-label="篩選條件">
+        <div>
+          <label for="f-subject">科目</label>
+          <select id="f-subject">
+            <option value="">全部</option>
+            <option value="數學">數學</option>
+            <option value="英文">英文</option>
+            <option value="國文">國文</option>
+            <option value="理化">理化</option>
+          </select>
+        </div>
+        <div>
+          <label for="f-region">地區</label>
+          <select id="f-region">
+            <option value="">全部</option>
+            <option value="桃園">桃園</option>
+            <option value="台北">台北</option>
+            <option value="台中">台中</option>
+          </select>
+        </div>
+        <div>
+          <label for="f-budget">每小時預算</label>
+          <select id="f-budget">
+            <option value="">全部</option>
+            <option value="600">600 元以下</option>
+            <option value="800">601 到 800 元</option>
+            <option value="9999">801 元以上</option>
+          </select>
+        </div>
+        <div>
+          <label for="f-mode">線上或實體</label>
+          <select id="f-mode">
+            <option value="">全部</option>
+            <option value="線上">線上</option>
+            <option value="實體">實體</option>
+          </select>
+        </div>
+        <div>
+          <label for="f-time">時段</label>
+          <select id="f-time">
+            <option value="">全部</option>
+            <option value="平日下午">平日下午</option>
+            <option value="平日晚上">平日晚上</option>
+            <option value="週末">週末</option>
+          </select>
+        </div>
+      </form>
+      <p class="filter-count" id="filter-count"></p>
+
+      <div class="tutor-grid" id="tutor-grid">
+
+        <article class="tutor-card" data-subject="數學" data-region="桃園" data-rate="700" data-mode="線上 實體" data-time="平日晚上">
+          <!-- 替換為 images/tutor-01.jpg -->
+          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=600&fit=crop&auto=format" alt="林老師的形象照（佔位圖）">
+          <div class="tutor-body">
+            <div class="tutor-head">
+              <h3>林老師</h3>
+              <span class="badge badge-verified">已驗證</span>
+            </div>
+            <dl class="tutor-facts">
+              <div><dt>科目</dt><dd>國中數學</dd></div>
+              <div><dt>學歷</dt><dd>國立大學數學系</dd></div>
+              <div><dt>年資</dt><dd>5 年</dd></div>
+              <div><dt>時薪</dt><dd>700 元</dd></div>
+              <div><dt>授課方式</dt><dd>線上、實體（桃園）</dd></div>
+              <div><dt>可上課時段</dt><dd>平日晚上</dd></div>
+            </dl>
+            <p class="match-reason"><strong>匹配理由：</strong>可配合平日晚上時段，擅長從基礎題帶起，與「會考前穩住基礎」的目標相符。</p>
+          </div>
+        </article>
+
+        <article class="tutor-card" data-subject="英文" data-region="台北" data-rate="600" data-mode="實體" data-time="週末">
+          <!-- 替換為 images/tutor-02.jpg -->
+          <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=800&h=600&fit=crop&auto=format" alt="陳老師的形象照（佔位圖）">
+          <div class="tutor-body">
+            <div class="tutor-head">
+              <h3>陳老師</h3>
+              <span class="badge badge-verified">已驗證</span>
+            </div>
+            <dl class="tutor-facts">
+              <div><dt>科目</dt><dd>國小、國中英文</dd></div>
+              <div><dt>學歷</dt><dd>國立大學外文系</dd></div>
+              <div><dt>年資</dt><dd>3 年</dd></div>
+              <div><dt>時薪</dt><dd>600 元</dd></div>
+              <div><dt>授課方式</dt><dd>實體（台北）</dd></div>
+              <div><dt>可上課時段</dt><dd>週末</dd></div>
+            </dl>
+            <p class="match-reason"><strong>匹配理由：</strong>住家鄰近捷運可到府，週末時段穩定，適合需要長期陪伴的國中生。</p>
+          </div>
+        </article>
+
+        <article class="tutor-card" data-subject="數學 理化" data-region="線上" data-rate="800" data-mode="線上" data-time="平日晚上">
+          <!-- 替換為 images/tutor-03.jpg -->
+          <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=800&h=600&fit=crop&auto=format" alt="張老師的形象照（佔位圖）">
+          <div class="tutor-body">
+            <div class="tutor-head">
+              <h3>張老師</h3>
+              <span class="badge badge-verified">已驗證</span>
+            </div>
+            <dl class="tutor-facts">
+              <div><dt>科目</dt><dd>國中數學、理化</dd></div>
+              <div><dt>學歷</dt><dd>私立大學應用數學系</dd></div>
+              <div><dt>年資</dt><dd>7 年</dd></div>
+              <div><dt>時薪</dt><dd>800 元</dd></div>
+              <div><dt>授課方式</dt><dd>線上</dd></div>
+              <div><dt>可上課時段</dt><dd>平日晚上</dd></div>
+            </dl>
+            <p class="match-reason"><strong>匹配理由：</strong>線上教學經驗完整，附有試教示範影片，適合住處沒有合適老師的地區。</p>
+          </div>
+        </article>
+
+        <article class="tutor-card" data-subject="英文" data-region="台中" data-rate="900" data-mode="線上 實體" data-time="週末">
+          <!-- 替換為 images/tutor-04.jpg -->
+          <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=800&h=600&fit=crop&auto=format" alt="黃老師的形象照（佔位圖）">
+          <div class="tutor-body">
+            <div class="tutor-head">
+              <h3>黃老師</h3>
+              <span class="badge badge-pending">審核中</span>
+            </div>
+            <dl class="tutor-facts">
+              <div><dt>科目</dt><dd>高中英文</dd></div>
+              <div><dt>學歷</dt><dd>國立大學英語教學碩士</dd></div>
+              <div><dt>年資</dt><dd>10 年</dd></div>
+              <div><dt>時薪</dt><dd>900 元</dd></div>
+              <div><dt>授課方式</dt><dd>線上、實體（台中）</dd></div>
+              <div><dt>可上課時段</dt><dd>週末</dd></div>
+            </dl>
+            <p class="match-reason"><strong>匹配理由：</strong>學歷查核已通過，推薦人聯繫中；審核完成前不開放預約試教。</p>
+          </div>
+        </article>
+
+        <article class="tutor-card" data-subject="國文" data-region="桃園" data-rate="500" data-mode="實體" data-time="平日下午">
+          <!-- 替換為 images/tutor-05.jpg -->
+          <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=800&h=600&fit=crop&auto=format" alt="吳老師的形象照（佔位圖）">
+          <div class="tutor-body">
+            <div class="tutor-head">
+              <h3>吳老師</h3>
+              <span class="badge badge-verified">已驗證</span>
+            </div>
+            <dl class="tutor-facts">
+              <div><dt>科目</dt><dd>國中國文</dd></div>
+              <div><dt>學歷</dt><dd>國立大學中文系</dd></div>
+              <div><dt>年資</dt><dd>2 年</dd></div>
+              <div><dt>時薪</dt><dd>500 元</dd></div>
+              <div><dt>授課方式</dt><dd>實體（桃園）</dd></div>
+              <div><dt>可上課時段</dt><dd>平日下午</dd></div>
+            </dl>
+            <p class="match-reason"><strong>匹配理由：</strong>平日下午時段較少老師可配合，預算友善，適合需要陪讀型協助的家庭。</p>
+          </div>
+        </article>
+
+      </div>
+      <p class="empty-state" id="empty-state">目前沒有符合全部條件的老師。可以放寬預算或時段，或先送出需求，由平台人工協尋後通知你。</p>
+    </div>
+  </section>
+
+  <!-- 媒合流程 -->
+  <section id="process" aria-label="媒合流程">
+    <div class="wrap">
+      <h2>媒合流程</h2>
+      <p class="section-lead">媒合不是搜尋結果，而是一段有狀態的流程。你隨時可以在這條狀態條上看到自己走到哪裡、現在在等誰。</p>
+      <ol class="stepper" id="stepper">
+        <li class="current" data-step="1">提交需求<small>填寫需求表並送出</small></li>
+        <li data-step="2">平台審核<small>確認需求完整、可媒合</small></li>
+        <li data-step="3">推薦老師<small>精選三到五位並附匹配理由</small></li>
+        <li data-step="4">試教<small>安排一次付費試教</small></li>
+        <li data-step="5">確認媒合<small>雙方同意後正式開課</small></li>
+      </ol>
+      <p class="process-note">若老師拒絕或試教後不合適，流程會回到「推薦老師」重新推薦，不需要重新填寫需求。</p>
+    </div>
+  </section>
+
+  <!-- 審核說明 -->
+  <section id="verification" class="alt-bg" aria-label="審核說明">
+    <div class="wrap">
+      <h2>審核說明</h2>
+      <p class="section-lead">「審核通過」不是一句口號。每位標示「已驗證」的老師，都完成了下列四個環節，缺一不可。</p>
+      <div class="info-grid">
+        <div class="info-card">
+          <h3>身分驗證</h3>
+          <p>核對身分證件與本人視訊，確認註冊者與實際授課者是同一人。</p>
+        </div>
+        <div class="info-card">
+          <h3>學歷查核</h3>
+          <p>畢業證書或在學證明需與學校系統核對，不接受只有自拍照片的證明。</p>
+        </div>
+        <div class="info-card">
+          <h3>試教回饋</h3>
+          <p>新老師的前三次試教會收集家長與學生回饋，作為後續推薦的依據。</p>
+        </div>
+        <div class="info-card">
+          <h3>推薦人</h3>
+          <p>需提供一位可聯繫的推薦人（曾任教學生家長或系上教授），由平台電話確認。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 費用與保障 -->
+  <section id="fees" aria-label="費用與保障">
+    <div class="wrap">
+      <h2>費用與保障</h2>
+      <p class="section-lead">所有費用在媒合前講清楚，沒有「查看聯絡方式即收費」這種設計。</p>
+      <div class="info-grid">
+        <div class="info-card">
+          <h3>媒合費</h3>
+          <p>媒合成功後才收取，金額於推薦老師時一併載明；媒合不成功不收費。</p>
+        </div>
+        <div class="info-card">
+          <h3>試教費</h3>
+          <p>試教以一堂課計費，費率與正式課程相同，由家長直接支付給老師。</p>
+        </div>
+        <div class="info-card">
+          <h3>取消與退款</h3>
+          <p>試教前二十四小時可免費取消；已付媒合費而未開課者，可申請全額退還。</p>
+        </div>
+        <div class="info-card">
+          <h3>替換老師</h3>
+          <p>開課後一個月內若不適任，平台於二十四小時內重新推薦，不另收媒合費。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>聯絡信箱：service@tutormatch.example</p>
+    <p>服務地區：桃園、台北、台中（線上課程不限地區）</p>
+    <p>© 2026 安心家教媒合（課程示範原型）</p>
+  </div>
+</footer>
+
+<script>
+  // 雙邊資料模型示範：正式平台會存進資料庫，這裡用 JavaScript 物件示意欄位
+  const parentRequest = {
+    id: "REQ-001",
+    grade: "國中",
+    subject: "數學",
+    region: "桃園",
+    budgetPerHour: 800,
+    goal: "會考前把基礎題穩住",
+    availability: ["平日晚上"],
+  };
+
+  const tutorProfiles = [
+    { id: "T-001", name: "林老師", subjects: ["數學"], degree: "國立大學數學系", years: 5, ratePerHour: 700, regions: ["桃園", "線上"] },
+    { id: "T-002", name: "陳老師", subjects: ["英文"], degree: "國立大學外文系", years: 3, ratePerHour: 600, regions: ["台北"] },
+    { id: "T-003", name: "張老師", subjects: ["數學", "理化"], degree: "私立大學應用數學系", years: 7, ratePerHour: 800, regions: ["線上"] },
+    { id: "T-004", name: "黃老師", subjects: ["英文"], degree: "國立大學英語教學碩士", years: 10, ratePerHour: 900, regions: ["台中", "線上"] },
+    { id: "T-005", name: "吳老師", subjects: ["國文"], degree: "國立大學中文系", years: 2, ratePerHour: 500, regions: ["桃園"] },
+  ];
+
+  const tutorVerifications = [
+    { tutorId: "T-001", item: "學歷查核", status: "已驗證", verifiedAt: "2026-05-12", note: "與學校系統核對完成" },
+    { tutorId: "T-004", item: "推薦人", status: "審核中", verifiedAt: null, note: "推薦人電話聯繫中" },
+  ];
+
+  const availabilitySlots = [
+    { tutorId: "T-001", weekday: "週二", start: "19:00", end: "21:00", mode: "實體" },
+    { tutorId: "T-003", weekday: "週四", start: "19:30", end: "21:30", mode: "線上" },
+  ];
+
+  const matchCandidates = [
+    { requestId: "REQ-001", tutorId: "T-001", score: 0.92, reason: "科目、地區、時段與預算皆符合", status: "已推薦" },
+    { requestId: "REQ-001", tutorId: "T-003", score: 0.84, reason: "科目與時段符合，採線上授課", status: "已推薦" },
+  ];
+
+  const trialLessons = [
+    { matchId: "M-001", scheduledAt: "2026-06-20 19:00", fee: 700, result: "待進行", parentFeedback: "", tutorFeedback: "" },
+  ];
+
+  // 篩選：依科目、地區、預算、線上或實體、時段顯示教師卡片
+  const filterIds = ["f-subject", "f-region", "f-budget", "f-mode", "f-time"];
+  const cards = Array.from(document.querySelectorAll(".tutor-card"));
+  const filterCount = document.getElementById("filter-count");
+  const emptyState = document.getElementById("empty-state");
+
+  function applyFilters() {
+    const subject = document.getElementById("f-subject").value;
+    const region = document.getElementById("f-region").value;
+    const budget = document.getElementById("f-budget").value;
+    const mode = document.getElementById("f-mode").value;
+    const time = document.getElementById("f-time").value;
+
+    let visible = 0;
+    cards.forEach((card) => {
+      const okSubject = !subject || card.dataset.subject.includes(subject);
+      const okRegion = !region || card.dataset.region.includes(region) || card.dataset.region.includes("線上");
+      const okBudget = !budget || matchBudget(Number(card.dataset.rate), budget);
+      const okMode = !mode || card.dataset.mode.includes(mode);
+      const okTime = !time || card.dataset.time.includes(time);
+      const show = okSubject && okRegion && okBudget && okMode && okTime;
+      card.style.display = show ? "" : "none";
+      if (show) visible += 1;
+    });
+
+    filterCount.textContent = "目前顯示 " + visible + " 位老師（平台每次最多推薦五位）";
+    emptyState.classList.toggle("show", visible === 0);
+  }
+
+  function matchBudget(rate, budget) {
+    if (budget === "600") return rate <= 600;
+    if (budget === "800") return rate > 600 && rate <= 800;
+    return rate > 800;
+  }
+
+  filterIds.forEach((id) => {
+    document.getElementById(id).addEventListener("change", applyFilters);
+  });
+  applyFilters();
+
+  // 需求表送出：示範媒合狀態條的變化（不送到後端）
+  document.getElementById("request-form").addEventListener("submit", (event) => {
+    event.preventDefault();
+    const result = document.getElementById("submit-result");
+    result.textContent = "需求已送出（示範）。媒合狀態已進入「平台審核」，審核完成後會推薦三到五位老師。";
+    result.classList.add("show");
+    const steps = document.querySelectorAll("#stepper li");
+    steps.forEach((li) => li.classList.remove("current"));
+    steps[1].classList.add("current");
+  });
+</script>
+
+</body>
+</html>

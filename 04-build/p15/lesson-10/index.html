@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>阿哲教練｜台北一對一私人教練，帶零基礎上班族安全開始訓練</title>
+<meta name="description" content="台北一對一私人教練。專帶零基礎與久坐上班族，先諮詢、先評估、看懂課程包與退費規則再決定。提供清楚的方案內容、耗課紀錄與付款前說明，預約免費諮詢。">
+<style>
+  :root {
+    --bg: #ffffff;
+    --bg-soft: #f3f5f4;   /* 低飽和淺灰綠 */
+    --ink: #22302c;       /* 深墨綠灰 */
+    --ink-soft: #5d6b66;
+    --line: #dde4e1;
+    --accent: #1f6f54;    /* 沉穩綠：行動按鈕 */
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Noto Sans TC", "PingFang TC", sans-serif;
+    color: var(--ink);
+    background: var(--bg);
+    line-height: 1.8;
+  }
+  header {
+    padding: 1.2rem 6vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--line);
+  }
+  header .brand { font-weight: 700; letter-spacing: 0.05em; }
+  header nav a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    margin-left: 1.1rem;
+    font-size: 0.95rem;
+  }
+  section { padding: 3.5rem 6vw; }
+  h1 { font-size: 2rem; font-weight: 700; letter-spacing: 0.04em; }
+  h2 { font-size: 1.4rem; margin-bottom: 1.4rem; letter-spacing: 0.06em; }
+  h3 { font-size: 1.05rem; margin-bottom: 0.4rem; }
+  .hero { background: var(--bg-soft); text-align: center; padding: 4.5rem 6vw 4rem; }
+  .hero p.position { margin-top: 0.8rem; font-weight: 700; color: var(--accent); }
+  .hero p.tagline { margin: 0.8rem auto 2rem; max-width: 34em; color: var(--ink-soft); }
+  .btn {
+    display: inline-block;
+    min-height: 44px;
+    padding: 0.7rem 2rem;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    text-decoration: none;
+    margin: 0.3rem 0.5rem;
+  }
+  .btn.primary { background: var(--accent); color: #fff; }
+  .profile-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 2rem; align-items: start; }
+  .profile-grid img { width: 100%; height: auto; display: block; }
+  dl.facts { margin-top: 0.5rem; }
+  dl.facts dt { font-weight: 700; margin-top: 0.8rem; }
+  dl.facts dd { color: var(--ink-soft); margin-left: 0; }
+  .note {
+    background: var(--bg-soft);
+    border-left: 4px solid var(--accent);
+    padding: 0.8rem 1rem;
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+    margin-top: 1.2rem;
+  }
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; }
+  .card { border: 1px solid var(--line); padding: 1.3rem; }
+  .card img { width: 100%; height: auto; display: block; margin-bottom: 0.8rem; }
+  .card .tag {
+    display: inline-block;
+    font-size: 0.78rem;
+    background: var(--bg-soft);
+    color: var(--ink-soft);
+    padding: 0.1rem 0.6rem;
+    margin-bottom: 0.5rem;
+  }
+  .card ul { list-style: none; margin-top: 0.4rem; }
+  .card li { font-size: 0.92rem; color: var(--ink-soft); padding: 0.12rem 0; }
+  .card li strong { color: var(--ink); font-weight: 700; }
+  .plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; }
+  .plan { border: 1px solid var(--line); padding: 1.5rem; }
+  .plan .price { font-weight: 700; margin-top: 0.6rem; }
+  .plan ul { list-style: none; margin-top: 0.6rem; }
+  .plan li { font-size: 0.92rem; color: var(--ink-soft); padding: 0.15rem 0; }
+  .steps { display: flex; gap: 1rem; flex-wrap: wrap; counter-reset: step; }
+  .steps div {
+    flex: 1;
+    min-width: 130px;
+    background: var(--bg-soft);
+    padding: 1rem;
+    text-align: center;
+    font-size: 0.95rem;
+  }
+  .steps div::before {
+    counter-increment: step;
+    content: counter(step);
+    display: block;
+    font-weight: 700;
+    color: var(--accent);
+  }
+  table.slots { width: 100%; border-collapse: collapse; margin-top: 0.5rem; }
+  table.slots th, table.slots td {
+    border: 1px solid var(--line);
+    padding: 0.55rem 0.8rem;
+    text-align: left;
+    font-size: 0.95rem;
+  }
+  table.slots th { background: var(--bg-soft); }
+  .status-open { color: var(--accent); font-weight: 700; }
+  .status-wait { color: #946200; font-weight: 700; }
+  .status-full { color: var(--ink-soft); }
+  .policy-list { max-width: 46em; }
+  .policy-list li { margin: 0.5rem 0 0.5rem 1.4em; color: var(--ink-soft); }
+  .policy-list li strong { color: var(--ink); }
+  form { max-width: 36em; }
+  form label { display: block; margin-top: 1rem; font-size: 0.95rem; }
+  form input, form select, form textarea {
+    width: 100%;
+    min-height: 44px;
+    padding: 0.5rem 0.7rem;
+    border: 1px solid var(--line);
+    font-size: 1rem;
+    background: #fff;
+  }
+  form textarea { min-height: 110px; }
+  form input:focus, form select:focus, form textarea:focus { outline: 2px solid var(--accent); }
+  form button {
+    margin-top: 1.5rem;
+    min-height: 48px;
+    width: 100%;
+    border: none;
+    background: var(--accent);
+    color: #fff;
+    font-size: 1.05rem;
+    cursor: pointer;
+  }
+  form button:hover { opacity: 0.9; }
+  .contact-info { margin-top: 2rem; color: var(--ink-soft); }
+  .contact-info li { list-style: none; padding: 0.15rem 0; }
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 2rem 6vw;
+    font-size: 0.88rem;
+    color: var(--ink-soft);
+  }
+  /* 平板：案例與方案卡片改為兩欄 */
+  @media (max-width: 1024px) {
+    .cards, .plans { grid-template-columns: repeat(2, 1fr); }
+    .profile-grid { grid-template-columns: 1fr; }
+  }
+  /* 手機：全部單欄，按鈕與表單欄位維持易點 */
+  @media (max-width: 640px) {
+    header { flex-direction: column; align-items: flex-start; gap: 0.4rem; }
+    header nav a { margin-left: 0; margin-right: 0.9rem; }
+    section { padding: 2.8rem 5vw; }
+    .hero { padding: 3.2rem 5vw; }
+    h1 { font-size: 1.55rem; }
+    .cards, .plans { grid-template-columns: 1fr; }
+    .btn { display: block; margin: 0.5rem auto; max-width: 22em; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">阿哲教練｜個人訓練</div>
+  <nav>
+    <a href="#profile">教練定位</a>
+    <a href="#cases">學員案例</a>
+    <a href="#plans">課程方案</a>
+    <a href="#process">諮詢流程</a>
+    <a href="#slots">諮詢時段</a>
+    <a href="#policy">規則說明</a>
+    <a href="#contact">預約諮詢</a>
+  </nav>
+</header>
+
+<main>
+
+  <!-- Hero 首頁：名稱、定位、主張、主要行動按鈕 -->
+  <section class="hero">
+    <h1>阿哲教練</h1>
+    <p class="position">台北一對一私人教練｜專帶零基礎與久坐上班族</p>
+    <p class="tagline">你不需要先變強才來健身房。先聊一次、做一次動作評估，看懂方案與退費規則，再決定要不要開始。</p>
+    <a class="btn primary" href="#contact">預約免費諮詢</a>
+    <a class="btn" href="#plans">先看方案與規則</a>
+  </section>
+
+  <!-- 教練定位：TrainerProfile（名稱、地區、定位、服務時間） -->
+  <section id="profile">
+    <h2>教練定位</h2>
+    <div class="profile-grid">
+      <!-- 替換為 images/coach-profile.jpg -->
+      <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=800&h=600&fit=crop&auto=format" alt="阿哲教練在場館指導學員動作的工作照">
+      <div>
+        <dl class="facts">
+          <dt>名稱</dt>
+          <dd>阿哲教練（個人品牌工作者，無固定工作室）</dd>
+          <dt>地區</dt>
+          <dd>台北市，與多家合作場館配合，上課地點依你的位置安排</dd>
+          <dt>定位</dt>
+          <dd>專帶零基礎、中斷很久、久坐痠痛的上班族。課表用你聽得懂的話說明，不堆術語。</dd>
+          <dt>服務時間</dt>
+          <dd>平日 07:00–10:00、19:00–22:00；週六 09:00–17:00</dd>
+          <dt>證照與背景</dt>
+          <dd>（上線前填入實際證照名稱、發證單位與年份；本原型不放未經查證的資歷）</dd>
+        </dl>
+        <p class="note">本頁為網站原型：照片、時段與資歷皆為佔位內容，正式上線前需替換為可查證的真實資料。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 信任證據：TrustEvidence（照片、案例；評論與資歷待真實資料） -->
+  <section id="cases" style="background: var(--bg-soft);">
+    <h2>學員案例</h2>
+    <div class="cards">
+      <article class="card">
+        <!-- 替換為 images/case-01.jpg（需取得學員書面同意） -->
+        <img src="https://images.unsplash.com/photo-1567013127542-490d757e51fc?w=800&h=600&fit=crop&auto=format" alt="久坐工程師學員的訓練紀錄照片">
+        <span class="tag">案例示意（上線前替換為真實案例）</span>
+        <h3>久坐十年的軟體工程師</h3>
+        <ul>
+          <li><strong>起點：</strong>36 歲，無訓練經驗，肩頸僵硬</li>
+          <li><strong>目標：</strong>改善痠痛、建立運動習慣</li>
+          <li><strong>期間：</strong>12 週</li>
+          <li><strong>方法：</strong>每週 2 堂一對一＋每日步行紀錄</li>
+          <li><strong>結果：</strong>深蹲達大腿平行、爬四層樓不喘</li>
+          <li><strong>限制：</strong>個人結果不代表保證成果</li>
+        </ul>
+      </article>
+      <article class="card">
+        <!-- 替換為 images/case-02.jpg（需取得學員書面同意） -->
+        <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=800&h=600&fit=crop&auto=format" alt="重新開始訓練的行政主管學員訓練紀錄照片">
+        <span class="tag">案例示意（上線前替換為真實案例）</span>
+        <h3>中斷運動八年的行政主管</h3>
+        <ul>
+          <li><strong>起點：</strong>41 歲，產後體力低落</li>
+          <li><strong>目標：</strong>減脂、找回體力</li>
+          <li><strong>期間：</strong>16 週</li>
+          <li><strong>方法：</strong>每週 2 堂＋飲食紀錄回饋</li>
+          <li><strong>結果：</strong>腰圍減 6 公分、睡眠品質改善</li>
+          <li><strong>限制：</strong>個人結果不代表保證成果</li>
+        </ul>
+      </article>
+      <article class="card">
+        <!-- 替換為 images/case-03.jpg（需取得學員書面同意） -->
+        <img src="https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=800&h=600&fit=crop&auto=format" alt="有膝蓋舊傷的退休教師學員訓練紀錄照片">
+        <span class="tag">案例示意（上線前替換為真實案例）</span>
+        <h3>膝蓋有舊傷的退休教師</h3>
+        <ul>
+          <li><strong>起點：</strong>55 歲，上下樓梯會痛</li>
+          <li><strong>目標：</strong>無痛上下樓梯</li>
+          <li><strong>期間：</strong>20 週</li>
+          <li><strong>方法：</strong>每週 1 堂＋居家彈力帶課表</li>
+          <li><strong>結果：</strong>上下樓梯不再代償、握力進步</li>
+          <li><strong>限制：</strong>個人結果不代表保證成果</li>
+        </ul>
+      </article>
+    </div>
+    <p class="note">本區不放無法查證的學員評論與前後對比照。正式上線時，案例與照片皆需取得學員書面同意，並保留起點、期間與方法等脈絡。</p>
+  </section>
+
+  <!-- 課程方案：ServiceItem（名稱、內容、價格或條件、限制） -->
+  <section id="plans">
+    <h2>課程方案</h2>
+    <div class="plans">
+      <div class="plan">
+        <h3>體驗：諮詢＋動作評估</h3>
+        <p class="price">單次 NT$800<!-- 上線前替換為實際價格 --></p>
+        <ul>
+          <li>30 分鐘諮詢＋30 分鐘動作評估</li>
+          <li>當天拿到一頁評估摘要</li>
+          <li>限制：每人限一次，不綁定後續購買</li>
+        </ul>
+      </div>
+      <div class="plan">
+        <h3>12 堂課程包</h3>
+        <p class="price">NT$18,000（單堂 NT$1,500）<!-- 上線前替換為實際價格 --></p>
+        <ul>
+          <li>一對一訓練 60 分鐘×12 堂</li>
+          <li>含課後耗課紀錄與課表回家作業</li>
+          <li>限制：自首堂起 4 個月內有效</li>
+        </ul>
+      </div>
+      <div class="plan">
+        <h3>24 堂課程包</h3>
+        <p class="price">NT$33,600（單堂 NT$1,400）<!-- 上線前替換為實際價格 --></p>
+        <ul>
+          <li>一對一訓練 60 分鐘×24 堂</li>
+          <li>含每月一次進度量測與紀錄</li>
+          <li>限制：自首堂起 8 個月內有效</li>
+        </ul>
+      </div>
+    </div>
+    <p class="note">不販售超過 24 堂的大包課程。價格與堂數於付款前以書面確認單載明，詳見下方規則說明。</p>
+  </section>
+
+  <!-- 諮詢流程：核心流程（查看定位、案例、方案後的下一步） -->
+  <section id="process" style="background: var(--bg-soft);">
+    <h2>諮詢流程</h2>
+    <div class="steps">
+      <div>填寫下方諮詢表單</div>
+      <div>30 分鐘諮詢，教練主要在聽</div>
+      <div>動作評估與舊傷確認</div>
+      <div>課表提案與書面報價</div>
+      <div>你決定是否購買課程包</div>
+    </div>
+    <p class="note">諮詢結束不會當場推銷。你可以把書面報價帶回家想，三天內回覆即可保留時段。</p>
+  </section>
+
+  <!-- 諮詢時段：ScheduleSlot（日期、時段、名額、狀態） -->
+  <section id="slots">
+    <h2>近期諮詢時段</h2>
+    <table class="slots">
+      <thead>
+        <tr><th>日期</th><th>時段</th><th>名額</th><th>狀態</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>06/16（一）</td><td>19:00–20:00</td><td>1</td><td class="status-open">開放預約</td></tr>
+        <tr><td>06/18（三）</td><td>20:00–21:00</td><td>1</td><td class="status-wait">候補</td></tr>
+        <tr><td>06/21（六）</td><td>09:00–10:00</td><td>2</td><td class="status-open">開放預約</td></tr>
+        <tr><td>06/21（六）</td><td>10:30–11:30</td><td>0</td><td class="status-full">已滿</td></tr>
+      </tbody>
+    </table>
+    <p class="note">此表為靜態示意，實際可預約時段以表單送出後的回覆為準。</p>
+  </section>
+
+  <!-- 規則說明：Policy（取消、退款、隱私、服務邊界）＋付款前說明 -->
+  <section id="policy" style="background: var(--bg-soft);">
+    <h2>規則與付款前說明</h2>
+    <ul class="policy-list">
+      <li><strong>付款前說明：</strong>購買課程包前，你會先收到書面確認單，載明堂數、價格、有效期限與退費規則，確認後才付款。</li>
+      <li><strong>請假與改期：</strong>開課前 12 小時告知可改期、不扣堂；未告知缺席扣 1 堂。</li>
+      <li><strong>退費規則：</strong>未使用堂數可申請退費，已上堂數以單堂原價計算後退還差額。</li>
+      <li><strong>耗課紀錄：</strong>每堂課後更新剩餘堂數與到期日，你可隨時查詢，不必用猜的。</li>
+      <li><strong>進度照片：</strong>拍攝與使用前皆需你的書面同意，同意可隨時撤回。</li>
+      <li><strong>補充品與飲食邊界：</strong>本教練可能依需求提供飲食與補充品建議，但補充品為選購，是否購買不影響課程安排。若涉及疾病、藥物或特殊飲食限制，請先諮詢醫師或營養師。</li>
+      <li><strong>隱私：</strong>表單資料僅用於諮詢聯絡與課程安排，不提供第三方。</li>
+    </ul>
+  </section>
+
+  <!-- 資料表單：UserRequest（姓名、聯絡方式、需求、備註）＋聯絡與後續 -->
+  <section id="contact">
+    <h2>預約免費諮詢</h2>
+    <form>
+      <label for="name">姓名</label>
+      <input id="name" name="name" type="text" placeholder="怎麼稱呼你" required>
+      <label for="contact-way">聯絡方式（電話、Email 或 LINE ID 擇一）</label>
+      <input id="contact-way" name="contact" type="text" placeholder="例如：0912-345-678" required>
+      <label for="goal">想解決的狀況</label>
+      <select id="goal" name="goal" required>
+        <option value="">請選擇</option>
+        <option>建立運動習慣（零基礎）</option>
+        <option>久坐痠痛、想改善姿勢</option>
+        <option>減脂、找回體力</option>
+        <option>重量訓練入門</option>
+        <option>其他（請在備註說明）</option>
+      </select>
+      <label for="experience">訓練經驗</label>
+      <select id="experience" name="experience">
+        <option>完全沒有</option>
+        <option>中斷很久</option>
+        <option>目前有規律運動</option>
+      </select>
+      <label for="start-time">預計開始時間</label>
+      <select id="start-time" name="start">
+        <option>兩週內</option>
+        <option>一個月內</option>
+        <option>還在評估</option>
+      </select>
+      <label for="message">備註（舊傷、生活限制、想先問的事）</label>
+      <textarea id="message" name="message" placeholder="例如：左膝開過刀、平日只有晚上有空"></textarea>
+      <button type="submit">送出諮詢申請</button>
+    </form>
+    <p class="note">送出後 24 小時內，會以你留的聯絡方式回覆並確認諮詢時段；本原型表單為靜態示意，尚未連接後端。</p>
+    <ul class="contact-info">
+      <li>電話：02-0000-0000（上線前替換為真實電話）</li>
+      <li>LINE：@coach-example（上線前替換為真實帳號）</li>
+      <li>Email：hello@coach-azhe.example</li>
+      <li>上課地點：台北市合作場館，諮詢時依你的位置安排</li>
+    </ul>
+  </section>
+
+</main>
+
+<footer>
+  <p>阿哲教練｜個人訓練 · 服務地區：台北市</p>
+  <p>本網站內容不構成醫療或營養治療建議；訓練成效因人而異，個人案例不代表保證成果。</p>
+  <p>© 2026 阿哲教練個人訓練（本頁為課程教學用原型）</p>
+</footer>
+
+</body>
+</html>

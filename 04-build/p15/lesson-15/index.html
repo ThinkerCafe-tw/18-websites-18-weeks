@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>安放心理諮商所｜台北預約制個別與伴侶諮商・線上初談預約</title>
+  <meta name="description" content="安放心理諮商所位於台北，採預約制提供個別諮商、伴侶諮商與線上諮商。費用、取消規則、保密範圍與例外都公開說明；可直接用表單預約初談，不需要先打電話說明狀況。">
+  <style>
+    :root {
+      --bg: #f6f3ee;
+      --surface: #fffdf9;
+      --ink: #3d4144;
+      --ink-soft: #6e7378;
+      --accent: #5f7a6e;
+      --accent-dark: #49604f;
+      --line: #e4ddd1;
+      --alert-bg: #f4eae2;
+      --alert-ink: #7c5a49;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.85;
+    }
+    img { max-width: 100%; display: block; border-radius: 10px; }
+    a { color: var(--accent-dark); }
+    h1, h2, h3 { font-weight: 600; line-height: 1.4; }
+    h2 { font-size: 1.5rem; margin-bottom: 0.4rem; }
+    .section-lead { color: var(--ink-soft); margin-bottom: 1.6rem; max-width: 38em; }
+    section { padding: 56px 20px; }
+    .inner { max-width: 1040px; margin: 0 auto; }
+
+    /* 頁首導覽 */
+    .site-header {
+      display: flex; justify-content: space-between; align-items: center;
+      max-width: 1040px; margin: 0 auto; padding: 18px 20px;
+    }
+    .brand { font-size: 1.15rem; font-weight: 600; letter-spacing: 0.06em; }
+    .brand small { display: block; font-size: 0.75rem; font-weight: 400; color: var(--ink-soft); letter-spacing: 0.1em; }
+    .site-nav a {
+      margin-left: 18px; text-decoration: none; color: var(--ink);
+      font-size: 0.95rem; padding: 6px 2px; border-bottom: 2px solid transparent;
+    }
+    .site-nav a:hover { border-bottom-color: var(--accent); color: var(--accent-dark); }
+
+    /* 首頁主視覺 */
+    .hero { background: var(--surface); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .hero-inner {
+      max-width: 1040px; margin: 0 auto;
+      display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 40px; align-items: center;
+    }
+    .hero h1 { font-size: 1.9rem; margin-bottom: 0.6rem; }
+    .hero .position { color: var(--accent-dark); font-size: 0.95rem; letter-spacing: 0.08em; margin-bottom: 1rem; }
+    .hero .claim { max-width: 30em; margin-bottom: 1.6rem; }
+    .hero-actions { margin-bottom: 1rem; }
+    .hero-actions a {
+      display: inline-block; text-decoration: none; border-radius: 8px;
+      padding: 12px 26px; margin: 0 12px 10px 0; font-size: 1rem;
+    }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: var(--accent-dark); }
+    .btn-secondary { border: 1px solid var(--accent); color: var(--accent-dark); }
+    .btn-secondary:hover { background: #eef2ee; }
+    .hero .quiet-note { font-size: 0.88rem; color: var(--ink-soft); }
+
+    /* 卡片與格線 */
+    .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .card {
+      background: var(--surface); border: 1px solid var(--line);
+      border-radius: 12px; padding: 24px;
+    }
+    .card h3 { font-size: 1.08rem; margin-bottom: 0.6rem; color: var(--accent-dark); }
+    .card p, .card li { font-size: 0.95rem; }
+    .card ul { padding-left: 1.2em; }
+    .price { font-size: 1.25rem; font-weight: 600; margin: 0.4rem 0; }
+    .price small { font-size: 0.8rem; font-weight: 400; color: var(--ink-soft); }
+    .fine-print { font-size: 0.85rem; color: var(--ink-soft); margin-top: 1.2rem; }
+
+    /* 信任證據 */
+    .trust-profile {
+      display: grid; grid-template-columns: 280px 1fr; gap: 28px;
+      background: var(--surface); border: 1px solid var(--line);
+      border-radius: 12px; padding: 24px; margin-bottom: 20px;
+    }
+    .trust-profile blockquote {
+      border-left: 3px solid var(--accent); padding-left: 14px;
+      color: var(--ink); margin: 0.8rem 0;
+    }
+    .credentials { font-size: 0.92rem; color: var(--ink-soft); padding-left: 1.2em; }
+
+    /* 核心流程 */
+    .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; counter-reset: step; }
+    .step { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 20px; }
+    .step::before {
+      counter-increment: step; content: "0" counter(step);
+      display: block; font-size: 0.85rem; color: var(--accent); letter-spacing: 0.15em; margin-bottom: 6px;
+    }
+    .step h3 { font-size: 1rem; margin-bottom: 0.4rem; }
+    .step p { font-size: 0.9rem; color: var(--ink-soft); }
+
+    /* 可預約時段 */
+    .slot-table { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+    .slot-table th, .slot-table td { padding: 12px 14px; text-align: left; font-size: 0.95rem; border-bottom: 1px solid var(--line); }
+    .slot-table th { background: #efeae0; font-weight: 600; }
+    .slot-open { color: var(--accent-dark); font-weight: 600; }
+    .slot-full { color: var(--ink-soft); }
+
+    /* 規則說明 */
+    .rule-block { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 24px; margin-bottom: 16px; }
+    .rule-block h3 { font-size: 1.05rem; color: var(--accent-dark); margin-bottom: 0.5rem; }
+    .rule-block ul { padding-left: 1.3em; font-size: 0.95rem; }
+
+    /* 危機資源 */
+    .crisis {
+      background: var(--alert-bg); border: 1px solid #e3cdbd; border-radius: 12px;
+      padding: 20px 24px; color: var(--alert-ink); font-size: 0.95rem;
+    }
+    .crisis strong { display: block; margin-bottom: 0.3rem; }
+
+    /* 預約表單 */
+    .booking-form { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 28px; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px 20px; }
+    .field { display: flex; flex-direction: column; }
+    .field.full { grid-column: 1 / -1; }
+    .field label { font-size: 0.92rem; margin-bottom: 6px; }
+    .field label small { color: var(--ink-soft); font-weight: 400; }
+    .field input, .field select, .field textarea {
+      font: inherit; padding: 10px 12px; border: 1px solid var(--line);
+      border-radius: 8px; background: #fff; color: var(--ink);
+    }
+    .field input:focus, .field select:focus, .field textarea:focus {
+      outline: 2px solid var(--accent); border-color: var(--accent);
+    }
+    .consent { grid-column: 1 / -1; font-size: 0.9rem; display: flex; gap: 8px; align-items: flex-start; }
+    .consent input { margin-top: 6px; }
+    .booking-form button {
+      grid-column: 1 / -1; justify-self: start;
+      font: inherit; background: var(--accent); color: #fff; border: 0;
+      border-radius: 8px; padding: 12px 32px; min-height: 44px; cursor: pointer;
+    }
+    .booking-form button:hover { background: var(--accent-dark); }
+    .form-note { font-size: 0.88rem; color: var(--ink-soft); margin-top: 1rem; }
+    .confirm-demo {
+      margin-top: 1.2rem; border: 1px dashed var(--accent); border-radius: 8px;
+      padding: 14px 18px; font-size: 0.9rem; background: #f1f4f0;
+    }
+
+    /* 聯絡與後續 */
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: start; }
+    .contact-list { list-style: none; font-size: 0.98rem; }
+    .contact-list li { margin-bottom: 0.7rem; }
+
+    /* 頁尾 */
+    .site-footer {
+      background: #ece7dd; padding: 32px 20px; font-size: 0.88rem; color: var(--ink-soft);
+    }
+    .site-footer .inner p { margin-bottom: 0.4rem; }
+
+    /* 平板：三欄卡片改為兩欄，主視覺與聯絡區改為單欄 */
+    @media (max-width: 1024px) {
+      .cards, .steps { grid-template-columns: repeat(2, 1fr); }
+      .hero-inner, .contact-grid, .trust-profile { grid-template-columns: 1fr; }
+    }
+    /* 手機：全部單欄，導覽改為直向，按鈕放大成整排可點 */
+    @media (max-width: 640px) {
+      .site-header { flex-direction: column; gap: 10px; }
+      .site-nav a { margin: 0 9px; }
+      .cards, .steps, .form-grid { grid-template-columns: 1fr; }
+      .hero-actions a { display: block; text-align: center; margin-right: 0; }
+      .booking-form button { width: 100%; }
+      .slot-table th, .slot-table td { padding: 10px 8px; font-size: 0.88rem; white-space: nowrap; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="brand">安放心理諮商所
+    <small>AN-FANG COUNSELING</small>
+  </div>
+  <nav class="site-nav" aria-label="主要導覽">
+    <a href="#flow">服務方式</a>
+    <a href="#services">費用與時段</a>
+    <a href="#rules">隱私與規則</a>
+    <a href="#booking">預約初談</a>
+  </nav>
+</header>
+
+<main>
+
+  <!-- Hero：名稱、定位、主張、主要行動按鈕 -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div>
+        <p class="position">台北・預約制心理諮商所｜個別諮商・伴侶諮商・線上諮商</p>
+        <h1>說不出口的事，可以先放在這裡</h1>
+        <p class="claim">您不需要先確定自己「夠不夠嚴重」。初談是一段一起確認方向的時間，不是考試，也不是診斷。</p>
+        <div class="hero-actions">
+          <a class="btn-primary" href="#booking">預約初談</a>
+          <a class="btn-secondary" href="#flow">了解服務方式</a>
+        </div>
+        <p class="quiet-note">您可以先只看看。瀏覽這個網站不會留下任何個人資料，也不會有人主動聯絡您。</p>
+      </div>
+      <figure>
+        <!-- 替換為 images/space-01.jpg -->
+        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&h=600&fit=crop&auto=format" alt="安放心理諮商所的會談空間，柔和光線與獨立出入口">
+      </figure>
+    </div>
+  </section>
+
+  <!-- 信任證據：真實照片、資歷、規則入口；說明為何不放個案見證 -->
+  <section id="trust">
+    <div class="inner">
+      <h2>您會和誰談</h2>
+      <p class="section-lead">在決定預約之前，您有權先認識諮商師、看清楚規則。這一區的照片與資歷上線前請替換為真實內容，不要使用虛構的見證或頭銜。</p>
+      <div class="trust-profile">
+        <figure>
+          <!-- 替換為 images/therapist-01.jpg -->
+          <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&h=600&fit=crop&auto=format" alt="諮商師本人照片，上線前請替換為真實照片">
+        </figure>
+        <div>
+          <h3>諮商師的話</h3>
+          <blockquote>我接觸的許多人，在開口之前已經一個人扛了很長一段時間。願意點開這個頁面，本身已經是照顧自己的一步。我的工作不是評價您走到哪裡，而是陪您看看現在站的位置。</blockquote>
+          <ul class="credentials">
+            <li>諮商心理師證書（上線前請填入實際證書字號）</li>
+            <li>執業範圍：個別諮商、伴侶諮商、線上諮商</li>
+            <li>常見工作主題：親密關係、職場壓力、失眠與焦慮、自我探索</li>
+          </ul>
+        </div>
+      </div>
+      <div class="cards">
+        <article class="card">
+          <h3>為什麼這裡沒有個案見證</h3>
+          <p>本所不刊登任何個案評論、故事或「成功案例」。會談內容受保密義務保護，不會成為網站素材。這是規則，不是缺點。</p>
+        </article>
+        <article class="card">
+          <h3>規則先讓您看見</h3>
+          <p>費用、取消規則、保密範圍與例外，全部寫在<a href="#rules">隱私與規則</a>區，預約前就能讀完，不需要先留下聯絡方式。</p>
+        </article>
+        <article class="card">
+          <h3>空間設計</h3>
+          <p>獨立出入口、預約制、會談時段彼此錯開。您不會在候診區遇到其他來談者。</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 核心流程：理解諮商師、服務邊界、隱私政策與預約方式 -->
+  <section id="flow">
+    <div class="inner">
+      <h2>從這個頁面到第一次會談</h2>
+      <p class="section-lead">四個步驟，每一步都可以停下來。前三步完全不需要留下資料。</p>
+      <div class="steps">
+        <div class="step">
+          <h3>認識諮商師</h3>
+          <p>看諮商師的介紹與工作主題，判斷這裡是否可能適合您。</p>
+        </div>
+        <div class="step">
+          <h3>了解服務邊界</h3>
+          <p>諮商不是急診，也不是醫療診斷。先確認您需要的是哪一種協助。</p>
+        </div>
+        <div class="step">
+          <h3>閱讀隱私說明</h3>
+          <p>保密的範圍與例外、表單資料的用途與保存期限，都寫成白話。</p>
+        </div>
+        <div class="step">
+          <h3>用表單預約初談</h3>
+          <p>只填安排預約所必要的資料，不需要打電話，也不需要說明完整狀況。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 規則說明（ServiceItem）：價格、限制 -->
+  <section id="services">
+    <div class="inner">
+      <h2>服務項目與費用</h2>
+      <p class="section-lead">費用公開是基本的尊重。每種服務都標示內容、時間長度與限制，沒有需要詢問才知道的價格。</p>
+      <div class="cards">
+        <article class="card">
+          <h3>初談評估</h3>
+          <p class="price">1,800 元 <small>／ 50 分鐘</small></p>
+          <ul>
+            <li>了解您目前的狀態與期待</li>
+            <li>一起評估是否合適、用什麼頻率工作</li>
+            <li>初談後可以不繼續，不需要理由</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>個別諮商</h3>
+          <p class="price">2,800 元 <small>／ 50 分鐘</small></p>
+          <ul>
+            <li>每週或隔週一次，節奏共同決定</li>
+            <li>可選現場或線上進行</li>
+            <li>不提供醫療診斷與藥物建議</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>伴侶諮商</h3>
+          <p class="price">4,200 元 <small>／ 90 分鐘</small></p>
+          <ul>
+            <li>雙方同席，必要時安排個別時段</li>
+            <li>首次以關係評估開始</li>
+            <li>涉及司法程序之衡鑑非本所服務範圍</li>
+          </ul>
+        </article>
+      </div>
+      <p class="fine-print">以上費用為網站原型之示意金額，正式上線前請以實際公告為準。本所開立收據；諮商費用目前不適用健保。</p>
+
+      <h2 style="margin-top:48px">近期可預約時段</h2>
+      <p class="section-lead">時段每週更新。送出表單後，以我們回覆的確認訊息為準。</p>
+      <table class="slot-table">
+        <thead>
+          <tr><th scope="col">日期</th><th scope="col">時段</th><th scope="col">方式</th><th scope="col">狀態</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>6/16（二）</td><td>14:00–14:50</td><td>現場</td><td class="slot-open">可預約</td></tr>
+          <tr><td>6/16（二）</td><td>19:00–19:50</td><td>線上</td><td class="slot-full">已額滿</td></tr>
+          <tr><td>6/18（四）</td><td>19:00–19:50</td><td>現場</td><td class="slot-open">可預約</td></tr>
+          <tr><td>6/20（六）</td><td>10:00–10:50</td><td>現場</td><td class="slot-open">可預約</td></tr>
+          <tr><td>6/20（六）</td><td>15:00–15:50</td><td>線上</td><td class="slot-open">可預約</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 規則說明（Policy）：取消、退款、隱私、服務邊界 -->
+  <section id="rules">
+    <div class="inner">
+      <h2>隱私與規則</h2>
+      <p class="section-lead">這一區用白話寫清楚您最需要知道的事：話會不會跑出去、錢怎麼算、什麼情況這裡不適合。</p>
+      <div class="rule-block">
+        <h3>保密的範圍與例外</h3>
+        <ul>
+          <li>會談內容負保密義務，不會向任何第三方揭露，包含您的家人、雇主與轉介者。</li>
+          <li>預約表單的資料只用於安排與聯繫預約，不做行銷，也不提供給其他單位。</li>
+          <li>保密有法定例外：當您或他人有立即生命危險、涉及兒少保護、或法律明文要求時，諮商師需要做必要的通報與處置。我們會盡可能先讓您知道。</li>
+          <li>未繼續預約者，表單資料於六個月後刪除。</li>
+        </ul>
+      </div>
+      <div class="rule-block">
+        <h3>取消、改期與退款</h3>
+        <ul>
+          <li>預約時段 24 小時前，可免費改期或取消。</li>
+          <li>24 小時內取消或未到，酌收該次費用的半數，作為時段保留成本。</li>
+          <li>預先購買的多次方案，未使用次數可按比例退款。</li>
+        </ul>
+      </div>
+      <div class="rule-block">
+        <h3>服務邊界</h3>
+        <ul>
+          <li>本網站與表單不適合處理立即危機，表單回覆有時間差。</li>
+          <li>諮商不是醫療診斷。若涉及藥物或診斷需求，我們會協助轉介精神科。</li>
+          <li>線上諮商需要您確認所在環境的隱私與網路穩定；部分情況不適合線上進行，初談時會一起評估。</li>
+        </ul>
+      </div>
+      <aside class="crisis">
+        <strong>如果現在就很危險</strong>
+        若您或身邊的人目前有立即傷害自己或他人的危險，請不要等待線上表單回覆。請立即撥打 119、前往最近急診，或聯繫 1925 安心專線、1995 生命線、1980 張老師專線。
+      </aside>
+    </div>
+  </section>
+
+  <!-- 資料表單（UserRequest）：姓名、聯絡方式、情境欄位、備註 -->
+  <section id="booking">
+    <div class="inner">
+      <h2>預約初談</h2>
+      <p class="section-lead">這份表單只收安排預約必要的資料。您不需要在這裡說明完整的故事，那些可以等到您準備好、在保密的空間裡再說。</p>
+      <form class="booking-form" action="#" method="post">
+        <div class="form-grid">
+          <div class="field">
+            <label for="name">稱呼 <small>（可使用化名）</small></label>
+            <input type="text" id="name" name="name" placeholder="希望我們怎麼稱呼您" required>
+          </div>
+          <div class="field">
+            <label for="contact">聯絡方式</label>
+            <input type="text" id="contact" name="contact" placeholder="Email 或手機號碼" required>
+          </div>
+          <div class="field">
+            <label for="reply">希望的回覆方式</label>
+            <select id="reply" name="reply">
+              <option>Email</option>
+              <option>簡訊</option>
+              <option>LINE 文字訊息</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="service">想預約的服務</label>
+            <select id="service" name="service">
+              <option>初談評估</option>
+              <option>個別諮商</option>
+              <option>伴侶諮商</option>
+              <option>還不確定，想先談談看</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="slot">偏好時段</label>
+            <select id="slot" name="slot">
+              <option>平日下午</option>
+              <option>平日晚上</option>
+              <option>週六</option>
+              <option>皆可</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="state">最近讓您想預約的狀態 <small>（選填，可以很簡短）</small></label>
+            <input type="text" id="state" name="state" placeholder="例如：睡不好一陣子了。也可以留白，見面再說。">
+          </div>
+          <div class="field full">
+            <label for="note">備註 <small>（選填）</small></label>
+            <textarea id="note" name="note" rows="3" placeholder="任何想先讓我們知道的事，例如方便聯繫的時間"></textarea>
+          </div>
+          <label class="consent">
+            <input type="checkbox" required>
+            <span>我已閱讀<a href="#rules">隱私與規則</a>，了解保密範圍與例外，並同意以上述資料安排預約。</span>
+          </label>
+          <button type="submit">送出預約申請</button>
+        </div>
+        <p class="form-note">送出後 2 個工作天內，我們會以您選擇的方式回覆；不會主動撥打電話。此原型表單為靜態示意，尚未連接後端。</p>
+        <div class="confirm-demo">
+          送出成功後您會看到：「我們已收到您的預約申請，將在 2 個工作天內以您選擇的方式回覆。若您改變主意，不需要做任何事。」
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- 聯絡與後續：電話、LINE、Email、地圖 -->
+  <section id="contact">
+    <div class="inner">
+      <h2>聯絡與位置</h2>
+      <div class="contact-grid">
+        <ul class="contact-list">
+          <li><strong>電話</strong>：(02) 0000-0000（示意號碼）｜週二至週六 13:00–21:00</li>
+          <li><strong>LINE</strong>：@anfang.demo（示意帳號，僅文字訊息）</li>
+          <li><strong>Email</strong>：hello@anfang-counseling.example</li>
+          <li><strong>地址</strong>：台北市（示意地址；捷運站步行五分鐘，獨立出入口）</li>
+          <li><strong>後續</strong>：送出表單後 2 個工作天內回覆。若需改期，直接回覆確認訊息即可。</li>
+        </ul>
+        <figure>
+          <!-- 替換為 images/map.jpg -->
+          <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=800&h=600&fit=crop&auto=format" alt="諮商所位置地圖示意，上線前請替換為實際地圖">
+        </figure>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="inner">
+    <p>安放心理諮商所｜台北・預約制｜服務時間：週二至週六 13:00–21:00</p>
+    <p>立即危機請撥 119，或聯繫 1925 安心專線、1995 生命線、1980 張老師專線。</p>
+    <p>© 2026 安放心理諮商所（本頁為課程示範原型，所有名稱與資料皆為示意）</p>
+  </div>
+</footer>
+
+</body>
+</html>

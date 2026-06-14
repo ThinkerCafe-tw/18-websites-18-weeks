@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>安行汽車保養工場｜新北汽車保養、線上預約與透明報價</title>
+<meta name="description" content="新北市社區型汽車保養廠。定期保養、煞車與電瓶檢查，先報價後動工、施工照片即時回傳，並提供車籍紀錄與下次回廠提醒，可線上預約保養時段。">
+<style>
+  :root {
+    --bg: #ffffff;
+    --bg-soft: #f2f4f6;   /* 淺鋼灰 */
+    --ink: #1f2933;       /* 深鐵灰 */
+    --ink-soft: #5b6470;
+    --line: #dde3e8;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Noto Sans TC", "PingFang TC", sans-serif;
+    color: var(--ink);
+    background: var(--bg);
+    line-height: 1.8;
+  }
+  header {
+    padding: 1.2rem 6vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--line);
+  }
+  header .brand { font-weight: 700; letter-spacing: 0.05em; }
+  header nav a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    margin-left: 1.2rem;
+    font-size: 0.95rem;
+  }
+  header nav a:hover { color: var(--ink); }
+  section { padding: 4rem 6vw; }
+  h1 { font-size: 2rem; font-weight: 700; letter-spacing: 0.04em; }
+  h2 { font-size: 1.4rem; margin-bottom: 1.5rem; letter-spacing: 0.06em; }
+  h3 { font-size: 1.05rem; margin-bottom: 0.4rem; }
+  .hero { background: var(--bg-soft); text-align: center; padding: 5.5rem 6vw; }
+  .hero p.tagline { margin: 1rem auto 2rem; max-width: 32em; color: var(--ink-soft); }
+  .hero p.hours { margin-top: 1.5rem; font-size: 0.9rem; color: var(--ink-soft); }
+  .btn {
+    display: inline-block;
+    min-height: 44px;
+    padding: 0.7rem 2rem;
+    border: 1px solid var(--ink);
+    color: var(--ink);
+    background: transparent;
+    text-decoration: none;
+    margin: 0 0.5rem;
+    cursor: pointer;
+    font-size: 1rem;
+  }
+  .btn.primary { background: var(--ink); color: #fff; }
+  .btn:hover { background: var(--ink-soft); color: #fff; }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.2rem;
+  }
+  .card {
+    border: 1px solid var(--line);
+    background: var(--bg);
+    padding: 1.5rem;
+  }
+  .card ul { list-style: none; margin-top: 0.6rem; }
+  .card li { font-size: 0.92rem; color: var(--ink-soft); padding: 0.15rem 0; }
+  .card .price { font-weight: 700; margin-top: 0.6rem; }
+  .photos { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.2rem; margin-top: 2rem; }
+  .photos img { width: 100%; height: auto; display: block; }
+  figure figcaption { font-size: 0.85rem; color: var(--ink-soft); margin-top: 0.3rem; }
+  .note { font-size: 0.9rem; color: var(--ink-soft); margin-top: 1.2rem; max-width: 44em; }
+  .table-wrap { overflow-x: auto; margin-top: 1rem; }
+  table { border-collapse: collapse; width: 100%; font-size: 0.95rem; }
+  th, td { border: 1px solid var(--line); padding: 0.5rem 0.8rem; text-align: left; white-space: nowrap; }
+  th { background: var(--bg-soft); font-weight: 700; }
+  .full { color: var(--ink-soft); }
+  .booking-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; align-items: start; margin-top: 1rem; }
+  form label { display: block; margin-top: 1rem; font-size: 0.95rem; }
+  form input, form select, form textarea {
+    width: 100%;
+    min-height: 44px;
+    padding: 0.5rem 0.7rem;
+    border: 1px solid var(--line);
+    font-size: 1rem;
+    margin-top: 0.3rem;
+    background: var(--bg);
+  }
+  form input:focus, form select:focus, form textarea:focus { outline: 2px solid var(--ink-soft); }
+  form textarea { min-height: 110px; }
+  form button {
+    margin-top: 1.5rem;
+    min-height: 48px;
+    padding: 0.8rem 2.5rem;
+    background: var(--ink);
+    color: #fff;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  form button:hover { background: var(--ink-soft); }
+  .tags { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-top: 1rem; }
+  .tags span {
+    background: var(--bg-soft);
+    border: 1px solid var(--line);
+    padding: 0.2rem 0.8rem;
+    font-size: 0.88rem;
+    color: var(--ink-soft);
+  }
+  blockquote {
+    margin-top: 1.5rem;
+    padding: 1rem 1.5rem;
+    border-left: 3px solid var(--ink-soft);
+    background: var(--bg-soft);
+    color: var(--ink-soft);
+    font-size: 0.95rem;
+    max-width: 44em;
+  }
+  .policy-list { max-width: 44em; }
+  .policy-list h3 { margin-top: 1.5rem; }
+  .policy-list p { color: var(--ink-soft); font-size: 0.95rem; }
+  .contact-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; align-items: start; }
+  .contact-layout .info p { margin-bottom: 0.6rem; }
+  .contact-layout img { width: 100%; height: auto; display: block; }
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 2.5rem 6vw;
+    color: var(--ink-soft);
+    font-size: 0.9rem;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  /* 平板：服務與信任卡片改為兩欄 */
+  @media (max-width: 1024px) {
+    .grid { grid-template-columns: repeat(2, 1fr); }
+    .booking-layout, .contact-layout { grid-template-columns: 1fr; }
+  }
+  /* 手機：全部單欄，header 改為直向排列，按鈕與表單欄位維持易點 */
+  @media (max-width: 640px) {
+    header { flex-direction: column; align-items: flex-start; gap: 0.4rem; }
+    header nav a { margin-left: 0; margin-right: 1rem; }
+    section { padding: 3rem 5vw; }
+    .hero { padding: 4rem 5vw; }
+    h1 { font-size: 1.6rem; }
+    .grid { grid-template-columns: 1fr; }
+    .photos { grid-template-columns: 1fr; }
+    .btn { display: block; margin: 0.5rem auto; max-width: 300px; }
+    th, td { font-size: 0.85rem; padding: 0.4rem 0.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">安行汽車保養工場</div>
+  <nav>
+    <a href="#services">服務項目</a>
+    <a href="#booking">預約保養</a>
+    <a href="#records">車籍與提醒</a>
+    <a href="#policy">規則說明</a>
+    <a href="#contact">聯絡我們</a>
+  </nav>
+</header>
+
+<main>
+
+  <!-- Hero 首頁 -->
+  <section class="hero">
+    <h1>安行汽車保養工場</h1>
+    <p>新北市｜定期保養・檢查維修・社區型保養廠</p>
+    <p class="tagline">先報價、後動工。每一個工項都先讓你看見、由你決定，並為你的車留下完整的保養紀錄與下次回廠提醒。</p>
+    <a class="btn primary" href="#services">查詢服務項目</a>
+    <a class="btn" href="#booking">預約保養</a>
+    <p class="hours">營業時間：週一至週六 09:00–18:00（國定假日公休）</p>
+  </section>
+
+  <!-- 信任證據 -->
+  <section id="trust">
+    <h2>我們怎麼做事</h2>
+    <div class="grid">
+      <div class="card">
+        <h3>先報價、後動工</h3>
+        <ul>
+          <li>進廠檢查後先出估價單，零件與工資分列。</li>
+          <li>任何超出原本討論範圍的項目，動手前一定先確認。</li>
+          <li>你不同意的項目，我們只記錄、不施工。</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>施工照片即時回傳</h3>
+        <ul>
+          <li>拆解與更換過程拍照，用 LINE 即時傳給你。</li>
+          <li>更換零件時，新件與舊件並排拍照讓你核對。</li>
+          <li>舊零件可以帶走，或由我們代為回收。</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>看得懂的紀錄</h3>
+        <ul>
+          <li>工單與估價單由系統列印，品項、數量、單價清楚分列。</li>
+          <li>完工後紀錄存進你的車籍檔案，隨時可以調出來看。</li>
+          <li>下次該注意什麼，寫在紀錄裡，不靠口頭承諾。</li>
+        </ul>
+      </div>
+    </div>
+    <div class="photos">
+      <!-- 替換為 images/garage-01.jpg -->
+      <figure><img src="https://images.unsplash.com/photo-1504222490345-c075b6008014?w=800&h=600&fit=crop&auto=format" alt="廠內接待區，車主等候與看報價的位置"><figcaption>廠內接待區（示意佔位圖，上線前替換為實際照片）</figcaption></figure>
+      <!-- 替換為 images/garage-02.jpg -->
+      <figure><img src="https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=800&h=600&fit=crop&auto=format" alt="保養工位與舉升機，施工環境"><figcaption>工位與舉升機（示意佔位圖，上線前替換為實際照片）</figcaption></figure>
+    </div>
+  </section>
+
+  <!-- 服務項目 -->
+  <section id="services" style="background: var(--bg-soft)">
+    <h2>服務項目</h2>
+    <div class="grid">
+      <div class="card">
+        <h3>機油與濾芯更換</h3>
+        <ul>
+          <li>內容：機油、機油濾芯更換與基礎目視檢查</li>
+          <li>所需時間：約 40 分鐘</li>
+          <li>限制：特殊規格機油需事先告知，費用另計</li>
+        </ul>
+        <p class="price">參考價格 NT$ 1,800–3,200</p>
+      </div>
+      <div class="card">
+        <h3>定期保養檢查</h3>
+        <ul>
+          <li>內容：依里程做油水、底盤、煞車、輪胎全項檢查</li>
+          <li>所需時間：約 2 小時</li>
+          <li>限制：更換項目依檢查結果另行估價</li>
+        </ul>
+        <p class="price">參考價格 NT$ 2,500–6,000</p>
+      </div>
+      <div class="card">
+        <h3>煞車系統檢查與更換</h3>
+        <ul>
+          <li>內容：煞車皮、碟盤檢查，依磨損狀況更換</li>
+          <li>所需時間：約 1.5 小時</li>
+          <li>限制：抬車確認磨損後報價，同意才動工</li>
+        </ul>
+        <p class="price">參考價格 NT$ 3,500–5,000</p>
+      </div>
+      <div class="card">
+        <h3>電瓶檢測與更換</h3>
+        <ul>
+          <li>內容：電瓶健康度檢測，必要時更換</li>
+          <li>所需時間：約 30 分鐘</li>
+          <li>限制：檢測免費，更換依電瓶規格報價</li>
+        </ul>
+        <p class="price">參考價格 NT$ 2,000–4,500</p>
+      </div>
+      <div class="card">
+        <h3>冷氣系統健檢</h3>
+        <ul>
+          <li>內容：冷房效率、冷媒壓力與管路檢查</li>
+          <li>所需時間：約 30 分鐘</li>
+          <li>限制：冷媒補充與零件更換另計</li>
+        </ul>
+        <p class="price">參考價格 NT$ 800</p>
+      </div>
+      <div class="card">
+        <h3>輪胎檢查與更換</h3>
+        <ul>
+          <li>內容：胎紋深度、胎壓、磨耗狀況檢查與換胎</li>
+          <li>所需時間：約 1 小時</li>
+          <li>限制：輪胎品牌與規格現場確認後報價</li>
+        </ul>
+        <p class="price">依規格現場報價</p>
+      </div>
+    </div>
+    <p class="note">以上為參考價格區間，實際費用以進廠檢查後的估價單為準；估價單會分列零件與工資，經你同意後才會動工。</p>
+  </section>
+
+  <!-- 預約保養 -->
+  <section id="booking">
+    <h2>預約保養</h2>
+    <div class="booking-layout">
+      <div>
+        <h3>本週可預約時段（示意資料，上線前接上實際班表）</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>日期</th><th>時段</th><th>名額</th><th>狀態</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>6 月 15 日</td><td>09:00–12:00</td><td>2</td><td>可預約</td></tr>
+              <tr><td>6 月 15 日</td><td>14:00–17:00</td><td>1</td><td>可預約</td></tr>
+              <tr><td>6 月 16 日</td><td>09:00–12:00</td><td>0</td><td class="full">已額滿</td></tr>
+              <tr><td>6 月 17 日</td><td>14:00–17:00</td><td>2</td><td>可預約</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="note">送出表單後，我們會在一個工作天內以電話或 LINE 與你確認時段；時段確認後，預約才算成立。</p>
+      </div>
+      <form>
+        <label>姓名
+          <input type="text" name="name" placeholder="您的稱呼" required>
+        </label>
+        <label>聯絡電話
+          <input type="tel" name="phone" placeholder="方便聯絡的電話" required>
+        </label>
+        <label>Email（選填）
+          <input type="email" name="email" placeholder="name@example.com">
+        </label>
+        <label>車牌號碼
+          <input type="text" name="plate" placeholder="例如：ABC-0000">
+        </label>
+        <label>品牌與車型
+          <input type="text" name="model" placeholder="例如：Toyota Corolla">
+        </label>
+        <label>出廠年份
+          <input type="number" name="year" placeholder="例如：2021" min="1990" max="2026">
+        </label>
+        <label>目前里程（公里）
+          <input type="number" name="mileage" placeholder="例如：52000" min="0">
+        </label>
+        <label>需求類型
+          <select name="type">
+            <option>定期保養</option>
+            <option>機油與濾芯更換</option>
+            <option>異音或故障檢查</option>
+            <option>煞車或輪胎檢查</option>
+            <option>其他（請在備註說明）</option>
+          </select>
+        </label>
+        <label>希望日期
+          <input type="date" name="date">
+        </label>
+        <label>希望時段
+          <select name="slot">
+            <option>上午 09:00–12:00</option>
+            <option>下午 14:00–17:00</option>
+          </select>
+        </label>
+        <label>備註
+          <textarea name="message" placeholder="例如：發動時有震動、紅燈停下最明顯；希望先檢查再報價"></textarea>
+        </label>
+        <button type="submit">送出預約申請</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- 車籍與下次提醒 -->
+  <section id="records" style="background: var(--bg-soft)">
+    <h2>車籍紀錄與下次提醒</h2>
+    <p class="note" style="margin-top:0">第一次進廠時，我們會為你的車建立車籍檔案：車牌、車型、年份與目前里程。之後每次保養，完成項目與下次建議都會記錄下來，並依里程或時間提醒你回廠檢查。</p>
+    <h3 style="margin-top:1.5rem">保養紀錄（示意資料，上線前替換為實際紀錄）</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>日期</th><th>里程</th><th>完成項目</th><th>下次建議</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>2026-01-10</td><td>47,800 km</td><td>機油與濾芯更換</td><td>52,800 km 或 6 個月內回廠檢查</td></tr>
+          <tr><td>2026-04-18</td><td>52,000 km</td><td>定期保養、雨刷更換</td><td>57,000 km 檢查機油與濾芯</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tags">
+      <span>里程提醒</span>
+      <span>時間提醒</span>
+      <span>零件壽命提醒</span>
+      <span>年檢提醒</span>
+    </div>
+    <blockquote>提醒範例：上次保養紀錄顯示您的車輛里程為 52,000 公里，建議在 57,000 公里左右檢查機油與濾芯。若近期已在其他地方保養，可忽略此提醒。</blockquote>
+  </section>
+
+  <!-- 規則說明 -->
+  <section id="policy">
+    <h2>規則說明</h2>
+    <div class="policy-list">
+      <h3>價格與報價</h3>
+      <p>網站上的價格為參考區間，實際費用以進廠檢查後的估價單為準。估價單分列零件、工資與小計，經你同意的項目才會施工。</p>
+      <h3>取消與改期</h3>
+      <p>預約時段前一個工作天可免費取消或改期；當天臨時無法前來，請來電告知，我們會協助改約。</p>
+      <h3>收費與退款</h3>
+      <p>預約不收訂金，完工確認後現場結帳。未施工的項目不收費；已完工項目如有疑問，請憑工單與我們聯絡處理。</p>
+      <h3>個資與服務範圍</h3>
+      <p>表單資料僅用於預約聯絡與回廠提醒，不會提供給第三方。重大事故維修與鈑金烤漆不在本廠服務範圍，可協助轉介合作廠家。</p>
+    </div>
+  </section>
+
+  <!-- 聯絡與後續 -->
+  <section id="contact" style="background: var(--bg-soft)">
+    <h2>聯絡我們</h2>
+    <div class="contact-layout">
+      <div class="info">
+        <p>電話：(02) 0000-0000（上線前替換為實際電話）</p>
+        <p>LINE 官方帳號：@anxing-auto（示意）</p>
+        <p>Email：service@anxing-auto.example</p>
+        <p>地址：新北市○○區○○路 100 號（示意，上線前替換）</p>
+        <p class="note">送出預約表單或加入 LINE 之後，會由現場人員與你確認時段與需求；進廠後的每一步（檢查、估價、施工、完工）都會主動告知，不會修到一半才通知你。</p>
+      </div>
+      <!-- 替換為 images/map-location.jpg -->
+      <figure><img src="https://images.unsplash.com/photo-1487754180451-c456f719a1fc?w=800&h=600&fit=crop&auto=format" alt="保養廠位置地圖示意"><figcaption>地圖位置（示意佔位圖，上線前替換為實際地圖）</figcaption></figure>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div>
+    安行汽車保養工場｜新北市社區型保養廠<br>
+    營業時間：週一至週六 09:00–18:00
+  </div>
+  <div>
+    服務範圍：定期保養、檢查維修、回廠提醒<br>
+    © 2026 安行汽車保養工場
+  </div>
+</footer>
+
+</body>
+</html>

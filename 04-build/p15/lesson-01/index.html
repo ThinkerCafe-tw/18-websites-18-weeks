@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>山風咖啡｜台中東區自家烘焙咖啡廳・手沖咖啡・安靜工作空間</title>
+<meta name="description" content="山風咖啡位於台中東區，離台中火車站步行約 8 分鐘。自家烘焙手沖與義式咖啡、週末季節甜點，長桌座位附插座、Wi-Fi 穩定、平日下午不限時，適合安靜工作與聊天。">
+<style>
+  :root {
+    --bg: #f6f1e7;
+    --paper: #fffdf8;
+    --ink: #3b2f25;
+    --ink-soft: #7a6c5d;
+    --wood: #b08b5e;
+    --brown: #5b4332;
+    --line: #e3d9c8;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.8;
+  }
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 6vw;
+    background: var(--paper);
+    border-bottom: 1px solid var(--line);
+    position: sticky;
+    top: 0;
+  }
+  .brand { font-size: 1.15rem; font-weight: 700; letter-spacing: 0.12em; }
+  header nav a {
+    margin-left: 1.4rem;
+    color: var(--ink);
+    text-decoration: none;
+    font-size: 0.95rem;
+  }
+  header nav a:hover { color: var(--wood); }
+  section { padding: 4rem 6vw; }
+  .hero {
+    text-align: center;
+    padding: 5rem 6vw 4rem;
+    background: var(--paper);
+  }
+  h1 { font-size: 2.2rem; letter-spacing: 0.2em; }
+  .hero .area { margin-top: 0.6rem; color: var(--ink-soft); letter-spacing: 0.08em; }
+  .tagline { margin: 1rem auto 1.8rem; max-width: 34em; font-size: 1.05rem; }
+  .btn {
+    display: inline-block;
+    margin: 0 0.5rem;
+    padding: 0.7rem 1.8rem;
+    border: 1px solid var(--brown);
+    border-radius: 4px;
+    color: var(--brown);
+    text-decoration: none;
+    font-size: 1rem;
+  }
+  .btn.primary { background: var(--brown); color: var(--paper); }
+  .btn:hover { opacity: 0.85; }
+  .hero figure { margin-top: 2.5rem; }
+  h2 {
+    font-size: 1.45rem;
+    letter-spacing: 0.15em;
+    margin-bottom: 1.5rem;
+    border-left: 4px solid var(--wood);
+    padding-left: 0.8rem;
+  }
+  img { max-width: 100%; height: auto; display: block; border-radius: 6px; }
+  figcaption { font-size: 0.85rem; color: var(--ink-soft); margin-top: 0.4rem; }
+  .about-text { max-width: 38em; margin-bottom: 1.6rem; }
+  .menu-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+  .menu-card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 1.5rem 1.6rem;
+  }
+  .menu-card h3 {
+    font-size: 1.1rem;
+    letter-spacing: 0.1em;
+    color: var(--brown);
+    margin-bottom: 0.8rem;
+  }
+  .menu-card ul { list-style: none; }
+  .menu-card li {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.55rem 0;
+    border-bottom: 1px dashed var(--line);
+    font-size: 0.95rem;
+  }
+  .menu-card li:last-child { border-bottom: none; }
+  .price { color: var(--brown); white-space: nowrap; }
+  .menu-note { margin-top: 1.2rem; font-size: 0.85rem; color: var(--ink-soft); }
+  .space-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.2rem;
+    margin-bottom: 2rem;
+  }
+  .space-card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 1.2rem 1.3rem;
+  }
+  .space-card h3 { font-size: 1rem; color: var(--brown); margin-bottom: 0.4rem; }
+  .space-card p { font-size: 0.9rem; color: var(--ink-soft); }
+  .info-list { list-style: none; max-width: 34em; }
+  .info-list li {
+    padding: 0.7rem 0;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    gap: 1rem;
+  }
+  .info-list .label { min-width: 5.5em; color: var(--ink-soft); }
+  .info-list a { color: var(--brown); }
+  .contact-links { list-style: none; max-width: 34em; }
+  .contact-links li { padding: 0.6rem 0; }
+  .contact-links a { color: var(--brown); font-size: 1.05rem; }
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 2.5rem 6vw;
+    color: var(--ink-soft);
+    font-size: 0.9rem;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  /* 平板：菜單與空間設備改為兩欄 */
+  @media (max-width: 1024px) {
+    .menu-grid, .space-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  /* 手機：全部單欄，按鈕、地址與電話維持易點 */
+  @media (max-width: 640px) {
+    header { flex-direction: column; align-items: flex-start; gap: 0.4rem; }
+    header nav a { margin-left: 0; margin-right: 1.2rem; }
+    section { padding: 3rem 5vw; }
+    .hero { padding: 4rem 5vw 3rem; }
+    h1 { font-size: 1.7rem; }
+    .menu-grid, .space-grid { grid-template-columns: 1fr; }
+    .btn { display: block; margin: 0.5rem auto; max-width: 280px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">山風咖啡</div>
+  <nav>
+    <a href="#menu">菜單</a>
+    <a href="#space">空間</a>
+    <a href="#info">營業資訊</a>
+    <a href="#contact">聯絡</a>
+  </nav>
+</header>
+
+<main>
+
+  <!-- 首頁主視覺 -->
+  <section class="hero">
+    <h1>山風咖啡</h1>
+    <p class="area">台中東區｜自家烘焙・手沖・甜點</p>
+    <p class="tagline">安靜工作、手沖咖啡、午後甜點，離台中火車站步行約 8 分鐘。平日下午不限時，長桌座位有插座。</p>
+    <a class="btn primary" href="#menu">查看菜單</a>
+    <a class="btn" href="https://www.google.com/maps/search/?api=1&amp;query=台中市東區範例路1號">導航前往</a>
+    <!-- 替換為 images/hero.jpg：建議使用有長桌、插座與自然光的店內照片 -->
+    <figure>
+      <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&h=600&fit=crop&auto=format" alt="山風咖啡店內長桌與窗邊座位">
+      <figcaption>店內一隅：長桌、插座與自然光</figcaption>
+    </figure>
+  </section>
+
+  <!-- 關於我們 -->
+  <section id="about">
+    <h2>關於我們</h2>
+    <p class="about-text">山風咖啡開在離台中火車站步行約 8 分鐘的巷子裡。我們自家烘焙，使用阿里山與台南小農合作的豆子，每一支豆都由店主試烘調整後才上架。平日下午不限時，歡迎帶著筆電來工作；週末則有當季限定甜點。我們希望這裡像下班路上的一陣山風：安靜、清楚、不打擾。</p>
+    <!-- 替換為 images/about-roasting.jpg：建議使用烘豆機或吧台手沖的工作照片 -->
+    <figure>
+      <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=800&h=600&fit=crop&auto=format" alt="山風咖啡自家烘焙與吧台手沖">
+      <figcaption>自家烘焙：阿里山與台南小農合作豆</figcaption>
+    </figure>
+  </section>
+
+  <!-- 菜單 -->
+  <section id="menu">
+    <h2>菜單</h2>
+    <div class="menu-grid">
+      <div class="menu-card">
+        <h3>咖啡</h3>
+        <ul>
+          <li><span>手沖單品（阿里山水洗）</span><span class="price">NT$180</span></li>
+          <li><span>拿鐵</span><span class="price">NT$150</span></li>
+          <li><span>美式咖啡</span><span class="price">NT$120</span></li>
+        </ul>
+      </div>
+      <div class="menu-card">
+        <h3>非咖啡</h3>
+        <ul>
+          <li><span>台南蜜香紅茶</span><span class="price">NT$130</span></li>
+          <li><span>鮮奶可可</span><span class="price">NT$140</span></li>
+          <li><span>季節氣泡飲</span><span class="price">NT$150</span></li>
+        </ul>
+      </div>
+      <div class="menu-card">
+        <h3>甜點</h3>
+        <ul>
+          <li><span>巴斯克乳酪蛋糕</span><span class="price">NT$160</span></li>
+          <li><span>肉桂捲</span><span class="price">NT$130</span></li>
+          <li><span>週末季節甜點（依當週公告）</span><span class="price">NT$150</span></li>
+        </ul>
+      </div>
+    </div>
+    <p class="menu-note">價格為新台幣。豆單與季節甜點會不定期更換，以店內公告為準。</p>
+  </section>
+
+  <!-- 空間與設備 -->
+  <section id="space">
+    <h2>空間與設備</h2>
+    <div class="space-grid">
+      <div class="space-card">
+        <h3>插座</h3>
+        <p>長桌每個座位都有插座，靠牆雙人桌也有共用插座。</p>
+      </div>
+      <div class="space-card">
+        <h3>Wi-Fi</h3>
+        <p>免費提供，連線穩定，密碼請向櫃檯索取。</p>
+      </div>
+      <div class="space-card">
+        <h3>座位</h3>
+        <p>約 24 席：長桌、雙人桌與窗邊吧台座位。</p>
+      </div>
+      <div class="space-card">
+        <h3>限時規則</h3>
+        <p>平日下午不限時；週末尖峰時段以 2 小時為原則。</p>
+      </div>
+    </div>
+    <!-- 替換為 images/space-table.jpg：建議拍出長桌深度、插座位置與自然光 -->
+    <figure>
+      <img src="https://images.unsplash.com/photo-1497935586351-b67a49e012bf?w=800&h=600&fit=crop&auto=format" alt="山風咖啡長桌座位與插座">
+      <figcaption>長桌座位：適合帶筆電工作的下午</figcaption>
+    </figure>
+  </section>
+
+  <!-- 營業資訊 -->
+  <section id="info">
+    <h2>營業資訊</h2>
+    <ul class="info-list">
+      <li><span class="label">地址</span><span><a href="https://www.google.com/maps/search/?api=1&amp;query=台中市東區範例路1號">台中市東區範例路 1 號</a>（點擊開啟 Google Maps）</span></li>
+      <li><span class="label">電話</span><span><a href="tel:+886423456789">04-2345-6789</a></span></li>
+      <li><span class="label">營業時間</span><span>週一至週日 11:00–20:00</span></li>
+      <li><span class="label">公休日</span><span>每週二</span></li>
+    </ul>
+  </section>
+
+  <!-- 聯絡 -->
+  <section id="contact">
+    <h2>聯絡與追蹤</h2>
+    <ul class="contact-links">
+      <!-- 替換為店家實際的 Instagram 連結 -->
+      <li><a href="#">Instagram：@shanfeng.cafe（最新豆單與季節甜點公告）</a></li>
+      <!-- 替換為店家實際的 LINE 官方帳號連結 -->
+      <li><a href="#">LINE 官方帳號：詢問座位與包場</a></li>
+      <li><a href="tel:+886423456789">電話訂位：04-2345-6789</a></li>
+    </ul>
+  </section>
+
+</main>
+
+<footer>
+  <span>山風咖啡｜台中市東區範例路 1 號｜04-2345-6789</span>
+  <span>© 2026 山風咖啡</span>
+</footer>
+
+</body>
+</html>

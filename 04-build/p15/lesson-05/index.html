@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>沐光美容工作室｜台北預約制美容・會員點數與線上預約</title>
+<meta name="description" content="沐光美容工作室提供台北預約制臉部護理與肩頸紓壓服務。會員可線上查看點數、儲值餘額、消費紀錄與預約時段，點數與預付卡規則公開透明，療程中不進行銷售對話。">
+<style>
+  :root {
+    --bg: #faf7f2;
+    --ink: #2b2722;
+    --muted: #6f675e;
+    --accent: #8a6f55;
+    --accent-dark: #6e573f;
+    --card: #ffffff;
+    --line: #e6ded2;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.7;
+  }
+  .inner { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+  header {
+    background: var(--card);
+    border-bottom: 1px solid var(--line);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  header .inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 14px;
+    padding-bottom: 14px;
+    gap: 16px;
+  }
+  .brand { font-size: 1.15rem; font-weight: 700; letter-spacing: 0.08em; }
+  nav { display: flex; flex-wrap: wrap; gap: 4px 14px; }
+  nav a { color: var(--muted); text-decoration: none; font-size: 0.92rem; padding: 4px 2px; }
+  nav a:hover { color: var(--accent-dark); }
+  main section { padding: 56px 0; border-bottom: 1px solid var(--line); }
+  h1 { font-size: 2rem; margin: 0 0 12px; letter-spacing: 0.05em; }
+  h2 { font-size: 1.4rem; margin: 0 0 8px; letter-spacing: 0.05em; }
+  .section-lead { color: var(--muted); margin: 0 0 28px; }
+  .hero .inner { display: grid; grid-template-columns: 1.1fr 1fr; gap: 36px; align-items: center; }
+  .hero p.slogan { font-size: 1.1rem; margin: 0 0 24px; }
+  .btn {
+    display: inline-block;
+    min-height: 44px;
+    padding: 10px 26px;
+    border-radius: 6px;
+    border: 1px solid var(--accent);
+    text-decoration: none;
+    font-size: 1rem;
+    cursor: pointer;
+    line-height: 1.5;
+  }
+  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-primary:hover { background: var(--accent-dark); }
+  .btn-ghost { background: transparent; color: var(--accent-dark); margin-left: 12px; }
+  img { max-width: 100%; display: block; border-radius: 8px; }
+  .grid, .cards, .stats { display: grid; gap: 20px; }
+  .grid { grid-template-columns: repeat(3, 1fr); }
+  .cards { grid-template-columns: repeat(2, 1fr); }
+  .stats { grid-template-columns: repeat(3, 1fr); }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 18px;
+  }
+  .card h3 { margin: 12px 0 6px; font-size: 1.05rem; }
+  .card .meta { color: var(--muted); font-size: 0.92rem; margin: 0; }
+  .stat { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 16px 18px; }
+  .stat .label { color: var(--muted); font-size: 0.88rem; margin: 0; }
+  .stat .value { font-size: 1.45rem; font-weight: 700; margin: 4px 0 0; }
+  .stat .note { color: var(--muted); font-size: 0.85rem; margin: 4px 0 0; }
+  form { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 24px; max-width: 640px; }
+  form label { display: block; font-size: 0.95rem; margin: 14px 0 4px; }
+  form input, form select, form textarea {
+    width: 100%;
+    min-height: 44px;
+    padding: 8px 12px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    font-size: 1rem;
+    font-family: inherit;
+    background: #fff;
+  }
+  form textarea { min-height: 88px; }
+  .checkbox-row { display: flex; align-items: flex-start; gap: 8px; margin: 16px 0; }
+  .checkbox-row input { width: auto; min-height: 0; margin-top: 6px; }
+  .checkbox-row label { margin: 0; font-size: 0.92rem; color: var(--muted); }
+  .hint { color: var(--accent-dark); font-size: 0.95rem; min-height: 1.5em; margin: 8px 0 0; }
+  .status {
+    margin-top: 16px;
+    padding: 12px 16px;
+    border-radius: 6px;
+    background: #f3ede3;
+    border: 1px solid var(--accent);
+    font-size: 0.95rem;
+  }
+  .badge {
+    display: inline-block;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 999px;
+    padding: 1px 12px;
+    font-size: 0.85rem;
+    margin-right: 6px;
+  }
+  .table-wrap { overflow-x: auto; background: var(--card); border: 1px solid var(--line); border-radius: 8px; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.95rem; min-width: 560px; }
+  th, td { text-align: left; padding: 12px 16px; border-bottom: 1px solid var(--line); }
+  thead th { background: #f3ede3; font-weight: 700; }
+  tbody tr:last-child td { border-bottom: none; }
+  .fine-print { color: var(--muted); font-size: 0.88rem; margin-top: 12px; }
+  ul.rule-list { margin: 8px 0 0; padding-left: 20px; }
+  ul.rule-list li { margin-bottom: 6px; }
+  .model-fields { color: var(--muted); font-size: 0.88rem; margin: 0 0 6px; }
+  .model-example { font-size: 0.9rem; margin: 0; }
+  footer { padding: 36px 0 48px; color: var(--muted); font-size: 0.9rem; }
+  footer p { margin: 4px 0; }
+  /* 平板：服務卡、規則卡與儀表板數字改為兩欄 */
+  @media (max-width: 1024px) {
+    .grid, .stats { grid-template-columns: repeat(2, 1fr); }
+    .hero .inner { grid-template-columns: 1fr; }
+  }
+  /* 手機：全部單欄，header 改為直向，按鈕與表單欄位整排可點 */
+  @media (max-width: 640px) {
+    .grid, .cards, .stats { grid-template-columns: 1fr; }
+    header .inner { flex-direction: column; align-items: flex-start; gap: 6px; }
+    .btn { display: block; width: 100%; text-align: center; margin: 0 0 10px; }
+    h1 { font-size: 1.6rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="inner">
+    <div class="brand">沐光美容工作室</div>
+    <nav>
+      <a href="#services">服務項目</a>
+      <a href="#register">會員註冊</a>
+      <a href="#dashboard">會員中心</a>
+      <a href="#booking">線上預約</a>
+      <a href="#rules">點數與儲值規則</a>
+      <a href="#records">消費紀錄</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <!-- 首頁主視覺 -->
+  <section class="hero">
+    <div class="inner">
+      <div>
+        <h1>沐光美容工作室</h1>
+        <p class="slogan">安靜地被照顧一次。預約制美容護理，美容師無業績制度，療程中不進行銷售對話。</p>
+        <a class="btn btn-primary" href="#dashboard">會員入口</a>
+        <a class="btn btn-ghost" href="#booking">立即預約</a>
+      </div>
+      <div>
+        <!-- 替換為 images/hero.jpg -->
+        <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?w=800&h=600&fit=crop&auto=format" alt="沐光美容工作室的店內環境，光線柔和的護理空間">
+      </div>
+    </div>
+  </section>
+
+  <!-- 服務項目 -->
+  <section id="services">
+    <div class="inner">
+      <h2>服務項目</h2>
+      <p class="section-lead">每一項服務都標示所需時間與價格，現場不加價、不升級推銷。</p>
+      <div class="grid">
+        <div class="card">
+          <!-- 替換為 images/service-clean.jpg -->
+          <img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800&h=600&fit=crop&auto=format" alt="深層清潔護理服務照片">
+          <h3>深層清潔護理</h3>
+          <p class="meta">60 分鐘｜NT$1,200</p>
+          <p class="meta">適合容易出油、毛孔阻塞的膚質</p>
+        </div>
+        <div class="card">
+          <!-- 替換為 images/service-moist.jpg -->
+          <img src="https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=800&h=600&fit=crop&auto=format" alt="保濕修護護理服務照片">
+          <h3>保濕修護護理</h3>
+          <p class="meta">90 分鐘｜NT$1,800</p>
+          <p class="meta">適合乾燥、換季時不穩定的膚質</p>
+        </div>
+        <div class="card">
+          <!-- 替換為 images/service-neck.jpg -->
+          <img src="https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?w=800&h=600&fit=crop&auto=format" alt="肩頸紓壓按摩服務照片">
+          <h3>肩頸紓壓按摩</h3>
+          <p class="meta">45 分鐘｜NT$900</p>
+          <p class="meta">適合久坐、肩頸緊繃的上班族</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 會員註冊表單 -->
+  <section id="register">
+    <div class="inner">
+      <h2>會員註冊</h2>
+      <p class="section-lead">註冊後即可在會員中心查看點數、儲值餘額與消費紀錄。</p>
+      <form id="register-form">
+        <label for="reg-name">姓名</label>
+        <input type="text" id="reg-name" name="name" placeholder="請輸入姓名" required>
+        <label for="reg-phone">手機</label>
+        <input type="tel" id="reg-phone" name="phone" placeholder="09xx-xxx-xxx" required>
+        <label for="reg-birthday">生日</label>
+        <input type="date" id="reg-birthday" name="birthday" required>
+        <label for="reg-service">偏好服務</label>
+        <select id="reg-service" name="preferred-service">
+          <option value="">請選擇（可不填）</option>
+          <option>深層清潔護理</option>
+          <option>保濕修護護理</option>
+          <option>肩頸紓壓按摩</option>
+        </select>
+        <div class="checkbox-row">
+          <input type="checkbox" id="reg-consent" name="consent" required>
+          <label for="reg-consent">我已閱讀並同意「個人資料蒐集、處理與利用說明」，同意內容與時間將被記錄（示意條款）。</label>
+        </div>
+        <button class="btn btn-primary" type="submit">送出註冊</button>
+        <div class="status" id="register-status" hidden>
+          這是課程原型的示意表單，資料不會真的送出；正式版需要後端、登入驗證與個資保護機制。
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- 會員儀表板示意 -->
+  <section id="dashboard">
+    <div class="inner">
+      <h2>會員中心（儀表板示意）</h2>
+      <p class="section-lead">以下為示意資料：會員「王小姐」登入後看到的畫面。</p>
+      <div class="stats">
+        <div class="stat">
+          <p class="label">會員等級</p>
+          <p class="value">金卡會員</p>
+          <p class="note">入會日：2024-06-15</p>
+        </div>
+        <div class="stat">
+          <p class="label">可用點數</p>
+          <p class="value" id="points-available">320 點</p>
+          <p class="note" id="points-expiring">其中 90 點將於 2026-07-10 到期</p>
+        </div>
+        <div class="stat">
+          <p class="label">儲值餘額</p>
+          <p class="value">NT$3,000</p>
+          <p class="note">儲值與退款規則見下方說明</p>
+        </div>
+        <div class="stat">
+          <p class="label">最近一次消費</p>
+          <p class="value">2026-06-05</p>
+          <p class="note">保濕修護護理（儲值扣款）</p>
+        </div>
+        <div class="stat">
+          <p class="label">下次預約</p>
+          <p class="value">2026-06-20 14:00</p>
+          <p class="note"><span class="badge">待確認</span>深層清潔護理</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 預約表單 -->
+  <section id="booking">
+    <div class="inner">
+      <h2>線上預約</h2>
+      <p class="section-lead">選擇服務後會顯示所需時間與價格；送出後預約狀態為「待確認」，門市確認後才算成立。</p>
+      <form id="booking-form">
+        <label for="booking-service">服務</label>
+        <select id="booking-service" name="service" required>
+          <option value="">請選擇服務</option>
+          <option data-minutes="60" data-price="1,200">深層清潔護理</option>
+          <option data-minutes="90" data-price="1,800">保濕修護護理</option>
+          <option data-minutes="45" data-price="900">肩頸紓壓按摩</option>
+        </select>
+        <p class="hint" id="service-hint"></p>
+        <label for="booking-staff">美容師</label>
+        <select id="booking-staff" name="staff">
+          <option>不指定</option>
+          <option>美容師 A</option>
+          <option>美容師 B</option>
+        </select>
+        <label for="booking-date">日期</label>
+        <input type="date" id="booking-date" name="date" required>
+        <label for="booking-time">時段</label>
+        <select id="booking-time" name="time" required>
+          <option value="">請選擇時段</option>
+          <option>上午 11:00</option>
+          <option>下午 14:00</option>
+          <option>晚上 19:00</option>
+        </select>
+        <label for="booking-note">備註</label>
+        <textarea id="booking-note" name="note" placeholder="例如：皮膚目前比較敏感、希望安靜不聊天"></textarea>
+        <button class="btn btn-primary" type="submit">送出預約</button>
+        <div class="status" id="booking-status" hidden>
+          <span class="badge">待確認</span>預約已送出。門市確認時段後會更新狀態為「已確認」，這個原型不會真的送出資料。
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- 點數與儲值規則 -->
+  <section id="rules">
+    <div class="inner">
+      <h2>點數與儲值規則</h2>
+      <p class="section-lead">規則公開在這一頁，與門市說明一致，避免「卡裡的錢去哪了」的疑慮。</p>
+      <div class="cards">
+        <div class="card">
+          <h3>點數累積</h3>
+          <ul class="rule-list">
+            <li>消費每滿 NT$100 累積 1 點。</li>
+            <li>點數可在結帳時折抵，10 點折抵 NT$10。</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>點數到期</h3>
+          <ul class="rule-list">
+            <li>點數自取得日起兩年內有效。</li>
+            <li>到期前 30 天，會員中心會顯示即將到期的點數。</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>儲值與退款</h3>
+          <ul class="rule-list">
+            <li>儲值餘額無使用期限。</li>
+            <li>未使用的儲值餘額可申請退款，流程與工作天數公開於門市與本頁。</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>轉讓限制</h3>
+          <ul class="rule-list">
+            <li>點數與儲值餘額限本人使用，不可轉讓。</li>
+            <li>點數不可兌換現金；儲值餘額僅能依退款規則退還。</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 消費紀錄表 -->
+  <section id="records">
+    <div class="inner">
+      <h2>消費紀錄（示意資料）</h2>
+      <p class="section-lead">每一筆消費、儲值與點數變動都留下紀錄，餘額可以回頭核對。</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>日期</th>
+              <th>服務</th>
+              <th>金額</th>
+              <th>點數變動</th>
+              <th>儲值餘額</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>2026-06-05</td>
+              <td>保濕修護護理</td>
+              <td>NT$1,800（儲值扣款）</td>
+              <td>+18 點</td>
+              <td>NT$3,000</td>
+            </tr>
+            <tr>
+              <td>2026-05-22</td>
+              <td>深層清潔護理</td>
+              <td>NT$1,200（儲值扣款）</td>
+              <td>+12 點</td>
+              <td>NT$4,800</td>
+            </tr>
+            <tr>
+              <td>2026-05-02</td>
+              <td>儲值</td>
+              <td>NT$6,000</td>
+              <td>—</td>
+              <td>NT$6,000</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="fine-print">此表為示意資料，僅顯示最近三筆；正式版會列出完整流水帳，包含退款與點數到期紀錄。</p>
+    </div>
+  </section>
+
+  <!-- 資料模型示意 -->
+  <section id="data-model">
+    <div class="inner">
+      <h2>資料模型示意</h2>
+      <p class="section-lead">這個網站背後需要六張資料表；以下每張卡片列出主要欄位與一筆示意資料。</p>
+      <div class="cards">
+        <div class="card">
+          <h3>Member（會員）</h3>
+          <p class="model-fields">id、姓名、手機、生日、會員等級、建立日期</p>
+          <p class="model-example">M-001｜王小姐｜09xx-xxx-xxx｜金卡｜2024-06-15</p>
+        </div>
+        <div class="card">
+          <h3>Service（服務項目）</h3>
+          <p class="model-fields">id、服務名稱、所需時間、價格、可預約美容師</p>
+          <p class="model-example">S-01｜深層清潔護理｜60 分鐘｜NT$1,200｜美容師 A、B</p>
+        </div>
+        <div class="card">
+          <h3>Appointment（預約）</h3>
+          <p class="model-fields">id、會員、服務、美容師、日期、時段、狀態</p>
+          <p class="model-example">A-310｜M-001｜S-01｜美容師 A｜2026-06-20 14:00｜待確認</p>
+        </div>
+        <div class="card">
+          <h3>PointLedger（點數流水帳）</h3>
+          <p class="model-fields">id、會員、來源、增加點數、扣除點數、到期日</p>
+          <p class="model-example">P-882｜M-001｜消費回饋｜+18｜0｜2028-06-05</p>
+        </div>
+        <div class="card">
+          <h3>StoredValueLedger（儲值金流水帳）</h3>
+          <p class="model-fields">id、會員、儲值金額、消費扣款、退款、餘額</p>
+          <p class="model-example">V-553｜M-001｜0｜NT$1,800｜0｜NT$3,000</p>
+        </div>
+        <div class="card">
+          <h3>ConsentRecord（同意紀錄）</h3>
+          <p class="model-fields">id、會員、同意項目、同意時間、版本</p>
+          <p class="model-example">C-129｜M-001｜個資蒐集與利用｜2024-06-15 19:02｜v1.2</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="inner">
+    <p>沐光美容工作室｜台北市（地址示意：大安區安心路 0 號 2 樓）</p>
+    <p>Email：hello@muguang.example｜營業時間：11:00–20:00（週一公休）</p>
+    <p>© 2026 沐光美容工作室。本頁為課程教學用原型網站，所有會員與消費資料皆為示意。</p>
+  </div>
+</footer>
+
+<script>
+  // 選擇服務後，顯示所需時間與價格
+  var bookingService = document.getElementById('booking-service');
+  var serviceHint = document.getElementById('service-hint');
+  bookingService.addEventListener('change', function () {
+    var opt = bookingService.options[bookingService.selectedIndex];
+    if (opt && opt.dataset.minutes) {
+      serviceHint.textContent = '所需時間 ' + opt.dataset.minutes + ' 分鐘，價格 NT$' + opt.dataset.price + '。';
+    } else {
+      serviceHint.textContent = '';
+    }
+  });
+
+  // 送出預約後，顯示「待確認」狀態（原型不真的送出資料）
+  document.getElementById('booking-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    document.getElementById('booking-status').hidden = false;
+  });
+
+  // 註冊表單同為示意，送出時顯示說明
+  document.getElementById('register-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    document.getElementById('register-status').hidden = false;
+  });
+</script>
+
+</body>
+</html>

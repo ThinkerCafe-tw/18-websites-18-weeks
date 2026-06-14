@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>小柯攝影工作室｜台中婚紗、婚禮紀錄與個人形象照</title>
+<meta name="description" content="台中婚紗攝影、婚禮紀錄與個人形象照。自然、不過度修飾，重視情緒與現場關係。提供清楚的方案內容、交件時間與加選規則，歡迎詢問檔期。">
+<style>
+  :root {
+    --bg: #ffffff;
+    --bg-soft: #f4f1ec;   /* 低飽和米色 */
+    --ink: #2b2b2b;       /* 深灰 */
+    --ink-soft: #6b6b6b;
+    --line: #e3ded6;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Noto Sans TC", "PingFang TC", sans-serif;
+    color: var(--ink);
+    background: var(--bg);
+    line-height: 1.8;
+  }
+  header {
+    padding: 1.2rem 6vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--line);
+  }
+  header .brand { font-weight: 700; letter-spacing: 0.05em; }
+  header nav a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    margin-left: 1.2rem;
+    font-size: 0.95rem;
+  }
+  section { padding: 4rem 6vw; }
+  h1 { font-size: 2rem; font-weight: 700; letter-spacing: 0.04em; }
+  h2 { font-size: 1.4rem; margin-bottom: 1.5rem; letter-spacing: 0.06em; }
+  h3 { font-size: 1.05rem; margin-bottom: 0.4rem; }
+  .hero { background: var(--bg-soft); text-align: center; padding: 6rem 6vw; }
+  .hero p.tagline { margin: 1rem auto 2rem; max-width: 32em; color: var(--ink-soft); }
+  .btn {
+    display: inline-block;
+    min-height: 44px;
+    padding: 0.7rem 2rem;
+    border: 1px solid var(--ink);
+    color: var(--ink);
+    text-decoration: none;
+    margin: 0 0.5rem;
+  }
+  .btn.primary { background: var(--ink); color: #fff; }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.2rem;
+  }
+  .grid img { width: 100%; height: auto; display: block; }
+  figure figcaption { font-size: 0.85rem; color: var(--ink-soft); margin-top: 0.3rem; }
+  .case { margin-top: 2rem; max-width: 44em; }
+  .case p { color: var(--ink-soft); }
+  .plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; }
+  .plan {
+    border: 1px solid var(--line);
+    padding: 1.5rem;
+  }
+  .plan ul { list-style: none; margin-top: 0.6rem; }
+  .plan li { font-size: 0.92rem; color: var(--ink-soft); padding: 0.15rem 0; }
+  .plan .price { font-weight: 700; margin-top: 0.6rem; }
+  .steps { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .steps div {
+    flex: 1;
+    min-width: 120px;
+    background: var(--bg-soft);
+    padding: 1rem;
+    text-align: center;
+    font-size: 0.95rem;
+  }
+  .about { display: grid; grid-template-columns: 1fr 2fr; gap: 2rem; align-items: start; }
+  form { max-width: 36em; }
+  form label { display: block; margin-top: 1rem; font-size: 0.95rem; }
+  form input, form select, form textarea {
+    width: 100%;
+    min-height: 44px;
+    padding: 0.5rem 0.7rem;
+    border: 1px solid var(--line);
+    font-size: 1rem;
+    margin-top: 0.3rem;
+  }
+  form textarea { min-height: 110px; }
+  form button {
+    margin-top: 1.5rem;
+    min-height: 48px;
+    padding: 0.8rem 2.5rem;
+    background: var(--ink);
+    color: #fff;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 2.5rem 6vw;
+    color: var(--ink-soft);
+    font-size: 0.9rem;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  /* 平板：作品集兩欄 */
+  @media (max-width: 1024px) {
+    .grid, .plans { grid-template-columns: repeat(2, 1fr); }
+    .about { grid-template-columns: 1fr; }
+  }
+  /* 手機：全部單欄，按鈕與表單欄位維持易點 */
+  @media (max-width: 640px) {
+    header { flex-direction: column; align-items: flex-start; gap: 0.4rem; }
+    header nav a { margin-left: 0; margin-right: 1rem; }
+    section { padding: 3rem 5vw; }
+    .hero { padding: 4rem 5vw; }
+    h1 { font-size: 1.6rem; }
+    .grid, .plans { grid-template-columns: 1fr; }
+    .steps { flex-direction: column; }
+    .btn { display: block; margin: 0.5rem auto; max-width: 280px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">小柯攝影工作室</div>
+  <nav>
+    <a href="#works">作品</a>
+    <a href="#plans">方案</a>
+    <a href="#process">流程</a>
+    <a href="#contact">詢問檔期</a>
+  </nav>
+</header>
+
+<main>
+
+  <!-- 首頁主視覺 -->
+  <section class="hero">
+    <h1>小柯攝影工作室</h1>
+    <p>台中｜婚紗・婚禮紀錄・個人形象照</p>
+    <p class="tagline">自然、不過度修飾，重視情緒與現場關係。替準新人、品牌主與專業工作者，留下可以信任的畫面。</p>
+    <a class="btn primary" href="#works">看作品</a>
+    <a class="btn" href="#contact">詢問檔期</a>
+  </section>
+
+  <!-- 作品分類 -->
+  <section id="works">
+    <h2>作品分類</h2>
+
+    <h3>婚紗</h3>
+    <div class="grid">
+      <!-- 替換為 images/wedding-01.jpg -->
+      <figure><img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=800&h=600&fit=crop&auto=format" alt="台中戶外婚紗，自然光側拍"><figcaption>台中戶外婚紗</figcaption></figure>
+      <!-- 替換為 images/wedding-02.jpg -->
+      <figure><img src="https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=800&h=600&fit=crop&auto=format" alt="室內光影婚紗，情緒特寫"><figcaption>室內光影婚紗</figcaption></figure>
+      <!-- 替換為 images/wedding-03.jpg -->
+      <figure><img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=800&h=600&fit=crop&auto=format" alt="海邊夕陽婚紗，雙人剪影"><figcaption>海邊夕陽婚紗</figcaption></figure>
+      <!-- 替換為 images/wedding-04.jpg -->
+      <figure><img src="https://images.unsplash.com/photo-1606800052052-a08af7148866?w=800&h=600&fit=crop&auto=format" alt="老屋場景婚紗，生活感"><figcaption>老屋場景婚紗</figcaption></figure>
+    </div>
+    <div class="case">
+      <p>準新人最常見的擔心是「拍起來會不會很僵」。我們的做法是先聊天再拍照，讓兩個人在互動裡自然被記錄，而不是擺出標準姿勢。</p>
+    </div>
+
+    <h3 style="margin-top:3rem">婚禮紀錄</h3>
+    <div class="grid">
+      <!-- 替換為 images/ceremony-01.jpg -->
+      <figure><img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800&h=600&fit=crop&auto=format" alt="迎娶儀式，長輩擁抱瞬間"><figcaption>迎娶儀式</figcaption></figure>
+      <!-- 替換為 images/ceremony-02.jpg -->
+      <figure><img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=800&h=600&fit=crop&auto=format" alt="宴客敬酒，賓客互動"><figcaption>宴客敬酒</figcaption></figure>
+      <!-- 替換為 images/ceremony-03.jpg -->
+      <figure><img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&h=600&fit=crop&auto=format" alt="新娘進場，父親牽手畫面"><figcaption>新娘進場</figcaption></figure>
+      <!-- 替換為 images/ceremony-04.jpg -->
+      <figure><img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=800&h=600&fit=crop&auto=format" alt="送客合照，自然抓拍"><figcaption>送客時刻</figcaption></figure>
+    </div>
+    <div class="case">
+      <p>婚禮紀錄的重點是「不漏掉重要的人」。開拍前我們會跟新人確認當天的關鍵親友與流程，儀式進行時以雙機位輪替，避免錯過只發生一次的瞬間。</p>
+    </div>
+
+    <h3 style="margin-top:3rem">個人形象照</h3>
+    <div class="grid">
+      <!-- 替換為 images/portrait-01.jpg -->
+      <figure><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=600&fit=crop&auto=format" alt="專業工作者形象照，自然棚光"><figcaption>工作者形象照</figcaption></figure>
+      <!-- 替換為 images/portrait-02.jpg -->
+      <figure><img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&h=600&fit=crop&auto=format" alt="品牌主形象照，工作場景"><figcaption>品牌主形象照</figcaption></figure>
+      <!-- 替換為 images/portrait-03.jpg -->
+      <figure><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=800&h=600&fit=crop&auto=format" alt="講師形象照，舞台側拍"><figcaption>講師形象照</figcaption></figure>
+      <!-- 替換為 images/portrait-04.jpg -->
+      <figure><img src="https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=800&h=600&fit=crop&auto=format" alt="個人品牌形象照，戶外自然光"><figcaption>個人品牌形象照</figcaption></figure>
+    </div>
+    <div class="case">
+      <p>形象照不只是「拍得好看」，而是讓客戶在名片、網站與社群上看起來一致而可信。拍攝前會先確認照片要用在哪裡，再決定服裝、場景與表情方向。</p>
+    </div>
+  </section>
+
+  <!-- 服務方案 -->
+  <section id="plans" style="background: var(--bg-soft)">
+    <h2>服務方案</h2>
+    <div class="plans">
+      <div class="plan">
+        <h3>婚紗方案</h3>
+        <ul>
+          <li>拍攝 4 小時，台中市區或近郊</li>
+          <li>精修 30 張，全數原檔提供</li>
+          <li>交件時間：拍攝後 4 週</li>
+          <li>加選：精修每張另計、妝髮與場地費另計</li>
+        </ul>
+        <p class="price">NT$ 28,000 起</p>
+      </div>
+      <div class="plan">
+        <h3>婚禮紀錄方案</h3>
+        <ul>
+          <li>儀式＋宴客 8 小時雙機紀錄</li>
+          <li>精選修圖 80 張，全數原檔提供</li>
+          <li>交件時間：婚禮後 6 週</li>
+          <li>加選：快剪快播、加時每小時另計</li>
+        </ul>
+        <p class="price">NT$ 36,000 起</p>
+      </div>
+      <div class="plan">
+        <h3>個人形象照方案</h3>
+        <ul>
+          <li>拍攝 2 小時，棚內或工作場景</li>
+          <li>精修 10 張，含網路用尺寸輸出</li>
+          <li>交件時間：拍攝後 2 週</li>
+          <li>加選：妝髮造型、額外精修每張另計</li>
+        </ul>
+        <p class="price">NT$ 12,000 起</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 拍攝流程 -->
+  <section id="process">
+    <h2>拍攝流程</h2>
+    <div class="steps">
+      <div>1. 詢問<br>確認日期與需求</div>
+      <div>2. 溝通<br>風格、場地與流程</div>
+      <div>3. 拍攝<br>當天現場執行</div>
+      <div>4. 精修<br>挑選與修圖</div>
+      <div>5. 交件<br>線上相簿與原檔</div>
+    </div>
+  </section>
+
+  <!-- 關於我 -->
+  <section id="about" style="background: var(--bg-soft)">
+    <h2>關於我</h2>
+    <div class="about">
+      <!-- 替換為 images/about-ko.jpg -->
+      <figure><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=600&fit=crop&auto=format" alt="攝影師小柯工作照"></figure>
+      <div>
+        <p>我是小柯，在台中工作的攝影師，拍婚紗、婚禮紀錄與個人形象照。</p>
+        <p>我相信好照片來自關係，不是指令。拍攝時我說得不多，更多時間在觀察：兩個人怎麼互動、誰會在什麼時刻看向誰。修圖上我傾向保留現場的光線與膚色，不做過度的磨皮與調色。</p>
+        <p>如果你想要的是自然、有情緒、十年後看還是你們自己的照片，我們應該會合作得很愉快。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 詢問表單 -->
+  <section id="contact">
+    <h2>詢問檔期</h2>
+    <form>
+      <label>姓名
+        <input type="text" name="name" placeholder="您的稱呼" required>
+      </label>
+      <label>聯絡方式（Email 或電話）
+        <input type="text" name="contact" placeholder="example@mail.com 或手機號碼" required>
+      </label>
+      <label>拍攝類型
+        <select name="type">
+          <option>婚紗</option>
+          <option>婚禮紀錄</option>
+          <option>個人形象照</option>
+        </select>
+      </label>
+      <label>預計日期
+        <input type="date" name="date">
+      </label>
+      <label>拍攝地點
+        <input type="text" name="location" placeholder="例如：台中市區、戶外景點">
+      </label>
+      <label>預算區間
+        <input type="text" name="budget" placeholder="例如：NT$ 30,000 - 40,000">
+      </label>
+      <label>想說明的需求
+        <textarea name="message" placeholder="想拍的感覺、在意的事、特別的安排"></textarea>
+      </label>
+      <button type="submit">送出詢問</button>
+    </form>
+  </section>
+
+</main>
+
+<footer>
+  <div>
+    Email：hello@kophoto.example.tw<br>
+    Instagram：@ko.photo.studio
+  </div>
+  <div>
+    服務地區：台中為主，全台可議<br>
+    © 2026 小柯攝影工作室
+  </div>
+</footer>
+
+</body>
+</html>

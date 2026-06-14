@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>安禾耳鼻喉科診所｜門診時間查詢與線上預約</title>
+  <meta name="description" content="安禾耳鼻喉科診所提供門診時間查詢、線上預約時段、候診進度與衛教資訊。醫師會說明用藥內容與注意事項，協助您安心就醫。">
+  <style>
+    :root {
+      --ink: #25333a;
+      --ink-soft: #5b6b72;
+      --teal: #2f6f64;
+      --teal-dark: #25584f;
+      --teal-soft: #e4efec;
+      --paper: #f7f9f8;
+      --card: #ffffff;
+      --line: #dde4e2;
+      --amber: #b97d10;
+      --amber-soft: #f7ecd7;
+      --gray-badge: #eceff0;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+      color: var(--ink);
+      background: var(--paper);
+      line-height: 1.7;
+    }
+    a { color: var(--teal); }
+    img { max-width: 100%; display: block; }
+
+    /* 頁首與導覽 */
+    .site-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+      padding: 14px 24px;
+      background: var(--card);
+      border-bottom: 1px solid var(--line);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .brand { font-size: 1.15rem; font-weight: 700; color: var(--teal-dark); }
+    .brand small { display: block; font-size: 0.78rem; font-weight: 400; color: var(--ink-soft); }
+    .site-nav { display: flex; gap: 4px; flex-wrap: wrap; }
+    .site-nav a {
+      display: inline-block;
+      padding: 10px 12px;
+      min-height: 44px;
+      text-decoration: none;
+      color: var(--ink);
+      border-radius: 8px;
+      font-size: 0.95rem;
+    }
+    .site-nav a:hover { background: var(--teal-soft); }
+    .site-nav a.nav-cta {
+      background: var(--teal);
+      color: #fff;
+      font-weight: 700;
+    }
+    .site-nav a.nav-cta:hover { background: var(--teal-dark); }
+
+    main { max-width: 1080px; margin: 0 auto; padding: 0 24px 48px; }
+    section { padding: 48px 0 8px; }
+    section > h2 {
+      font-size: 1.45rem;
+      color: var(--teal-dark);
+      border-left: 6px solid var(--teal);
+      padding-left: 12px;
+      margin-bottom: 8px;
+    }
+    .section-lead { color: var(--ink-soft); margin-bottom: 24px; }
+
+    /* 首頁主視覺 */
+    .hero {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 32px;
+      align-items: center;
+      padding: 56px 0 24px;
+    }
+    .hero h1 { font-size: 2.1rem; line-height: 1.35; color: var(--teal-dark); }
+    .hero .specialty { font-weight: 700; color: var(--teal); letter-spacing: 0.1em; margin-bottom: 8px; }
+    .hero .claim { margin: 16px 0 24px; font-size: 1.05rem; }
+    .btn {
+      display: inline-block;
+      min-height: 44px;
+      padding: 12px 22px;
+      border-radius: 10px;
+      border: 1.5px solid var(--teal);
+      background: var(--teal);
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 700;
+      text-decoration: none;
+      text-align: center;
+      cursor: pointer;
+    }
+    .btn:hover { background: var(--teal-dark); }
+    .btn.btn-ghost { background: transparent; color: var(--teal); }
+    .btn.btn-ghost:hover { background: var(--teal-soft); }
+    .btn[disabled] {
+      background: var(--gray-badge);
+      border-color: var(--gray-badge);
+      color: var(--ink-soft);
+      cursor: not-allowed;
+    }
+    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+    .today-strip {
+      margin-top: 20px;
+      padding: 10px 14px;
+      background: var(--teal-soft);
+      border-radius: 10px;
+      font-size: 0.92rem;
+      color: var(--teal-dark);
+    }
+    .hero figure { border-radius: 14px; overflow: hidden; border: 1px solid var(--line); }
+    .hero figcaption { font-size: 0.82rem; color: var(--ink-soft); padding: 8px 12px; background: var(--card); }
+
+    /* 卡片網格（醫師、衛教） */
+    .card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 24px; }
+    .doctor-grid-two { grid-template-columns: repeat(2, 1fr); }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 20px;
+    }
+    .card h3 { color: var(--teal-dark); margin-bottom: 8px; font-size: 1.08rem; }
+    .card ul { padding-left: 1.2em; }
+    .doctor-photo { border-radius: 10px; margin-bottom: 14px; }
+    .doctor-meta { font-size: 0.92rem; color: var(--ink-soft); }
+
+    /* 診次表 */
+    .table-scroll { overflow-x: auto; background: var(--card); border: 1px solid var(--line); border-radius: 14px; margin-bottom: 12px; }
+    table { width: 100%; border-collapse: collapse; min-width: 640px; }
+    caption { text-align: left; padding: 14px 16px 0; font-weight: 700; color: var(--teal-dark); }
+    th, td { padding: 12px 16px; border-bottom: 1px solid var(--line); text-align: left; font-size: 0.95rem; }
+    thead th { background: var(--teal-soft); color: var(--teal-dark); }
+    .closed { color: var(--ink-soft); }
+    .note { font-size: 0.88rem; color: var(--ink-soft); margin-bottom: 16px; }
+
+    /* 預約時段 */
+    .slot-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 28px; }
+    .slot-card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .slot-date { font-weight: 700; font-size: 1.02rem; }
+    .slot-meta { font-size: 0.9rem; color: var(--ink-soft); }
+    .badge {
+      align-self: flex-start;
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 999px;
+    }
+    .badge-open { background: var(--teal-soft); color: var(--teal-dark); }
+    .badge-almost { background: var(--amber-soft); color: var(--amber); }
+    .badge-full { background: var(--gray-badge); color: var(--ink-soft); }
+    .badge-off { background: transparent; color: var(--ink-soft); border: 1px solid var(--line); }
+    .capacity-bar { height: 8px; border-radius: 999px; background: var(--gray-badge); overflow: hidden; }
+    .capacity-bar span { display: block; height: 100%; background: var(--teal); }
+    .slot-card .btn { margin-top: auto; }
+
+    /* 預約表單 */
+    .booking-form {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 24px;
+      max-width: 640px;
+    }
+    .booking-form h3 { color: var(--teal-dark); margin-bottom: 4px; }
+    .form-field { margin-top: 16px; display: flex; flex-direction: column; gap: 6px; }
+    .form-field label { font-weight: 700; font-size: 0.95rem; }
+    .form-field input,
+    .form-field select,
+    .form-field textarea {
+      font: inherit;
+      padding: 10px 12px;
+      min-height: 44px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+    }
+    .form-field textarea { min-height: 96px; resize: vertical; }
+    .form-check { margin-top: 16px; display: flex; gap: 10px; align-items: flex-start; font-size: 0.92rem; }
+    .form-check input { width: 18px; height: 18px; margin-top: 4px; }
+    .form-hint { font-size: 0.85rem; color: var(--ink-soft); margin-top: 12px; }
+    .booking-form .btn { margin-top: 20px; width: 100%; }
+
+    /* 交通與候診 */
+    .access-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px; }
+    .queue-now {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+    .queue-now .num { font-size: 2rem; font-weight: 700; color: var(--teal-dark); line-height: 1.2; }
+    .queue-now .label { font-size: 0.85rem; color: var(--ink-soft); }
+
+    footer {
+      background: var(--card);
+      border-top: 1px solid var(--line);
+      padding: 28px 24px;
+      text-align: center;
+      font-size: 0.9rem;
+      color: var(--ink-soft);
+    }
+    footer p { margin: 4px 0; }
+
+    /* 平板：預約時段與卡片改為兩欄 */
+    @media (max-width: 1024px) {
+      .slot-grid, .card-grid { grid-template-columns: repeat(2, 1fr); }
+      .hero { grid-template-columns: 1fr; }
+      .access-grid { grid-template-columns: 1fr; }
+    }
+    /* 手機：全部單欄，按鈕與表單欄位維持易點 */
+    @media (max-width: 640px) {
+      .slot-grid, .card-grid, .doctor-grid-two { grid-template-columns: 1fr; }
+      .site-header { flex-direction: column; align-items: flex-start; gap: 10px; }
+      .hero { padding-top: 32px; }
+      .hero h1 { font-size: 1.6rem; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand">安禾耳鼻喉科診所
+      <small>耳鼻喉科・一般門診／兒童專診</small>
+    </div>
+    <nav class="site-nav" aria-label="主要導覽">
+      <a href="#doctors">醫師簡介</a>
+      <a href="#schedule">診次表</a>
+      <a href="#education">衛教資訊</a>
+      <a href="#access">交通與候診</a>
+      <a class="nav-cta" href="#booking">預約門診</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- 首頁主視覺 -->
+    <section class="hero" id="top">
+      <div>
+        <p class="specialty">耳鼻喉科診所</p>
+        <h1>把你的狀況說清楚，<br>是我們看診的一部分。</h1>
+        <p class="claim">醫師會說明你的症狀、開了什麼藥、有沒有嗜睡成分，讓你看完診就知道接下來怎麼照顧自己。</p>
+        <div class="hero-actions">
+          <a class="btn" href="#booking">預約門診</a>
+          <a class="btn btn-ghost" href="#schedule">查看診次表</a>
+        </div>
+        <p class="today-strip">今日門診：上午診 09:00–12:00・目前看診 12 號（示意畫面，實際以現場為準）</p>
+      </div>
+      <figure>
+        <!-- 替換為 images/clinic-hall.jpg -->
+        <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=800&h=600&fit=crop&auto=format" alt="安禾耳鼻喉科診所候診區與診間環境照片">
+        <figcaption>候診區與診間環境（照片日後替換）</figcaption>
+      </figure>
+    </section>
+
+    <!-- 醫師簡介 -->
+    <section id="doctors">
+      <h2>醫師簡介</h2>
+      <p class="section-lead">兩位主治醫師輪診。學經歷欄位為示意文字，正式上線前請替換為醫師實際資歷。</p>
+      <div class="card-grid doctor-grid-two">
+        <article class="card">
+          <!-- 替換為 images/doctor-chen.jpg -->
+          <img class="doctor-photo" src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=800&h=600&fit=crop&auto=format" alt="陳醫師白袍形象照">
+          <h3>陳醫師（院長）</h3>
+          <p class="doctor-meta">學經歷：○○醫學大學醫學系畢業；曾任○○醫院耳鼻喉部主治醫師。<!-- 請替換為醫師實際學經歷 --></p>
+          <p class="doctor-meta">專長：一般耳鼻喉疾病、過敏性鼻炎、嗓音保健。</p>
+          <p>看診理念：把藥袋裡每一顆藥說清楚。你有權利知道自己吃的是什麼、為什麼吃、會不會影響下午的工作。</p>
+        </article>
+        <article class="card">
+          <!-- 替換為 images/doctor-wang.jpg -->
+          <img class="doctor-photo" src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&h=600&fit=crop&auto=format" alt="王醫師白袍形象照">
+          <h3>王醫師</h3>
+          <p class="doctor-meta">學經歷：○○醫學大學醫學系畢業；曾任○○醫院小兒耳鼻喉門診醫師。<!-- 請替換為醫師實際學經歷 --></p>
+          <p class="doctor-meta">專長：兒童耳鼻喉疾病、中耳炎、鼻竇炎。</p>
+          <p>看診理念：小朋友說不清楚的，我們慢慢問。家長的觀察是診斷的一部分，請放心把細節說出來。</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- 診次表 -->
+    <section id="schedule">
+      <h2>診次表</h2>
+      <p class="section-lead">每週固定診次如下。國定假日與臨時停診會在本頁與現場公告。</p>
+      <div class="table-scroll">
+        <table>
+          <caption>每週門診時間（週日休診）</caption>
+          <thead>
+            <tr>
+              <th scope="col">診次</th>
+              <th scope="col">週一</th>
+              <th scope="col">週二</th>
+              <th scope="col">週三</th>
+              <th scope="col">週四</th>
+              <th scope="col">週五</th>
+              <th scope="col">週六</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">上午診 09:00–12:00</th>
+              <td>一般門診</td>
+              <td>一般門診</td>
+              <td>一般門診</td>
+              <td>一般門診</td>
+              <td>一般門診</td>
+              <td>一般門診</td>
+            </tr>
+            <tr>
+              <th scope="row">下午診 14:30–17:30</th>
+              <td>一般門診</td>
+              <td>一般門診</td>
+              <td>一般門診</td>
+              <td class="closed">休診</td>
+              <td>一般門診</td>
+              <td class="closed">休診</td>
+            </tr>
+            <tr>
+              <th scope="row">夜診 18:30–21:00</th>
+              <td>一般門診</td>
+              <td class="closed">休診</td>
+              <td>兒童專診</td>
+              <td>一般門診</td>
+              <td>一般門診</td>
+              <td class="closed">休診</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">兒童專診由王醫師看診；慢性病複診可掛任一一般門診。</p>
+    </section>
+
+    <!-- 預約時段 -->
+    <section id="booking">
+      <h2>預約時段</h2>
+      <p class="section-lead">每一診次皆有名額上限：線上預約 20 名，另保留現場掛號 10 名。額滿時段無法再預約，可改選其他時段或現場候補。</p>
+      <div class="slot-grid">
+        <article class="slot-card">
+          <span class="badge badge-open">可預約</span>
+          <p class="slot-date">6/15（週一）上午診</p>
+          <p class="slot-meta">一般門診・陳醫師</p>
+          <div class="capacity-bar"><span style="width: 40%"></span></div>
+          <p class="slot-meta">線上已預約 8／20・現場保留 10</p>
+          <button class="btn" type="button">預約此時段</button>
+        </article>
+        <article class="slot-card">
+          <span class="badge badge-almost">接近額滿</span>
+          <p class="slot-date">6/15（週一）夜診</p>
+          <p class="slot-meta">一般門診・王醫師</p>
+          <div class="capacity-bar"><span style="width: 90%"></span></div>
+          <p class="slot-meta">線上已預約 18／20・現場保留 10</p>
+          <button class="btn" type="button">預約此時段</button>
+        </article>
+        <article class="slot-card">
+          <span class="badge badge-full">額滿</span>
+          <p class="slot-date">6/16（週二）上午診</p>
+          <p class="slot-meta">一般門診・陳醫師</p>
+          <div class="capacity-bar"><span style="width: 100%"></span></div>
+          <p class="slot-meta">線上已預約 20／20・可現場候補</p>
+          <button class="btn" type="button" disabled>額滿，開放現場候補</button>
+        </article>
+        <article class="slot-card">
+          <span class="badge badge-open">可預約</span>
+          <p class="slot-date">6/17（週三）夜診</p>
+          <p class="slot-meta">兒童專診・王醫師</p>
+          <div class="capacity-bar"><span style="width: 60%"></span></div>
+          <p class="slot-meta">線上已預約 12／20・現場保留 10</p>
+          <button class="btn" type="button">預約此時段</button>
+        </article>
+        <article class="slot-card">
+          <span class="badge badge-off">停診</span>
+          <p class="slot-date">6/18（週四）夜診</p>
+          <p class="slot-meta">一般門診・醫師公假</p>
+          <div class="capacity-bar"><span style="width: 0%"></span></div>
+          <p class="slot-meta">本診次停診，不開放預約</p>
+          <button class="btn" type="button" disabled>本日停診</button>
+        </article>
+        <article class="slot-card">
+          <span class="badge badge-open">可預約</span>
+          <p class="slot-date">6/19（週五）上午診</p>
+          <p class="slot-meta">一般門診・陳醫師</p>
+          <div class="capacity-bar"><span style="width: 25%"></span></div>
+          <p class="slot-meta">線上已預約 5／20・現場保留 10</p>
+          <button class="btn" type="button">預約此時段</button>
+        </article>
+      </div>
+
+      <form class="booking-form">
+        <h3>預約資料</h3>
+        <p class="form-hint">此表單為原型示意，送出按鈕不會將資料傳送到伺服器。</p>
+        <div class="form-field">
+          <label for="patient-name">姓名</label>
+          <input type="text" id="patient-name" name="patient-name" placeholder="請輸入姓名" required>
+        </div>
+        <div class="form-field">
+          <label for="patient-phone">聯絡電話</label>
+          <input type="tel" id="patient-phone" name="patient-phone" placeholder="請輸入手機號碼" required>
+        </div>
+        <div class="form-field">
+          <label for="slot-select">預約診次</label>
+          <select id="slot-select" name="slot-select">
+            <option>6/15（週一）上午診・一般門診</option>
+            <option>6/15（週一）夜診・一般門診</option>
+            <option>6/17（週三）夜診・兒童專診</option>
+            <option>6/19（週五）上午診・一般門診</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label for="visit-type">是否為慢性病連續處方箋複診</label>
+          <select id="visit-type" name="visit-type">
+            <option>否，一般看診</option>
+            <option>是，慢箋複診</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label for="symptom-note">症狀備註（選填）</label>
+          <textarea id="symptom-note" name="symptom-note" placeholder="例：喉嚨痛兩天，下午需要開會，希望了解藥物是否嗜睡"></textarea>
+        </div>
+        <div class="form-check">
+          <input type="checkbox" id="reminder" name="reminder" checked>
+          <label for="reminder">若您願意，我們可在建議複診日前一天以簡訊提醒。此提醒僅用於本次療程相關照護，不會作為其他行銷用途。</label>
+        </div>
+        <p class="form-hint">取消規則：如需取消或改期，請於就診前一日 18:00 前來電告知；取消後名額將開放給候補病患。</p>
+        <button class="btn" type="submit">送出預約</button>
+      </form>
+    </section>
+
+    <!-- 衛教資訊 -->
+    <section id="education">
+      <h2>衛教資訊</h2>
+      <p class="section-lead">看診前後常見的三類問題。網頁內容僅為一般衛教說明，實際診斷與用藥請以醫師當面說明為準。</p>
+      <div class="card-grid">
+        <article class="card">
+          <h3>常見症狀</h3>
+          <ul>
+            <li>喉嚨痛、聲音沙啞超過一週未改善。</li>
+            <li>鼻塞、流鼻水合併頭脹或臉部悶痛。</li>
+            <li>耳朵悶、聽聲音變小或耳鳴。</li>
+          </ul>
+          <p class="doctor-meta">出現以上情況建議就醫，由醫師檢查後說明處置方式。</p>
+        </article>
+        <article class="card">
+          <h3>用藥提醒</h3>
+          <ul>
+            <li>部分感冒與過敏藥物含嗜睡成分。</li>
+            <li>需要開車、操作機械或下午開會，請主動告知醫師。</li>
+            <li>醫師會說明每種藥的作用，並視情況調整為較不嗜睡的選項。</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>複診說明</h3>
+          <ul>
+            <li>慢性病連續處方箋（慢箋）可分次至藥局領藥，依規定回診。</li>
+            <li>醫師會在看診時告知建議複診時間。</li>
+            <li>同意接收提醒的病患，會在建議複診日前一天收到簡訊。</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- 交通與候診 -->
+    <section id="access">
+      <h2>交通與候診</h2>
+      <div class="access-grid">
+        <div class="card">
+          <h3>交通方式</h3>
+          <p>地址：台北市安禾區安心路 100 號 1 樓（示意地址）</p>
+          <p>捷運：安心站 2 號出口步行約 6 分鐘。</p>
+          <p>停車：診所周邊設有路邊停車格與公有停車場，假日車位較少，建議提早出門。</p>
+          <!-- 替換為 images/map.jpg -->
+          <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&h=600&fit=crop&auto=format" alt="診所位置地圖示意，標示捷運站與步行路線">
+        </div>
+        <div class="card">
+          <h3>即時候診資訊（示意）</h3>
+          <p>出門前先看這裡，減少現場等待時間。</p>
+          <div class="queue-now">
+            <div><p class="num">12 號</p><p class="label">目前看診號碼</p></div>
+            <div><p class="num">約 25 分</p><p class="label">預估等待時間</p></div>
+            <div><p class="num">09:40</p><p class="label">最後更新時間</p></div>
+          </div>
+          <p class="form-hint">此區為靜態示意畫面。正式版需串接掛號系統，顯示實際號碼與更新時間。</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>安禾耳鼻喉科診所｜電話：(02) 0000-0000（示意）｜台北市安禾區安心路 100 號 1 樓（示意地址）</p>
+    <p>本頁為網站原型，門診、號碼與名額皆為示意內容，實際請以診所現場公告為準。</p>
+    <p>© 2026 安禾耳鼻喉科診所</p>
+  </footer>
+</body>
+</html>

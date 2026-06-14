@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>晨光才藝教室｜4–12 歲分齡團體課・試上預約與班級名額</title>
+<meta name="description" content="晨光才藝教室提供 4–12 歲分齡團體才藝課：律動、畫畫、鋼琴小組班。班級名額公開、試上流程透明，補課與退費規則報名前看得到，歡迎預約試上。">
+<style>
+  :root {
+    --bg: #fffdf8;
+    --bg-soft: #faf3e6;   /* 暖米色 */
+    --ink: #33312c;       /* 深暖灰 */
+    --ink-soft: #6e6a61;
+    --line: #e9e1d2;
+    --accent: #c96f3b;    /* 陶土橘 */
+    --ok: #3f7d4e;        /* 名額可試上 */
+    --full: #9c6b1f;      /* 額滿候補 */
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Noto Sans TC", "PingFang TC", sans-serif;
+    color: var(--ink);
+    background: var(--bg);
+    line-height: 1.8;
+  }
+  header {
+    padding: 1.2rem 6vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--line);
+  }
+  header .brand { font-weight: 700; letter-spacing: 0.05em; }
+  header nav a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    margin-left: 1.1rem;
+    font-size: 0.95rem;
+  }
+  section { padding: 4rem 6vw; }
+  h1 { font-size: 2rem; font-weight: 700; letter-spacing: 0.04em; }
+  h2 { font-size: 1.4rem; margin-bottom: 1.5rem; letter-spacing: 0.06em; }
+  h3 { font-size: 1.05rem; margin-bottom: 0.4rem; }
+  .hero { background: var(--bg-soft); text-align: center; padding: 5.5rem 6vw; }
+  .hero p.position { margin-top: 0.8rem; color: var(--accent); font-weight: 700; }
+  .hero p.tagline { margin: 1rem auto 2rem; max-width: 32em; color: var(--ink-soft); }
+  .btn {
+    display: inline-block;
+    min-height: 44px;
+    padding: 0.7rem 2rem;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    text-decoration: none;
+    margin: 0 0.5rem;
+    border-radius: 6px;
+  }
+  .btn.primary { background: var(--accent); color: #fff; }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.2rem;
+  }
+  .grid img { width: 100%; height: auto; display: block; border-radius: 8px; }
+  figure figcaption { font-size: 0.85rem; color: var(--ink-soft); margin-top: 0.3rem; }
+  .card {
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 1.4rem;
+    background: #fff;
+  }
+  .card ul { list-style: none; margin-top: 0.6rem; }
+  .card li { font-size: 0.92rem; color: var(--ink-soft); padding: 0.15rem 0; }
+  .badge {
+    display: inline-block;
+    font-size: 0.8rem;
+    padding: 0.1rem 0.6rem;
+    border-radius: 999px;
+    border: 1px solid currentColor;
+    margin-bottom: 0.5rem;
+  }
+  .badge.open { color: var(--ok); }
+  .badge.full { color: var(--full); }
+  .badge.demo { color: var(--ink-soft); }
+  .price { font-weight: 700; margin-top: 0.6rem; }
+  .note { font-size: 0.88rem; color: var(--ink-soft); margin-top: 1.2rem; }
+  .steps { display: flex; gap: 1rem; flex-wrap: wrap; counter-reset: step; }
+  .steps div {
+    flex: 1;
+    min-width: 130px;
+    background: var(--bg-soft);
+    padding: 1rem;
+    text-align: center;
+    font-size: 0.95rem;
+    border-radius: 8px;
+  }
+  .steps div::before {
+    counter-increment: step;
+    content: counter(step);
+    display: block;
+    font-weight: 700;
+    color: var(--accent);
+  }
+  blockquote {
+    border-left: 3px solid var(--line);
+    padding-left: 1rem;
+    color: var(--ink-soft);
+    margin-top: 0.8rem;
+    font-size: 0.95rem;
+  }
+  form { max-width: 36em; }
+  form label { display: block; margin-top: 1rem; font-size: 0.95rem; }
+  form input, form select, form textarea {
+    width: 100%;
+    min-height: 44px;
+    padding: 0.5rem 0.7rem;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    font-size: 1rem;
+    margin-top: 0.3rem;
+    background: #fff;
+  }
+  form textarea { min-height: 110px; }
+  form button {
+    margin-top: 1.5rem;
+    min-height: 48px;
+    padding: 0.8rem 2.5rem;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  .policy-list { max-width: 44em; }
+  .policy-list h3 { margin-top: 1.4rem; }
+  .policy-list p { color: var(--ink-soft); font-size: 0.95rem; }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: start; }
+  .contact-grid ul { list-style: none; }
+  .contact-grid li { padding: 0.25rem 0; color: var(--ink-soft); }
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 2.5rem 6vw;
+    color: var(--ink-soft);
+    font-size: 0.9rem;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  /* 平板：課程與照片改兩欄 */
+  @media (max-width: 1024px) {
+    .grid { grid-template-columns: repeat(2, 1fr); }
+    .contact-grid { grid-template-columns: 1fr; }
+  }
+  /* 手機：全部單欄，流程改直式，按鈕與表單欄位維持易點 */
+  @media (max-width: 640px) {
+    header { flex-direction: column; align-items: flex-start; gap: 0.4rem; }
+    header nav a { margin-left: 0; margin-right: 1rem; }
+    section { padding: 3rem 5vw; }
+    .hero { padding: 4rem 5vw; }
+    h1 { font-size: 1.6rem; }
+    .grid { grid-template-columns: 1fr; }
+    .steps { flex-direction: column; }
+    .btn { display: block; margin: 0.5rem auto; max-width: 280px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">晨光才藝教室</div>
+  <nav>
+    <a href="#trust">教室與師資</a>
+    <a href="#courses">班級名額</a>
+    <a href="#flow">試上流程</a>
+    <a href="#policy">規則</a>
+    <a href="#trial">預約試上</a>
+  </nav>
+</header>
+
+<main>
+
+  <!-- Hero 首頁 -->
+  <section class="hero">
+    <h1>晨光才藝教室</h1>
+    <p class="position">4–12 歲分齡團體才藝課｜律動・畫畫・鋼琴小組</p>
+    <p class="tagline">小班分齡、名額公開、進度看得見。先試上一堂，再決定要不要正式報名。</p>
+    <a class="btn primary" href="#trial">預約試上</a>
+    <a class="btn" href="#courses">查看班級名額</a>
+  </section>
+
+  <!-- 信任證據 -->
+  <section id="trust">
+    <h2>教室環境與師資</h2>
+    <div class="grid">
+      <!-- 替換為 images/classroom-01.jpg -->
+      <figure><img src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=800&h=600&fit=crop&auto=format" alt="鋪設安全地墊的律動教室全景"><figcaption>律動教室與安全地墊</figcaption></figure>
+      <!-- 替換為 images/classroom-02.jpg -->
+      <figure><img src="https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?w=800&h=600&fit=crop&auto=format" alt="老師蹲下與孩子同高說明動作的上課互動"><figcaption>小組上課互動</figcaption></figure>
+      <!-- 替換為 images/showcase-01.jpg -->
+      <figure><img src="https://images.unsplash.com/photo-1518834107812-67b0b7c58434?w=800&h=600&fit=crop&auto=format" alt="學期成果展舞台與台下家長席"><figcaption>學期成果展</figcaption></figure>
+    </div>
+
+    <h3 style="margin-top:2.5rem">師資透明</h3>
+    <div class="grid">
+      <!-- 上線前替換為真實師資資料 -->
+      <div class="card">
+        <span class="badge demo">示意內容</span>
+        <h3>律動老師（姓名待替換）</h3>
+        <ul>
+          <li>學歷與主修：上線前填入真實學歷</li>
+          <li>教齡：上線前填入實際年資</li>
+          <li>兒少安全：附犯罪紀錄查核說明</li>
+        </ul>
+      </div>
+      <!-- 上線前替換為真實師資資料 -->
+      <div class="card">
+        <span class="badge demo">示意內容</span>
+        <h3>鋼琴老師（姓名待替換）</h3>
+        <ul>
+          <li>學歷與主修：上線前填入真實學歷</li>
+          <li>教齡：上線前填入實際年資</li>
+          <li>兒少安全：附犯罪紀錄查核說明</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>開放觀察</h3>
+        <ul>
+          <li>家長可在走廊旁聽區旁觀第一堂課</li>
+          <li>每堂課後提供老師的具體觀察紀錄</li>
+          <li>孩子照片取得家長同意後才公開</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 style="margin-top:2.5rem">家長回饋</h3>
+    <!-- 上線前替換為取得家長同意的真實回饋，不得使用虛構評價 -->
+    <span class="badge demo">示意格式，上線前替換為取得同意的真實回饋</span>
+    <blockquote>回饋格式示範：孩子化名＋上課時間＋老師的具體觀察＋家長想說的一句話。</blockquote>
+  </section>
+
+  <!-- 核心流程：課程、年齡分班與名額 -->
+  <section id="courses">
+    <h2>課程、年齡分班與名額</h2>
+    <div class="grid">
+      <div class="card">
+        <span class="badge open">可申請試上</span>
+        <h3>幼兒律動班（4–6 歲）</h3>
+        <ul>
+          <li>週六 10:00–10:50</li>
+          <li>名額 8 人，目前 7 人</li>
+          <li>內容：節奏感、肢體開發、輪流與等待</li>
+        </ul>
+        <!-- 上線前替換為實際費用 -->
+        <p class="price">每期 8 堂 2,400 元起</p>
+      </div>
+      <div class="card">
+        <span class="badge open">可申請試上</span>
+        <h3>兒童畫畫班（7–9 歲）</h3>
+        <ul>
+          <li>週六 11:00–12:00</li>
+          <li>名額 10 人，目前 6 人</li>
+          <li>內容：媒材探索、主題創作、作品說明</li>
+        </ul>
+        <!-- 上線前替換為實際費用 -->
+        <p class="price">每期 8 堂 2,800 元起</p>
+      </div>
+      <div class="card">
+        <span class="badge full">額滿，可登記候補</span>
+        <h3>鋼琴小組班（7–12 歲）</h3>
+        <ul>
+          <li>週日 14:00–15:00</li>
+          <li>名額 6 人，目前 6 人</li>
+          <li>內容：小組伴奏、節奏訓練、學期發表</li>
+        </ul>
+        <!-- 上線前替換為實際費用 -->
+        <p class="price">每期 8 堂 3,200 元起</p>
+      </div>
+    </div>
+    <p class="note">名額為可驗證資訊，依實際報名狀態更新；額滿班級可登記候補，依順位通知。</p>
+  </section>
+
+  <!-- 核心流程：試上到正式報名 -->
+  <section id="flow">
+    <h2>試上到正式報名</h2>
+    <div class="steps">
+      <div>瀏覽課程與名額</div>
+      <div>申請試上</div>
+      <div>安排試上時段</div>
+      <div>完成試上與老師回饋</div>
+      <div>收到建議班級</div>
+      <div>正式報名或登記候補</div>
+    </div>
+    <p class="note">試上後三日內，老師會提供孩子狀態的具體觀察與建議班級；家長三日內回覆是否轉正式，逾期釋出名額給候補。</p>
+  </section>
+
+  <!-- 資料表單：試上申請 -->
+  <section id="trial">
+    <h2>預約試上</h2>
+    <form>
+      <label>家長姓名
+        <input type="text" name="parent-name" placeholder="例：王小明的媽媽">
+      </label>
+      <label>聯絡電話
+        <input type="tel" name="phone" placeholder="例：0912-345-678">
+      </label>
+      <label>Email
+        <input type="email" name="email" placeholder="例：parent@example.com">
+      </label>
+      <label>孩子年齡
+        <select name="child-age">
+          <option>4–6 歲</option>
+          <option>7–9 歲</option>
+          <option>10–12 歲</option>
+        </select>
+      </label>
+      <label>想試上的課程
+        <select name="course">
+          <option>幼兒律動班（週六 10:00）</option>
+          <option>兒童畫畫班（週六 11:00）</option>
+          <option>鋼琴小組班（週日 14:00，候補）</option>
+        </select>
+      </label>
+      <label>想了解或備註
+        <textarea name="note" placeholder="例：孩子比較慢熱，想先在旁聽區看一堂"></textarea>
+      </label>
+      <button type="submit">送出試上申請</button>
+      <p class="note">表單為原型示意，不會真的送出；正式版送出後，我們會在一個工作天內以電話或 LINE 確認試上時段。</p>
+    </form>
+  </section>
+
+  <!-- 規則說明 -->
+  <section id="policy">
+    <h2>費用與規則</h2>
+    <div class="policy-list">
+      <h3>費用</h3>
+      <p>以每期 8 堂計費，各班費用標示於班級卡片；教材與器材費於報名前一次說明，無額外隱藏費用。</p>
+      <h3>補課</h3>
+      <p>開課前 24 小時請假，每期可補課 1 次，限同級班；未事先請假視同上課。</p>
+      <h3>退費</h3>
+      <p>開課前可全額退費；開課後依已上堂數比例退還，教材費依未拆封狀態處理。</p>
+      <h3>候補</h3>
+      <p>額滿班級依登記順位通知，通知後三日內未回覆即釋出名額給下一位。</p>
+      <h3>隱私</h3>
+      <p>孩子的照片、影片與作品，取得家長書面同意後才會公開；可隨時撤回同意。</p>
+    </div>
+  </section>
+
+  <!-- 聯絡與後續 -->
+  <section id="contact">
+    <h2>聯絡我們</h2>
+    <div class="contact-grid">
+      <ul>
+        <li>電話：02-1234-5678（示意號碼）</li>
+        <li>LINE：@morninglight（示意 ID）</li>
+        <li>Email：hello@morninglight.example</li>
+        <li>地址：中山路 100 號 2 樓（示意地址）</li>
+        <li>送出試上申請後，一個工作天內回覆確認。</li>
+      </ul>
+      <!-- 替換為 images/map.jpg -->
+      <figure><img src="https://images.unsplash.com/photo-1455390582262-044cdead277a?w=800&h=600&fit=crop&auto=format" alt="教室位置地圖示意"><figcaption>教室位置（上線前替換為地圖）</figcaption></figure>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div>© 晨光才藝教室（網站原型示意）</div>
+  <div>4–12 歲分齡團體才藝課｜律動・畫畫・鋼琴小組</div>
+</footer>
+
+</body>
+</html>

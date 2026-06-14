@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>山月法式餐館｜台北法式料理線上訂位（訂位原型）</title>
+<meta name="description" content="山月法式餐館線上訂位原型：查看菜單與低消、桌型容量、即時選擇日期、人數與時段，送出後立即取得訂位編號與取消方式。">
+<style>
+  :root {
+    --ink: #2b2825;
+    --paper: #faf7f2;
+    --card: #ffffff;
+    --line: #e3ddd3;
+    --wine: #7a2e2e;
+    --wine-dark: #5e2222;
+    --muted: #6f6a63;
+    --ok: #2e6b46;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.7;
+  }
+  h1, h2, h3 { font-family: "Songti TC", "Noto Serif TC", serif; line-height: 1.4; }
+  img { display: block; width: 100%; height: auto; border-radius: 6px; }
+  a { color: var(--wine); }
+
+  /* 頁首 */
+  .site-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 24px;
+    background: var(--card);
+    border-bottom: 1px solid var(--line);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  .brand { font-family: "Songti TC", "Noto Serif TC", serif; font-size: 22px; font-weight: 700; letter-spacing: 2px; }
+  .brand small { display: block; font-size: 12px; color: var(--muted); letter-spacing: 4px; }
+  .site-nav { display: flex; flex-wrap: wrap; gap: 8px 20px; }
+  .site-nav a { text-decoration: none; color: var(--ink); font-size: 15px; }
+  .site-nav a:hover { color: var(--wine); }
+
+  /* 原型聲明 */
+  .prototype-note {
+    background: #fdf3e3;
+    border-bottom: 1px solid #ecd9b0;
+    color: #7c5a18;
+    font-size: 14px;
+    text-align: center;
+    padding: 8px 16px;
+  }
+
+  main { max-width: 1080px; margin: 0 auto; padding: 0 24px 64px; }
+  section { padding: 48px 0 8px; }
+  .section-title { font-size: 26px; margin-bottom: 6px; }
+  .section-lead { color: var(--muted); margin-bottom: 24px; font-size: 15px; }
+
+  /* 主視覺 */
+  .hero { display: grid; grid-template-columns: 1.1fr 1fr; gap: 32px; align-items: center; padding-top: 40px; }
+  .hero h1 { font-size: 34px; margin-bottom: 8px; }
+  .hero .cuisine { color: var(--wine); font-size: 15px; letter-spacing: 3px; margin-bottom: 16px; }
+  .hero .claim { font-size: 18px; margin-bottom: 24px; }
+  .btn {
+    display: inline-block;
+    padding: 12px 28px;
+    border: 1px solid var(--wine);
+    border-radius: 4px;
+    background: var(--wine);
+    color: #fff;
+    font-size: 16px;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .btn:hover { background: var(--wine-dark); }
+  .btn.ghost { background: transparent; color: var(--wine); margin-left: 12px; }
+
+  /* 卡片網格：桌機三欄 */
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 16px;
+  }
+  .card h3 { font-size: 18px; margin: 10px 0 4px; }
+  .card p { font-size: 14px; color: var(--muted); }
+  .price { color: var(--wine); font-weight: 700; font-size: 16px; }
+  .tag { display: inline-block; font-size: 12px; border: 1px solid var(--line); border-radius: 999px; padding: 1px 10px; color: var(--muted); margin-top: 6px; }
+
+  .notice-box {
+    margin-top: 20px;
+    background: var(--card);
+    border-left: 4px solid var(--wine);
+    border-radius: 4px;
+    padding: 14px 18px;
+    font-size: 15px;
+  }
+
+  /* 訂位選擇器 */
+  .picker { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 24px; }
+  .picker-row { margin-bottom: 20px; }
+  .picker-row > label, .picker-row > span.label { display: block; font-weight: 700; margin-bottom: 8px; font-size: 15px; }
+  input[type="date"], input[type="text"], input[type="tel"], select, textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    font-size: 16px;
+    background: #fff;
+    color: var(--ink);
+  }
+  .choice-group { display: flex; flex-wrap: wrap; gap: 10px; }
+  .choice {
+    padding: 10px 18px;
+    min-height: 44px;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    background: #fff;
+    font-size: 15px;
+    cursor: pointer;
+  }
+  .choice.selected { border-color: var(--wine); background: var(--wine); color: #fff; }
+  .choice.full {
+    background: #ececec;
+    color: #9a9a9a;
+    border-color: #ddd;
+    cursor: not-allowed;
+    text-decoration: line-through;
+  }
+  .availability { border-top: 1px dashed var(--line); padding-top: 16px; }
+  .availability li { list-style: none; padding: 6px 0; font-size: 15px; display: flex; justify-content: space-between; gap: 12px; }
+  .availability .left-count { color: var(--ok); font-weight: 700; }
+  .availability .soldout { color: #b04a3a; font-weight: 700; }
+  .join-hint { font-size: 13px; color: var(--muted); margin-top: 8px; }
+
+  /* 訂位表單 */
+  .form-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px 20px; }
+  .form-grid .full-width { grid-column: 1 / -1; }
+  .field label { display: block; font-weight: 700; font-size: 15px; margin-bottom: 6px; }
+  .checkbox-line { display: flex; align-items: center; gap: 8px; font-size: 15px; min-height: 44px; }
+  .checkbox-line input { width: 20px; height: 20px; }
+  .rules-recap {
+    background: #f4efe6;
+    border: 1px solid #e2d8c4;
+    border-radius: 6px;
+    padding: 14px 18px;
+    font-size: 14px;
+    margin: 20px 0;
+  }
+  .rules-recap strong { color: var(--wine); }
+  .submit-btn { width: auto; padding: 14px 40px; font-size: 17px; }
+  .form-error { color: #b04a3a; font-size: 14px; margin-top: 10px; display: none; }
+
+  /* 確認區 */
+  .confirm-box {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 24px;
+    font-size: 15px;
+  }
+  .confirm-box.confirmed { border-color: var(--ok); }
+  .confirm-box h3 { color: var(--ok); margin-bottom: 10px; }
+  .confirm-box dl { display: grid; grid-template-columns: 110px 1fr; row-gap: 6px; }
+  .confirm-box dt { color: var(--muted); }
+  .booking-code { font-size: 20px; font-weight: 700; letter-spacing: 1px; }
+
+  /* 資料模型示意 */
+  .model-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 8px; }
+  .model-table th, .model-table td { border: 1px solid var(--line); padding: 5px 8px; text-align: left; }
+  .model-table th { background: #f1ece3; }
+
+  /* 頁尾 */
+  .site-footer {
+    background: #2f2b27;
+    color: #d9d2c7;
+    padding: 32px 24px;
+    font-size: 14px;
+    text-align: center;
+  }
+  .site-footer p { margin: 4px 0; }
+
+  /* 平板：卡片改兩欄，主視覺改單欄 */
+  @media (max-width: 1024px) {
+    .grid { grid-template-columns: repeat(2, 1fr); }
+    .hero { grid-template-columns: 1fr; }
+  }
+  /* 手機：全部單欄，頁首改直向排列，按鈕維持易點 */
+  @media (max-width: 640px) {
+    .site-header { flex-direction: column; align-items: flex-start; }
+    .grid, .form-grid { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 28px; }
+    .btn { display: block; text-align: center; margin: 0 0 12px; }
+    .btn.ghost { margin-left: 0; }
+    .submit-btn { width: 100%; }
+    .confirm-box dl { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="brand">山月法式餐館<small>SHANYUE BISTRO</small></div>
+  <nav class="site-nav" aria-label="主選單">
+    <a href="#menu">菜單與低消</a>
+    <a href="#tables">桌型說明</a>
+    <a href="#booking">線上訂位</a>
+    <a href="#rules">訂位規則</a>
+  </nav>
+</header>
+
+<div class="prototype-note">本頁為課程教學用的訂位流程原型，未串接正式後台，送出表單不會建立真實訂位。</div>
+
+<main>
+
+  <!-- 1. 首頁主視覺 -->
+  <section class="hero" id="top">
+    <div>
+      <p class="cuisine">法式料理・台北</p>
+      <h1>山月法式餐館</h1>
+      <p class="claim">為重要的晚上，把每一個環節先想好：即時確認的訂位、清楚的低消與取消規則、能提前交代的特殊需求。</p>
+      <a class="btn" href="#booking">立即訂位</a>
+      <a class="btn ghost" href="#menu">查看菜單</a>
+    </div>
+    <!-- 替換為 images/hero.jpg -->
+    <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&h=600&fit=crop&auto=format" alt="山月法式餐館用餐空間全景，可看見桌距與燈光層次">
+  </section>
+
+  <!-- 2. 菜單與低消 -->
+  <section id="menu">
+    <h2 class="section-title">菜單與低消</h2>
+    <p class="section-lead">先讓你知道預算範圍，再決定要不要訂位。</p>
+    <div class="grid">
+      <article class="card">
+        <!-- 替換為 images/dish-duck.jpg -->
+        <img src="https://images.unsplash.com/photo-1569058242253-92a9c755a0ec?w=800&h=600&fit=crop&auto=format" alt="招牌菜油封鴨腿，外皮酥脆配時蔬">
+        <h3>油封鴨腿</h3>
+        <p>低溫油封十二小時，外皮煎脆，佐當季時蔬。</p>
+        <p class="price">NT$ 980</p>
+        <span class="tag">招牌菜</span>
+      </article>
+      <article class="card">
+        <!-- 替換為 images/dish-scallop.jpg -->
+        <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&h=600&fit=crop&auto=format" alt="香煎北海道干貝佐白酒奶油醬">
+        <h3>香煎干貝佐白酒奶油</h3>
+        <p>北海道生食級干貝，含海鮮食材，可於訂位時註記過敏需求。</p>
+        <p class="price">NT$ 1,180</p>
+        <span class="tag">招牌菜</span>
+      </article>
+      <article class="card">
+        <!-- 替換為 images/set-menu.jpg -->
+        <img src="https://images.unsplash.com/photo-1555126634-323283e090fa?w=800&h=600&fit=crop&auto=format" alt="主廚四人套餐全桌菜色示意">
+        <h3>套餐</h3>
+        <p>雙人套餐 NT$ 3,880／四人套餐 NT$ 7,680／主廚品嚐套餐每位 NT$ 2,580。</p>
+        <p class="price">NT$ 3,880 起</p>
+        <span class="tag">套餐</span>
+      </article>
+    </div>
+    <div class="notice-box">
+      <strong>低消與服務費：</strong>每位低消 NT$ 800（不含飲料），結帳加收一成服務費。包廂另有每室低消 NT$ 6,000，詳見訂位規則。
+    </div>
+  </section>
+
+  <!-- 3. 桌型說明 -->
+  <section id="tables">
+    <h2 class="section-title">桌型說明</h2>
+    <p class="section-lead">每種桌型的容量與可否併桌，都直接影響我們能不能接下你的訂位。</p>
+    <div class="grid">
+      <article class="card">
+        <h3>二人桌（6 張）</h3>
+        <p>適合 1 至 2 位。靠窗區桌距 120 公分。<strong>可併桌</strong>：兩張併為 4 人方桌。</p>
+      </article>
+      <article class="card">
+        <h3>四人桌（4 張）</h3>
+        <p>適合 3 至 4 位。<strong>可併桌</strong>：可與二人桌併為 6 人長桌。</p>
+      </article>
+      <article class="card">
+        <h3>包廂（2 間）</h3>
+        <p>適合 5 至 8 位，附拉門與獨立空調。<strong>不可併桌</strong>，每室低消 NT$ 6,000。</p>
+      </article>
+      <article class="card">
+        <h3>吧台（6 席）</h3>
+        <p>適合 1 至 2 位，面對開放式廚房。<strong>不可併桌</strong>，不收 12 歲以下兒童。</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- 4. 訂位選擇器 -->
+  <section id="booking">
+    <h2 class="section-title">線上訂位</h2>
+    <p class="section-lead">選好日期、人數與時段，系統會即時顯示可訂桌型與剩餘名額。</p>
+    <div class="picker">
+      <div class="picker-row">
+        <label for="date">用餐日期</label>
+        <input type="date" id="date" min="2026-06-12" value="2026-06-19">
+      </div>
+      <div class="picker-row">
+        <span class="label">用餐人數</span>
+        <div class="choice-group" id="party-group" role="group" aria-label="用餐人數">
+          <button type="button" class="choice selected" data-party="2">2 位</button>
+          <button type="button" class="choice" data-party="4">4 位</button>
+          <button type="button" class="choice" data-party="6">6 位</button>
+        </div>
+      </div>
+      <div class="picker-row">
+        <span class="label">用餐時段</span>
+        <div class="choice-group" id="slot-group" role="group" aria-label="用餐時段">
+          <button type="button" class="choice" data-slot="L1">11:30 午餐</button>
+          <button type="button" class="choice" data-slot="A1">14:30 下午茶</button>
+          <button type="button" class="choice full" data-slot="D1" disabled aria-disabled="true">18:00 晚餐第一輪（額滿）</button>
+          <button type="button" class="choice" data-slot="D2">20:00 晚餐第二輪</button>
+        </div>
+      </div>
+      <div class="availability">
+        <span class="label" style="font-weight:700">可訂桌型與剩餘名額</span>
+        <ul id="availability-list">
+          <li>請先選擇時段，系統會顯示符合人數的桌型。</li>
+        </ul>
+        <p class="join-hint" id="join-hint"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. 訂位表單 -->
+  <section id="reserve-form">
+    <h2 class="section-title">訂位表單</h2>
+    <p class="section-lead">留下必要資料就好，特殊需求請直接寫，我們會在確認時回覆。</p>
+    <form class="picker" id="booking-form" novalidate>
+      <div class="form-grid">
+        <div class="field">
+          <label for="name">訂位姓名</label>
+          <input type="text" id="name" name="name" placeholder="例如：王先生" required>
+        </div>
+        <div class="field">
+          <label for="phone">手機號碼</label>
+          <input type="tel" id="phone" name="phone" placeholder="例如：0912-345-678" required>
+        </div>
+        <div class="field">
+          <label for="people">人數</label>
+          <select id="people" name="people">
+            <option value="2" selected>2 位</option>
+            <option value="4">4 位</option>
+            <option value="6">6 位</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="kids-chair" style="visibility:hidden">兒童椅</label>
+          <div class="checkbox-line">
+            <input type="checkbox" id="kids-chair" name="kids-chair">
+            <label for="kids-chair" style="font-weight:400;margin:0">需要兒童椅</label>
+          </div>
+        </div>
+        <div class="field full-width">
+          <label for="request">特殊需求</label>
+          <textarea id="request" name="request" rows="3" placeholder="例如：同行長輩對海鮮過敏、當天慶生、需要輪椅動線"></textarea>
+        </div>
+      </div>
+      <div class="rules-recap">
+        送出前請再確認三件事：<strong>訂位保留 10 分鐘</strong>，逾時桌位釋出；<strong>用餐前一日 21:00 前可免費取消</strong>；每位低消 NT$ 800，結帳加收一成服務費。
+      </div>
+      <button type="submit" class="btn submit-btn">送出訂位</button>
+      <p class="form-error" id="form-error">請填寫姓名與手機，並選擇尚有名額的時段。</p>
+    </form>
+  </section>
+
+  <!-- 6. 訂位規則 -->
+  <section id="rules">
+    <h2 class="section-title">訂位規則</h2>
+    <div class="notice-box">
+      <ul style="padding-left:20px">
+        <li><strong>保留時間：</strong>訂位桌位保留 10 分鐘，逾時未到且未來電，系統將釋出桌位。</li>
+        <li><strong>取消期限：</strong>用餐前一日 21:00 前可免費取消或改期；當日取消請來電，連續兩次未到將暫停線上訂位。</li>
+        <li><strong>未到處理：</strong>未到且超過保留時間，視同取消，桌位開放現場候位。</li>
+        <li><strong>低消規則：</strong>每位低消 NT$ 800（不含飲料），包廂每室低消 NT$ 6,000，結帳加收一成服務費。</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 7. 確認區 -->
+  <section id="confirm">
+    <h2 class="section-title">訂位確認</h2>
+    <div class="confirm-box" id="confirm-box">
+      <p id="confirm-placeholder">送出訂位表單後，這裡會立即顯示訂位編號、日期、時段、人數與取消方式。</p>
+      <div id="confirm-detail" hidden>
+        <h3>訂位已確認</h3>
+        <dl>
+          <dt>訂位編號</dt><dd class="booking-code" id="c-code"></dd>
+          <dt>日期</dt><dd id="c-date"></dd>
+          <dt>時段</dt><dd id="c-slot"></dd>
+          <dt>人數</dt><dd id="c-people"></dd>
+          <dt>桌型</dt><dd id="c-table"></dd>
+          <dt>取消方式</dt><dd>用餐前一日 21:00 前，來電 (02) 0000-0000 並告知訂位編號，即可免費取消或改期。</dd>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- 資料模型示意（提示詞【資料模型】要求） -->
+  <section id="data-model">
+    <h2 class="section-title">這個原型背後的資料模型</h2>
+    <p class="section-lead">正式系統至少要有這五張資料表，畫面上的每一個選項都來自它們。</p>
+    <div class="grid">
+      <article class="card">
+        <h3>TableType 桌型</h3>
+        <table class="model-table">
+          <tr><th>名稱</th><th>人數</th><th>數量</th><th>併桌</th></tr>
+          <tr><td>二人桌</td><td>1–2</td><td>6</td><td>可</td></tr>
+          <tr><td>四人桌</td><td>3–4</td><td>4</td><td>可</td></tr>
+          <tr><td>包廂</td><td>5–8</td><td>2</td><td>不可</td></tr>
+          <tr><td>吧台</td><td>1–2</td><td>6</td><td>不可</td></tr>
+        </table>
+      </article>
+      <article class="card">
+        <h3>TimeSlot 時段</h3>
+        <table class="model-table">
+          <tr><th>時段</th><th>開始</th><th>狀態</th></tr>
+          <tr><td>午餐</td><td>11:30</td><td>開放</td></tr>
+          <tr><td>下午茶</td><td>14:30</td><td>開放</td></tr>
+          <tr><td>晚餐第一輪</td><td>18:00</td><td>額滿</td></tr>
+          <tr><td>晚餐第二輪</td><td>20:00</td><td>開放</td></tr>
+        </table>
+      </article>
+      <article class="card">
+        <h3>Reservation 訂位</h3>
+        <table class="model-table">
+          <tr><th>欄位</th><th>範例</th></tr>
+          <tr><td>編號</td><td>SY-20260619-031</td></tr>
+          <tr><td>姓名／手機</td><td>王先生／0912-XXX-XXX</td></tr>
+          <tr><td>人數／桌型</td><td>4 位／四人桌</td></tr>
+          <tr><td>狀態</td><td>已確認</td></tr>
+        </table>
+      </article>
+      <article class="card">
+        <h3>CapacityRule 容量規則</h3>
+        <table class="model-table">
+          <tr><th>欄位</th><th>範例</th></tr>
+          <tr><td>時段×桌型上限</td><td>晚餐第一輪×四人桌＝4 組</td></tr>
+          <tr><td>保留分鐘</td><td>10 分鐘</td></tr>
+          <tr><td>低消規則</td><td>每位 NT$ 800</td></tr>
+        </table>
+      </article>
+      <article class="card">
+        <h3>SpecialRequest 特殊需求</h3>
+        <table class="model-table">
+          <tr><th>欄位</th><th>範例</th></tr>
+          <tr><td>訂位編號</td><td>SY-20260619-031</td></tr>
+          <tr><td>兒童椅</td><td>1 張</td></tr>
+          <tr><td>備註</td><td>長輩海鮮過敏</td></tr>
+        </table>
+      </article>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <p>山月法式餐館（教學示範用虛構店家）</p>
+  <p>台北市（示意地址）｜電話 (02) 0000-0000｜Email reserve@shanyue-bistro.example</p>
+  <p>營業時間：週二至週日 11:30–22:00（週一公休）</p>
+  <p>© 2026 山月法式餐館・本頁為訂位原型，僅供課程教學示範</p>
+</footer>
+
+<script>
+  // 桌型資料：對應 TableType 資料表
+  var tableTypes = [
+    { id: "T2", name: "二人桌", min: 1, max: 2, join: true },
+    { id: "T4", name: "四人桌", min: 3, max: 4, join: true },
+    { id: "P8", name: "包廂", min: 5, max: 8, join: false },
+    { id: "B1", name: "吧台", min: 1, max: 2, join: false }
+  ];
+  // 各時段剩餘名額：對應 TimeSlot 與 CapacityRule（原型用靜態示意）
+  var remaining = {
+    L1: { T2: 4, T4: 2, P8: 1, B1: 6 },
+    A1: { T2: 6, T4: 4, P8: 2, B1: 6 },
+    D1: { T2: 0, T4: 0, P8: 0, B1: 0 },
+    D2: { T2: 2, T4: 1, P8: 1, B1: 3 }
+  };
+  var slotNames = { L1: "11:30 午餐", A1: "14:30 下午茶", D1: "18:00 晚餐第一輪", D2: "20:00 晚餐第二輪" };
+
+  var party = 2;
+  var slot = null;
+  var chosenTable = null;
+
+  function renderAvailability() {
+    var list = document.getElementById("availability-list");
+    var hint = document.getElementById("join-hint");
+    list.innerHTML = "";
+    hint.textContent = "";
+    if (!slot) {
+      list.innerHTML = "<li>請先選擇時段，系統會顯示符合人數的桌型。</li>";
+      return;
+    }
+    // 多座位並行管理的核心：先找出容納得下這個人數的桌型，再扣掉已訂走的
+    var fit = tableTypes.filter(function (t) { return party >= t.min && party <= t.max; });
+    chosenTable = null;
+    fit.forEach(function (t) {
+      var left = remaining[slot][t.id];
+      var li = document.createElement("li");
+      if (left > 0) {
+        li.innerHTML = "<span>" + t.name + "</span><span class='left-count'>剩 " + left + " 桌</span>";
+        if (!chosenTable) { chosenTable = t.name; }
+      } else {
+        li.innerHTML = "<span>" + t.name + "</span><span class='soldout'>額滿</span>";
+      }
+      list.appendChild(li);
+    });
+    // 沒有單一桌型容得下時，提示可併桌的組合（正式系統由後端判斷）
+    if (party === 4 && remaining[slot].T4 === 0 && remaining[slot].T2 >= 2) {
+      hint.textContent = "四人桌已滿，可改訂兩張二人桌併桌（送出後由店家確認）。";
+      chosenTable = "二人桌×2（併桌）";
+    }
+    if (party === 6) {
+      if (remaining[slot].P8 > 0) {
+        hint.textContent = "6 位建議訂包廂；亦可備註改併四人桌＋二人桌。";
+      } else if (remaining[slot].T4 > 0 && remaining[slot].T2 > 0) {
+        hint.textContent = "包廂已滿，可改訂四人桌＋二人桌併桌（送出後由店家確認）。";
+        chosenTable = "四人桌＋二人桌（併桌）";
+      }
+    }
+    if (!chosenTable) {
+      var li2 = document.createElement("li");
+      li2.innerHTML = "<span>此時段已無適合 " + party + " 位的桌型</span><span class='soldout'>請改選其他時段</span>";
+      list.appendChild(li2);
+    }
+  }
+
+  document.getElementById("party-group").addEventListener("click", function (e) {
+    var btn = e.target.closest("button[data-party]");
+    if (!btn) return;
+    this.querySelectorAll(".choice").forEach(function (b) { b.classList.remove("selected"); });
+    btn.classList.add("selected");
+    party = parseInt(btn.dataset.party, 10);
+    document.getElementById("people").value = String(party);
+    renderAvailability();
+  });
+
+  document.getElementById("slot-group").addEventListener("click", function (e) {
+    var btn = e.target.closest("button[data-slot]");
+    if (!btn || btn.disabled) return; // 額滿時段不可點
+    this.querySelectorAll(".choice").forEach(function (b) { b.classList.remove("selected"); });
+    btn.classList.add("selected");
+    slot = btn.dataset.slot;
+    renderAvailability();
+  });
+
+  document.getElementById("people").addEventListener("change", function () {
+    party = parseInt(this.value, 10);
+    document.querySelectorAll("#party-group .choice").forEach(function (b) {
+      b.classList.toggle("selected", parseInt(b.dataset.party, 10) === party);
+    });
+    renderAvailability();
+  });
+
+  document.getElementById("booking-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var name = document.getElementById("name").value.trim();
+    var phone = document.getElementById("phone").value.trim();
+    var error = document.getElementById("form-error");
+    if (!name || !phone || !slot || !chosenTable) {
+      error.style.display = "block";
+      return;
+    }
+    error.style.display = "none";
+    // 產生訂位編號（原型用前端亂數；正式系統由後端建立並再次檢查容量）
+    var date = document.getElementById("date").value || "2026-06-19";
+    var code = "SY-" + date.replace(/-/g, "") + "-" + String(Math.floor(Math.random() * 900) + 100);
+    document.getElementById("confirm-placeholder").hidden = true;
+    var detail = document.getElementById("confirm-detail");
+    detail.hidden = false;
+    document.getElementById("confirm-box").classList.add("confirmed");
+    document.getElementById("c-code").textContent = code;
+    document.getElementById("c-date").textContent = date;
+    document.getElementById("c-slot").textContent = slotNames[slot];
+    document.getElementById("c-people").textContent = party + " 位";
+    document.getElementById("c-table").textContent = chosenTable;
+    document.getElementById("confirm").scrollIntoView({ behavior: "smooth" });
+  });
+</script>
+</body>
+</html>

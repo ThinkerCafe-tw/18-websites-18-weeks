@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>穩步健身房｜台北初學者友善健身房・首次體驗預約</title>
+<meta name="description" content="台北初學者友善健身房。透明的月繳與年繳方案、清楚的退費與合約規則、不強迫推銷的首次體驗流程。線上預約體驗，主動權在你手上。">
+<style>
+  :root {
+    --bg: #ffffff;
+    --bg-soft: #f2f5f3;   /* 明亮的淺灰綠，降低進場壓力 */
+    --ink: #25312d;       /* 深灰綠 */
+    --ink-soft: #5f6d67;
+    --line: #dde4e0;
+    --accent: #2f6f5e;    /* 沉穩的綠，安心而不是腎上腺素 */
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Noto Sans TC", "PingFang TC", sans-serif;
+    color: var(--ink);
+    background: var(--bg);
+    line-height: 1.8;
+  }
+  header {
+    padding: 1.2rem 6vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--line);
+  }
+  header .brand { font-weight: 700; letter-spacing: 0.05em; }
+  header nav a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    margin-left: 1.2rem;
+    font-size: 0.95rem;
+  }
+  section { padding: 4rem 6vw; }
+  h1 { font-size: 2rem; font-weight: 700; letter-spacing: 0.04em; }
+  h2 { font-size: 1.4rem; margin-bottom: 1.5rem; letter-spacing: 0.06em; }
+  h3 { font-size: 1.05rem; margin-bottom: 0.4rem; }
+  .hero { background: var(--bg-soft); text-align: center; padding: 6rem 6vw; }
+  .hero p.area { margin-top: 0.6rem; color: var(--ink-soft); }
+  .hero p.tagline { margin: 1rem auto 2rem; max-width: 30em; color: var(--ink-soft); }
+  .btn {
+    display: inline-block;
+    min-height: 44px;
+    padding: 0.7rem 2rem;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    text-decoration: none;
+    margin: 0 0.5rem;
+  }
+  .btn.primary { background: var(--accent); color: #fff; }
+  .btn:hover { background: #25584b; color: #fff; }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.2rem;
+  }
+  .grid img { width: 100%; height: auto; display: block; }
+  .coach {
+    border: 1px solid var(--line);
+    padding: 1.2rem;
+  }
+  .coach p { font-size: 0.92rem; color: var(--ink-soft); }
+  .plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; }
+  .plan {
+    border: 1px solid var(--line);
+    background: var(--bg);
+    padding: 1.5rem;
+  }
+  .plan ul { list-style: none; margin-top: 0.6rem; }
+  .plan li { font-size: 0.92rem; color: var(--ink-soft); padding: 0.15rem 0; }
+  .plan .price { font-weight: 700; margin-top: 0.6rem; color: var(--accent); }
+  .note { font-size: 0.9rem; color: var(--ink-soft); margin-top: 1.2rem; }
+  .steps { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .steps div {
+    flex: 1;
+    min-width: 130px;
+    background: var(--bg-soft);
+    padding: 1rem;
+    text-align: center;
+    font-size: 0.95rem;
+  }
+  .promise {
+    border-left: 4px solid var(--accent);
+    background: var(--bg-soft);
+    padding: 1rem 1.2rem;
+    margin-top: 1.5rem;
+    max-width: 44em;
+  }
+  .evidence {
+    border: 1px dashed var(--line);
+    padding: 1.2rem;
+    margin-top: 1.5rem;
+    max-width: 44em;
+    color: var(--ink-soft);
+    font-size: 0.95rem;
+  }
+  .space-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.2rem; }
+  .space-grid figure figcaption { font-size: 0.85rem; color: var(--ink-soft); margin-top: 0.3rem; }
+  .space-grid img { width: 100%; height: auto; display: block; }
+  .rules { list-style: none; max-width: 44em; }
+  .rules li {
+    border-bottom: 1px solid var(--line);
+    padding: 0.8rem 0;
+    font-size: 0.95rem;
+  }
+  .rules li strong { color: var(--ink); }
+  form { max-width: 36em; }
+  form label, form fieldset { display: block; margin-top: 1rem; font-size: 0.95rem; border: none; }
+  form input, form select, form textarea {
+    width: 100%;
+    min-height: 44px;
+    padding: 0.5rem 0.7rem;
+    border: 1px solid var(--line);
+    font-size: 1rem;
+    margin-top: 0.3rem;
+  }
+  form input:focus, form select:focus, form textarea:focus { outline: 2px solid var(--accent); }
+  form fieldset label { display: inline-block; margin: 0.3rem 1.2rem 0 0; }
+  form fieldset input[type="radio"] { width: auto; min-height: auto; margin-right: 0.3rem; }
+  form textarea { min-height: 110px; }
+  form button {
+    margin-top: 1.5rem;
+    min-height: 48px;
+    padding: 0.8rem 2.5rem;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  form button:hover { background: #25584b; }
+  .form-ok {
+    display: none;
+    margin-top: 1.2rem;
+    padding: 1rem 1.2rem;
+    background: var(--bg-soft);
+    border-left: 4px solid var(--accent);
+  }
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 2.5rem 6vw;
+    color: var(--ink-soft);
+    font-size: 0.9rem;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  /* 平板：教練、方案與空間照片改為兩欄 */
+  @media (max-width: 1024px) {
+    .grid, .plans { grid-template-columns: repeat(2, 1fr); }
+  }
+  /* 手機：全部單欄，header 直向排列，按鈕與表單欄位維持易點 */
+  @media (max-width: 640px) {
+    header { flex-direction: column; align-items: flex-start; gap: 0.4rem; }
+    header nav a { margin-left: 0; margin-right: 1rem; }
+    section { padding: 3rem 5vw; }
+    .hero { padding: 4rem 5vw; }
+    h1 { font-size: 1.6rem; }
+    .grid, .plans, .space-grid { grid-template-columns: 1fr; }
+    .steps { flex-direction: column; }
+    .btn { display: block; margin: 0.5rem auto; max-width: 280px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">穩步健身房</div>
+  <nav>
+    <a href="#coaches">教練</a>
+    <a href="#plans">方案</a>
+    <a href="#trial">體驗流程</a>
+    <a href="#refund">退費與合約</a>
+    <a href="#booking">預約體驗</a>
+  </nav>
+</header>
+
+<main>
+
+  <!-- Hero 首頁：GymProfile（場館名稱、地區、定位） -->
+  <section class="hero">
+    <h1>穩步健身房</h1>
+    <p class="area">台北市中山區｜初學者友善的社區健身房</p>
+    <p class="tagline">在沒有人盯著你的地方，把運動慢慢變成日常。不綁長約、不強迫推銷，第一次來就知道每一步會發生什麼。</p>
+    <a class="btn primary" href="#booking">預約首次體驗</a>
+    <a class="btn" href="#plans">查看課程方案</a>
+  </section>
+
+  <!-- 教練團隊：Coach（姓名、證照、專長、適合對象） -->
+  <section id="coaches">
+    <h2>教練團隊</h2>
+    <!-- 教練姓名、照片與證照皆為示意，請替換為真實資料與授權照片 -->
+    <div class="grid">
+      <div class="coach">
+        <!-- 替換為 images/coach-lin.jpg -->
+        <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&h=600&fit=crop&auto=format" alt="林教練個人照">
+        <h3>林教練</h3>
+        <p>證照：ACE-CPT</p>
+        <p>專長：重訓入門、動作矯正</p>
+        <p>適合：第一次接觸重訓、擔心動作做錯的人</p>
+      </div>
+      <div class="coach">
+        <!-- 替換為 images/coach-chen.jpg -->
+        <img src="https://images.unsplash.com/photo-1567013127542-490d757e51fc?w=800&h=600&fit=crop&auto=format" alt="陳教練個人照">
+        <h3>陳教練</h3>
+        <p>證照：NSCA-CSCS</p>
+        <p>專長：肌力與體能、增肌課表安排</p>
+        <p>適合：已有基礎、想往進階訓練走的人</p>
+      </div>
+      <div class="coach">
+        <!-- 替換為 images/coach-wang.jpg -->
+        <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=800&h=600&fit=crop&auto=format" alt="王教練個人照">
+        <h3>王教練</h3>
+        <p>證照：ACSM-CPT</p>
+        <p>專長：體態調整、低衝擊訓練</p>
+        <p>適合：久坐上班族、產後或受傷後想重新開始的人</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 課程方案：TrainingPlan（方案名稱、價格、期間、限制、退費規則） -->
+  <section id="plans" style="background: var(--bg-soft)">
+    <h2>課程方案</h2>
+    <!-- 價格皆為示意，請替換為實際方案價格 -->
+    <div class="plans">
+      <div class="plan">
+        <h3>月繳會籍</h3>
+        <ul>
+          <li>不綁約，按月計費</li>
+          <li>含所有團體課程（瑜伽、燃脂、核心）</li>
+          <li>隨時可終止，於當期結束生效</li>
+        </ul>
+        <p class="price">NT$ 1,288／月</p>
+      </div>
+      <div class="plan">
+        <h3>年繳會籍</h3>
+        <ul>
+          <li>一次繳清，平均月費較低</li>
+          <li>含所有團體課程</li>
+          <li>可暫停 2 次，每次最長 30 天</li>
+          <li>中途終止依未使用月數按比例退費</li>
+        </ul>
+        <p class="price">NT$ 12,888／年</p>
+      </div>
+      <div class="plan">
+        <h3>私人教練課</h3>
+        <ul>
+          <li>單堂或 10 堂、20 堂課包</li>
+          <li>課包有效期限 6 個月，可申請展延</li>
+          <li>每堂課後更新剩餘堂數紀錄</li>
+          <li>未上課程可退，已上堂數依單堂原價計算</li>
+        </ul>
+        <p class="price">NT$ 1,600／堂 起</p>
+      </div>
+    </div>
+    <p class="note">入會費 NT$ 1,000，僅收取一次。所有方案的完整合約條款，簽約前都會提供書面版本讓你帶回去看。</p>
+  </section>
+
+  <!-- 體驗流程：TrialSession 的使用者版本 -->
+  <section id="trial">
+    <h2>首次體驗流程</h2>
+    <div class="steps">
+      <div>1. 線上預約<br>填表單、選時段</div>
+      <div>2. 到場報到<br>掃 QR Code 進場</div>
+      <div>3. 器材介紹<br>教練帶你認識環境 20 分鐘</div>
+      <div>4. 自由體驗<br>自己練 60 分鐘，想問再問</div>
+    </div>
+    <div class="promise">
+      <strong>不強迫推銷承諾：</strong>體驗結束後，不會有教練留你坐下來談方案。方案與退費規則都公開在這個網站上，想加入，由你自己開口。
+    </div>
+    <!-- TrustEvidence：上線前請替換為已取得授權的真實學員見證（含照片來源與發布日期） -->
+    <div class="evidence">
+      <h3>學員怎麼說</h3>
+      <p>這一區保留給真實學員的見證與授權照片。上線前請補上見證文字、照片來源與授權紀錄；還沒有真實見證之前，先不要編寫內容。</p>
+    </div>
+  </section>
+
+  <!-- 空間設備：FacilityFeature（設備名稱、說明、是否提供） -->
+  <section id="space" style="background: var(--bg-soft)">
+    <h2>空間與設備</h2>
+    <div class="space-grid">
+      <!-- 替換為 images/space-weights.jpg -->
+      <figure><img src="https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=800&h=600&fit=crop&auto=format" alt="重訓區，深蹲架與自由重量區"><figcaption>重訓區：深蹲架 4 座、自由重量區，牆面有動作教學圖解</figcaption></figure>
+      <!-- 替換為 images/space-cardio.jpg -->
+      <figure><img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800&h=600&fit=crop&auto=format" alt="有氧區，跑步機與飛輪"><figcaption>有氧區：跑步機 8 台、飛輪 6 台</figcaption></figure>
+      <!-- 替換為 images/space-locker.jpg -->
+      <figure><img src="https://images.unsplash.com/photo-1567013127542-490d757e51fc?w=800&h=600&fit=crop&auto=format" alt="更衣室，獨立淋浴間"><figcaption>更衣室：獨立淋浴間與置物櫃，乾濕分離</figcaption></figure>
+      <!-- 替換為 images/space-women.jpg -->
+      <figure><img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=800&h=600&fit=crop&auto=format" alt="女性專屬訓練區"><figcaption>女性專屬訓練區：獨立空間，器材教學圖解齊全</figcaption></figure>
+    </div>
+    <p class="note">尖峰提醒：平日 18:00–21:00 人較多，深蹲架與跑步機可能需要等候；平日白天與 21:00 之後相對寬鬆，適合想安靜練的人。</p>
+  </section>
+
+  <!-- 退費與合約：ContractConsent 的使用者版本 -->
+  <section id="refund">
+    <h2>退費與合約</h2>
+    <!-- 合約條款為示意，請依主管機關定型化契約規範與場館實際規則調整 -->
+    <ul class="rules">
+      <li><strong>月繳會籍：</strong>隨時可申請終止，於當期結束生效，不收違約金。</li>
+      <li><strong>年繳會籍：</strong>中途終止依未使用月數按比例退費，酌收作業手續費，計算方式在合約中逐條列出。</li>
+      <li><strong>私教課包：</strong>未上課程可申請退費，已上堂數依單堂原價計算後退還差額；剩餘堂數與到期日可隨時向櫃台查詢。</li>
+      <li><strong>會籍暫停：</strong>病假、出差、懷孕、受傷皆可申請暫停，檢附證明文件即可，不另收費。</li>
+      <li><strong>客服窗口：</strong>退費與合約問題請寄 service@steadyfit.example，三個工作天內回覆。</li>
+    </ul>
+  </section>
+
+  <!-- 體驗預約表單：TrialBooking（姓名、聯絡方式、時段、目標、是否首次） -->
+  <section id="booking" style="background: var(--bg-soft)">
+    <h2>預約首次體驗</h2>
+    <form id="trial-form">
+      <label>姓名
+        <input type="text" name="name" placeholder="您的稱呼" required>
+      </label>
+      <label>聯絡方式（Email 或電話）
+        <input type="text" name="contact" placeholder="example@mail.example 或手機號碼" required>
+      </label>
+      <label>偏好時段
+        <select name="slot">
+          <option>平日白天（06:00–18:00）</option>
+          <option>平日晚上（18:00–23:00）</option>
+          <option>週末上午</option>
+          <option>週末下午</option>
+        </select>
+      </label>
+      <label>運動目標
+        <select name="goal">
+          <option>建立運動習慣</option>
+          <option>增肌</option>
+          <option>減脂</option>
+          <option>體態與姿勢調整</option>
+          <option>還不確定，想先了解環境</option>
+        </select>
+      </label>
+      <fieldset>
+        是否第一次上健身房
+        <label><input type="radio" name="first-time" value="yes" checked>是，第一次</label>
+        <label><input type="radio" name="first-time" value="no">不是，有經驗</label>
+      </fieldset>
+      <label>想先讓我們知道的事（選填）
+        <textarea name="message" placeholder="例如：舊傷、想避開的時段、希望女性教練接待"></textarea>
+      </label>
+      <button type="submit">送出預約</button>
+      <p class="form-ok" id="form-ok">已收到你的體驗預約申請，我們會用你留下的聯絡方式確認時段與到場須知。（本頁為原型，表單不會真的送出。）</p>
+    </form>
+  </section>
+
+</main>
+
+<footer>
+  <div>
+    營業時間：每日 06:00–23:00<br>
+    Email：service@steadyfit.example
+  </div>
+  <div>
+    服務地區：台北市中山區<br>
+    © 2026 穩步健身房
+  </div>
+</footer>
+
+<script>
+  // 原型階段：攔截送出，顯示確認訊息，不真的送到伺服器
+  document.getElementById("trial-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    document.getElementById("form-ok").style.display = "block";
+  });
+</script>
+
+</body>
+</html>

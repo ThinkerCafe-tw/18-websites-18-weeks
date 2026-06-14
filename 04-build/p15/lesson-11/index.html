@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>山邊晨光民宿｜宜蘭礁溪手作早餐小民宿 官網直訂</title>
+<meta name="description" content="山邊晨光民宿位於宜蘭礁溪，只有三間房，提供手作早餐與安靜的山邊生活。線上查詢房況、選擇日期、送出訂房，並提供清楚的取消政策與交通指引。">
+<style>
+  :root {
+    --cream: #f5f1e8;   /* 米白 */
+    --wood: #8a6f4d;    /* 木褐 */
+    --moss: #3f5243;    /* 深苔綠 */
+    --ink: #33312c;
+    --ink-soft: #6e695f;
+    --line: #e2dccd;
+    --danger: #a04a3a;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Noto Sans TC", "PingFang TC", sans-serif;
+    color: var(--ink);
+    background: #ffffff;
+    line-height: 1.8;
+  }
+  header {
+    padding: 1.1rem 6vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--line);
+    background: var(--cream);
+  }
+  header .brand { font-weight: 700; letter-spacing: 0.08em; color: var(--moss); }
+  header nav a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    margin-left: 1.1rem;
+    font-size: 0.95rem;
+  }
+  section { padding: 3.6rem 6vw; }
+  h1 { font-size: 2rem; font-weight: 700; letter-spacing: 0.05em; color: var(--moss); }
+  h2 { font-size: 1.4rem; margin-bottom: 1.4rem; letter-spacing: 0.06em; color: var(--moss); }
+  h3 { font-size: 1.05rem; margin-bottom: 0.4rem; }
+  p.note { color: var(--ink-soft); font-size: 0.92rem; }
+  .hero { background: var(--cream); text-align: center; padding: 5.4rem 6vw; }
+  .hero p.tagline { margin: 1rem auto 2rem; max-width: 30em; color: var(--ink-soft); }
+  .hero img { max-width: 880px; width: 100%; display: block; margin: 2.2rem auto 0; }
+  .btn {
+    display: inline-block;
+    min-height: 44px;
+    padding: 0.7rem 2rem;
+    border: 1px solid var(--moss);
+    color: var(--moss);
+    background: transparent;
+    text-decoration: none;
+    font-size: 1rem;
+    cursor: pointer;
+    margin: 0 0.4rem;
+  }
+  .btn.primary { background: var(--moss); color: #fff; }
+  .grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.4rem;
+  }
+  .grid-3 img { width: 100%; height: auto; display: block; }
+  .card { border: 1px solid var(--line); background: #fff; }
+  .card .body { padding: 1.2rem 1.4rem 1.5rem; }
+  .card ul { list-style: none; margin-top: 0.5rem; }
+  .card li { font-size: 0.92rem; color: var(--ink-soft); padding: 0.12rem 0; }
+  .card .price { font-weight: 700; color: var(--wood); margin-top: 0.6rem; }
+  .story { display: grid; grid-template-columns: 1fr 1fr; gap: 2.4rem; align-items: center; background: #fff; }
+  .story img { width: 100%; display: block; }
+  .story p { margin-bottom: 1rem; color: var(--ink-soft); }
+  .booking-panel { background: var(--cream); border: 1px solid var(--line); padding: 1.6rem; max-width: 56em; }
+  .date-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    align-items: end;
+  }
+  label { display: block; font-size: 0.95rem; margin-bottom: 0.2rem; }
+  input, select, textarea {
+    width: 100%;
+    min-height: 44px;
+    padding: 0.5rem 0.7rem;
+    border: 1px solid var(--line);
+    background: #fff;
+    font-size: 1rem;
+    font-family: inherit;
+  }
+  textarea { min-height: 96px; }
+  .availability-msg { margin-top: 1rem; font-weight: 700; }
+  .availability-msg.ok { color: var(--moss); }
+  .availability-msg.bad { color: var(--danger); }
+  .summary-box { border: 1px solid var(--line); padding: 1.4rem 1.6rem; max-width: 36em; background: #fff; }
+  .summary-box dt { font-weight: 700; margin-top: 0.6rem; }
+  .summary-box dd { color: var(--ink-soft); margin-left: 0; }
+  form.booking { max-width: 36em; }
+  form.booking .field { margin-top: 1rem; }
+  form.booking button { margin-top: 1.4rem; }
+  .pay-status { margin-top: 1.4rem; padding: 1.2rem 1.4rem; border: 1px solid var(--line); display: none; max-width: 36em; }
+  .pay-status.success { border-color: var(--moss); color: var(--moss); display: block; }
+  .pay-status.fail { border-color: var(--danger); color: var(--danger); display: block; }
+  .pay-status.pending { border-color: var(--wood); color: var(--wood); display: block; } /* 保留中提示用中性色，不是錯誤 */
+  .access-list div { margin-bottom: 1.2rem; max-width: 44em; }
+  .faq dt { font-weight: 700; margin-top: 1.1rem; }
+  .faq dd { color: var(--ink-soft); margin-left: 0; }
+  footer {
+    background: var(--moss);
+    color: #f0ede4;
+    padding: 2.4rem 6vw;
+    font-size: 0.92rem;
+    line-height: 2;
+  }
+  /* 平板：房型與在地指南改為兩欄 */
+  @media (max-width: 1024px) {
+    .grid-3 { grid-template-columns: repeat(2, 1fr); }
+    .story { grid-template-columns: 1fr; }
+    .date-row { grid-template-columns: repeat(2, 1fr); }
+  }
+  /* 手機：全部單欄，導覽直向排列，按鈕整排可點 */
+  @media (max-width: 640px) {
+    header { flex-direction: column; gap: 0.6rem; text-align: center; }
+    header nav a { margin: 0 0.5rem; }
+    .grid-3 { grid-template-columns: 1fr; }
+    .date-row { grid-template-columns: 1fr; }
+    .hero .btn { display: block; margin: 0.6rem auto 0; max-width: 320px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">山邊晨光民宿</div>
+  <nav>
+    <a href="#rooms">房型</a>
+    <a href="#availability">查詢日期</a>
+    <a href="#guide">在地指南</a>
+    <a href="#access">交通</a>
+    <a href="#faq">常見問答</a>
+  </nav>
+</header>
+
+<main>
+
+<!-- 首頁主視覺 -->
+<section class="hero">
+  <h1>山邊晨光民宿</h1>
+  <p class="tagline">在礁溪的山邊醒來，吃一碗現煮稀飯，把週末過慢一點。</p>
+  <a class="btn primary" href="#rooms">查看房型</a>
+  <a class="btn" href="#availability">查詢日期</a>
+  <!-- 替換為 images/hero.jpg -->
+  <img src="https://images.unsplash.com/photo-1510798831971-661eb04b3739?w=800&h=600&fit=crop&auto=format" alt="山邊晨光民宿清晨的餐桌與窗外山景">
+</section>
+
+<!-- 空間故事 -->
+<section id="story" class="story">
+  <!-- 替換為 images/breakfast.jpg -->
+  <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=800&h=600&fit=crop&auto=format" alt="主人準備的手作早餐：稀飯與醃漬小菜">
+  <div>
+    <h2>為什麼只做三間房</h2>
+    <p>我們在 2019 年從台北搬到礁溪，把一棟老房子慢慢整理成現在的樣子。房間只有三間，因為我們想記得每一位客人的名字，也想有時間把早餐做好。</p>
+    <p>早餐的米來自三星的小農，青菜是當天早市買的，醬菜是自己醃的。沒有中央廚房，也沒有保溫餐檯，只有當天早上現煮的一鍋稀飯。</p>
+    <p>如果你想找的是熱鬧的度假村，這裡可能不適合你；如果你想要安靜的山、慢慢的早餐和一條散步路線，歡迎來住兩晚。</p>
+  </div>
+</section>
+
+<!-- 房型列表 -->
+<section id="rooms">
+  <h2>房型</h2>
+  <div class="grid-3">
+    <article class="card">
+      <!-- 替換為 images/room-morning.jpg -->
+      <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800&h=600&fit=crop&auto=format" alt="晨光雙人房的床鋪與窗景">
+      <div class="body">
+        <h3>晨光雙人房</h3>
+        <ul>
+          <li>2 人・標準雙人床一張</li>
+          <li>獨立衛浴、空調、Wi-Fi</li>
+          <li>東向窗，早上有陽光</li>
+        </ul>
+        <p class="price">平日 NT$2,800／週末 NT$3,400</p>
+      </div>
+    </article>
+    <article class="card">
+      <!-- 替換為 images/room-mountain.jpg -->
+      <img src="https://images.unsplash.com/photo-1566665797739-1674de7a421a?w=800&h=600&fit=crop&auto=format" alt="山景雙人房面向山的大窗">
+      <div class="body">
+        <h3>山景雙人房</h3>
+        <ul>
+          <li>2 人・加大雙人床一張</li>
+          <li>獨立衛浴、浴缸、空調、Wi-Fi</li>
+          <li>面山大窗，附小陽台</li>
+        </ul>
+        <p class="price">平日 NT$3,200／週末 NT$3,800</p>
+      </div>
+    </article>
+    <article class="card">
+      <!-- 替換為 images/room-family.jpg -->
+      <img src="https://images.unsplash.com/photo-1510798831971-661eb04b3739?w=800&h=600&fit=crop&auto=format" alt="家庭四人房的兩張雙人床">
+      <div class="body">
+        <h3>家庭四人房</h3>
+        <ul>
+          <li>4 人・雙人床兩張</li>
+          <li>獨立衛浴、空調、Wi-Fi、小客廳</li>
+          <li>一樓無門檻，適合長輩與孩子</li>
+        </ul>
+        <p class="price">平日 NT$4,600／週末 NT$5,400</p>
+      </div>
+    </article>
+  </div>
+  <p class="note">入住 15:00 後、退房 11:00 前。全室禁菸，恕不接待寵物。</p>
+</section>
+
+<!-- 日期查詢：先用前端模擬房況，未來改接後端 API 與資料庫 -->
+<section id="availability">
+  <h2>查詢日期</h2>
+  <div class="booking-panel">
+    <div class="date-row">
+      <div>
+        <label for="room-select">房型</label>
+        <select id="room-select">
+          <option value="morning">晨光雙人房（2 人）</option>
+          <option value="mountain">山景雙人房（2 人）</option>
+          <option value="family">家庭四人房（4 人）</option>
+        </select>
+      </div>
+      <div>
+        <label for="check-in">入住日</label>
+        <input type="date" id="check-in">
+      </div>
+      <div>
+        <label for="check-out">退房日</label>
+        <input type="date" id="check-out">
+      </div>
+      <div>
+        <label for="guests">人數</label>
+        <select id="guests">
+          <option value="1">1 人</option>
+          <option value="2" selected>2 人</option>
+          <option value="3">3 人</option>
+          <option value="4">4 人</option>
+        </select>
+      </div>
+    </div>
+    <p style="margin-top:1.2rem"><button class="btn primary" id="check-btn" type="button">查詢房況</button></p>
+    <p class="availability-msg" id="availability-msg"></p>
+    <p class="note">房況目前為前端模擬資料，僅供課程展示。</p>
+  </div>
+</section>
+
+<!-- 訂房摘要 -->
+<section id="summary">
+  <h2>訂房摘要</h2>
+  <div class="summary-box">
+    <dl>
+      <dt>房型</dt><dd id="sum-room">尚未選擇</dd>
+      <dt>日期與晚數</dt><dd id="sum-nights">尚未選擇</dd>
+      <dt>總價</dt><dd id="sum-price">—</dd>
+      <dt>取消政策</dt>
+      <dd>入住前 30 天以上取消退款 100%；14 到 30 天退 75%；7 到 14 天退 50%；3 天內恕不退款，可協調延期一次。</dd>
+    </dl>
+  </div>
+</section>
+
+<!-- 訂房表單 -->
+<section id="booking">
+  <h2>訂房資料</h2>
+  <form class="booking" id="booking-form">
+    <div class="field">
+      <label for="name">姓名</label>
+      <input type="text" id="name" name="name" required>
+    </div>
+    <div class="field">
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" required>
+    </div>
+    <div class="field">
+      <label for="phone">電話</label>
+      <input type="tel" id="phone" name="phone" required>
+    </div>
+    <div class="field">
+      <label for="memo">備註（過敏、抵達時間、其他需求）</label>
+      <textarea id="memo" name="memo"></textarea>
+    </div>
+    <button class="btn primary" type="submit">送出訂房，前往付款</button>
+    <p class="availability-msg bad" id="form-msg"></p>
+  </form>
+</section>
+
+<!-- 付款模擬：本原型未串接真實金流，請勿輸入信用卡資料 -->
+<!-- TODO：正式版付款結果應由金流 webhook 通知後端更新訂單與房況，前端成功頁僅供體驗提示 -->
+<section id="payment">
+  <h2>付款模擬</h2>
+  <p class="note">本頁為課程用付款模擬，尚未串接真實金流，請勿輸入任何信用卡資料。</p>
+  <p style="margin-top:1.2rem">
+    <button class="btn primary" id="pay-ok" type="button">模擬付款成功</button>
+    <button class="btn" id="pay-fail" type="button">模擬付款失敗</button>
+  </p>
+  <div class="pay-status" id="pay-status"></div>
+</section>
+
+<!-- 在地指南 -->
+<section id="guide">
+  <h2>在地指南</h2>
+  <div class="grid-3">
+    <article class="card">
+      <!-- 替換為 images/guide-trail.jpg -->
+      <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=800&h=600&fit=crop&auto=format" alt="林美石磐步道的林間小路">
+      <div class="body">
+        <h3>林美石磐步道</h3>
+        <p class="note">開車約 15 分鐘，平緩好走的溪谷步道，來回約 90 分鐘，適合早餐後散步。</p>
+      </div>
+    </article>
+    <article class="card">
+      <!-- 替換為 images/guide-hotspring.jpg -->
+      <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800&h=600&fit=crop&auto=format" alt="湯圍溝溫泉公園的泡腳池">
+      <div class="body">
+        <h3>湯圍溝溫泉公園</h3>
+        <p class="note">礁溪市區的免費泡腳池，傍晚散步過去剛好，附近有小吃與咖啡店。</p>
+      </div>
+    </article>
+    <article class="card">
+      <!-- 替換為 images/guide-market.jpg -->
+      <img src="https://images.unsplash.com/photo-1566665797739-1674de7a421a?w=800&h=600&fit=crop&auto=format" alt="礁溪在地早市的攤位">
+      <div class="body">
+        <h3>礁溪早市</h3>
+        <p class="note">我們每天買菜的地方。想看在地生活，七點前來最熱鬧，可以順便吃碗米粉湯。</p>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- 交通指引 -->
+<section id="access">
+  <h2>交通指引</h2>
+  <div class="access-list">
+    <div>
+      <h3>開車</h3>
+      <p class="note">國道 5 號頭城交流道下，往礁溪方向約 10 分鐘。導航請設「山邊晨光民宿」，最後一段為單線山邊小路，請減速會車。</p>
+    </div>
+    <div>
+      <h3>搭車</h3>
+      <p class="note">台鐵礁溪站或客運礁溪轉運站下車，搭計程車約 8 分鐘。需要接駁請於訂房備註註明班次時間。</p>
+    </div>
+    <div>
+      <h3>停車</h3>
+      <p class="note">門前有三個免費車位，依入住順序使用，滿位時可停巷口空地，步行 2 分鐘。</p>
+    </div>
+    <div>
+      <h3>夜間抵達</h3>
+      <p class="note">山邊路燈較少，21:00 後抵達請先來電，我們會開亮入口燈並在路口等你。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 常見問答 -->
+<section id="faq">
+  <h2>常見問答</h2>
+  <dl class="faq">
+    <dt>幾點入住、幾點退房？</dt>
+    <dd>入住時間 15:00 到 21:00，退房時間 11:00 前。21:00 後抵達請先來電告知。</dd>
+    <dt>早餐怎麼供應？</dt>
+    <dd>早餐 8:00 到 9:30 在一樓餐桌供應，當天現煮稀飯與小菜，素食請於備註告知。</dd>
+    <dt>可以帶寵物嗎？</dt>
+    <dd>很抱歉，目前恕不接待寵物。</dd>
+    <dt>取消政策是什麼？</dt>
+    <dd>入住前 30 天以上取消退款 100%；14 到 30 天退 75%；7 到 14 天退 50%；3 天內恕不退款，可協調延期一次。</dd>
+    <dt>如何確認訂房成功？</dt>
+    <dd>送出訂房並完成付款後，系統會顯示訂房確認；本課程原型為付款模擬，僅示意流程。</dd>
+  </dl>
+</section>
+
+</main>
+
+<footer>
+  <p>山邊晨光民宿｜宜蘭縣礁溪鄉山邊路 100 號（示意地址）</p>
+  <p>Email：hello@sunrise-bnb.example｜電話：03-000-0000（示意）</p>
+  <p>© 2026 山邊晨光民宿</p>
+</footer>
+
+<script>
+// ===== 課程原型：前端模擬房況 =====
+// TODO：正式版應由後端 API 連資料庫查詢真實房況（RoomType / Room / Availability），
+//       並在送出訂房時建立「保留中」狀態，避免兩組旅客同時訂到同一間房。
+const ROOMS = {
+  morning:  { name: "晨光雙人房", capacity: 2, weekday: 2800, weekend: 3400 },
+  mountain: { name: "山景雙人房", capacity: 2, weekday: 3200, weekend: 3800 },
+  family:   { name: "家庭四人房", capacity: 4, weekday: 4600, weekend: 5400 }
+};
+
+// 模擬已預訂日期（正式版來自資料庫的每房每日房況）
+const BOOKED = {
+  morning:  ["2026-06-19", "2026-06-20", "2026-06-27"],
+  mountain: ["2026-06-20", "2026-07-04"],
+  family:   ["2026-06-26", "2026-06-27"]
+};
+
+const checkIn = document.getElementById("check-in");
+const checkOut = document.getElementById("check-out");
+const roomSelect = document.getElementById("room-select");
+const guests = document.getElementById("guests");
+const msg = document.getElementById("availability-msg");
+let currentQuote = null;
+
+// 以本地時間組日期字串，避免 toISOString() 因時區把日期往前移一天
+function fmtDate(d) {
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return d.getFullYear() + "-" + m + "-" + day;
+}
+
+// 日期不可選到過去
+const todayStr = fmtDate(new Date());
+checkIn.min = todayStr;
+checkOut.min = todayStr;
+
+function eachNight(start, end) {
+  // 回傳入住期間每一晚的日期字串（不含退房日）
+  const nights = [];
+  const d = new Date(start + "T00:00:00");
+  const stop = new Date(end + "T00:00:00");
+  while (d < stop) {
+    nights.push(fmtDate(d));
+    d.setDate(d.getDate() + 1);
+  }
+  return nights;
+}
+
+function isWeekendNight(dateStr) {
+  const day = new Date(dateStr + "T00:00:00").getDay();
+  return day === 5 || day === 6; // 週五、週六晚適用週末價
+}
+
+document.getElementById("check-btn").addEventListener("click", () => {
+  const room = ROOMS[roomSelect.value];
+  msg.className = "availability-msg bad";
+  currentQuote = null;
+  if (!checkIn.value || !checkOut.value) { msg.textContent = "請先選擇入住日與退房日。"; return; }
+  if (checkIn.value < todayStr) { msg.textContent = "入住日不可選到過去的日期。"; return; }
+  if (checkOut.value <= checkIn.value) { msg.textContent = "退房日必須晚於入住日。"; return; }
+  if (Number(guests.value) > room.capacity) {
+    msg.textContent = "人數超過「" + room.name + "」上限（" + room.capacity + " 人），請改選其他房型。";
+    return;
+  }
+  const nights = eachNight(checkIn.value, checkOut.value);
+  const blocked = nights.filter(n => BOOKED[roomSelect.value].includes(n));
+  if (blocked.length > 0) {
+    msg.textContent = "很抱歉，" + blocked.join("、") + " 已有人預訂，這個日期區間不可訂。";
+    updateSummary(room.name, "—", "—");
+    return;
+  }
+  // 價格依晚數計算：平日價與週末價分開加總
+  let total = 0;
+  nights.forEach(n => { total += isWeekendNight(n) ? room.weekend : room.weekday; });
+  msg.className = "availability-msg ok";
+  msg.textContent = "這個日期可訂！共 " + nights.length + " 晚，總價 NT$" + total.toLocaleString() + "，請往下填寫訂房資料。";
+  currentQuote = { room: room.name, nights: nights.length, total: total };
+  updateSummary(room.name, checkIn.value + " 入住，共 " + nights.length + " 晚", "NT$" + total.toLocaleString());
+});
+
+function updateSummary(room, nights, price) {
+  document.getElementById("sum-room").textContent = room;
+  document.getElementById("sum-nights").textContent = nights;
+  document.getElementById("sum-price").textContent = price;
+}
+
+// 訂房表單：原型只在前端示意，正式版送出後應建立訂單並把房況改為「保留中」
+document.getElementById("booking-form").addEventListener("submit", e => {
+  e.preventDefault();
+  const formMsg = document.getElementById("form-msg");
+  if (!currentQuote) {
+    formMsg.textContent = "請先在上方查詢日期，確認房況可訂後再送出。";
+    return;
+  }
+  formMsg.textContent = "";
+  document.getElementById("payment").scrollIntoView({ behavior: "smooth" });
+  showPayStatus("pending");
+});
+
+// 付款模擬：正式版的付款結果必須以金流 webhook 為準，不能只看這個畫面
+const payStatus = document.getElementById("pay-status");
+function showPayStatus(state) {
+  if (state === "success") {
+    payStatus.className = "pay-status success";
+    payStatus.textContent = "付款成功（模擬）：訂房已確認，確認信將寄到你的 Email。正式系統此狀態由金流 webhook 通知後端後才更新。";
+  } else if (state === "fail") {
+    payStatus.className = "pay-status fail";
+    payStatus.textContent = "付款失敗（模擬）：這筆訂房尚未成立，房間保留將在 15 分鐘後釋放，可重新嘗試付款。";
+  } else {
+    payStatus.className = "pay-status pending";
+    payStatus.textContent = "訂房資料已送出（模擬）：房間進入保留中，請在 15 分鐘內完成付款。";
+  }
+}
+document.getElementById("pay-ok").addEventListener("click", () => showPayStatus("success"));
+document.getElementById("pay-fail").addEventListener("click", () => showPayStatus("fail"));
+
+// TODO：房東後台（房況日曆、訂單管理、價格管理、黑名單日期）為獨立系統，本原型未包含。
+</script>
+
+</body>
+</html>

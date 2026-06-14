@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>雲朵寵物美容室｜台北大安・貓狗分區美容與透明預約</title>
+<meta name="description" content="台北大安區寵物美容，貓狗分區、全透明美容區、服務前後照片紀錄。線上查看服務流程、價格與預約規則，填寫寵物健康與行為資料完成預約。">
+<style>
+  :root {
+    --bg: #ffffff;
+    --bg-soft: #f2f5f1;   /* 低飽和淺綠灰 */
+    --ink: #2f3a36;       /* 深墨綠灰 */
+    --ink-soft: #66716c;
+    --line: #dde4de;
+    --accent: #4f7d68;    /* 安心感的沉穩綠 */
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Noto Sans TC", "PingFang TC", sans-serif;
+    color: var(--ink);
+    background: var(--bg);
+    line-height: 1.8;
+  }
+  header {
+    padding: 1.2rem 6vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--line);
+  }
+  header .brand { font-weight: 700; letter-spacing: 0.05em; }
+  header nav a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    margin-left: 1.2rem;
+    font-size: 0.95rem;
+  }
+  section { padding: 4rem 6vw; }
+  h1 { font-size: 2rem; font-weight: 700; letter-spacing: 0.04em; }
+  h2 { font-size: 1.4rem; margin-bottom: 1.5rem; letter-spacing: 0.06em; }
+  h3 { font-size: 1.05rem; margin-bottom: 0.4rem; }
+  .hero { background: var(--bg-soft); text-align: center; padding: 5.5rem 6vw; }
+  .hero p.area { margin-top: 0.6rem; color: var(--ink-soft); }
+  .hero p.tagline { margin: 1rem auto 2rem; max-width: 34em; color: var(--ink-soft); }
+  .btn {
+    display: inline-block;
+    min-height: 44px;
+    padding: 0.7rem 2rem;
+    border: 1px solid var(--ink);
+    color: var(--ink);
+    text-decoration: none;
+    margin: 0 0.5rem;
+  }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .btn:hover { background: var(--bg-soft); }
+  .btn.primary:hover { background: #426a58; }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.2rem;
+  }
+  .grid img { width: 100%; height: auto; display: block; }
+  figure figcaption { font-size: 0.85rem; color: var(--ink-soft); margin-top: 0.3rem; }
+  .trust-notes { margin-top: 2rem; max-width: 46em; }
+  .trust-notes ul { list-style: none; }
+  .trust-notes li {
+    padding: 0.5rem 0 0.5rem 1.4rem;
+    position: relative;
+    color: var(--ink-soft);
+  }
+  .trust-notes li::before { content: "✓"; position: absolute; left: 0; color: var(--accent); }
+  .steps { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 2rem; }
+  .steps div {
+    flex: 1;
+    min-width: 130px;
+    background: var(--bg-soft);
+    padding: 1rem;
+    text-align: center;
+    font-size: 0.95rem;
+  }
+  .flow-note { max-width: 46em; color: var(--ink-soft); margin-bottom: 1.2rem; }
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; margin-top: 1rem; }
+  .card {
+    border: 1px solid var(--line);
+    padding: 1.5rem;
+    background: var(--bg);
+  }
+  .card ul { list-style: none; margin-top: 0.6rem; }
+  .card li { font-size: 0.92rem; color: var(--ink-soft); padding: 0.15rem 0; }
+  .card .price { font-weight: 700; margin-top: 0.6rem; color: var(--accent); }
+  .card .limit { font-size: 0.85rem; color: var(--ink-soft); margin-top: 0.4rem; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+    font-size: 0.95rem;
+  }
+  th, td {
+    border: 1px solid var(--line);
+    padding: 0.6rem 0.8rem;
+    text-align: left;
+  }
+  th { background: var(--bg-soft); font-weight: 700; }
+  .status-open { color: var(--accent); font-weight: 700; }
+  .status-full { color: #a05a4a; }
+  .table-note { font-size: 0.85rem; color: var(--ink-soft); margin-top: 0.5rem; }
+  .rules { max-width: 46em; }
+  .rules h3 { margin-top: 1.5rem; }
+  .rules p { color: var(--ink-soft); }
+  form { max-width: 36em; }
+  form label { display: block; margin-top: 1rem; font-size: 0.95rem; }
+  form input, form select, form textarea {
+    width: 100%;
+    min-height: 44px;
+    padding: 0.5rem 0.7rem;
+    border: 1px solid var(--line);
+    font-size: 1rem;
+    margin-top: 0.3rem;
+    background: var(--bg);
+  }
+  form input:focus, form select:focus, form textarea:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+  }
+  form textarea { min-height: 96px; }
+  form .consent {
+    display: flex;
+    gap: 0.6rem;
+    align-items: flex-start;
+    margin-top: 1.5rem;
+    background: var(--bg-soft);
+    padding: 1rem;
+    font-size: 0.92rem;
+  }
+  form .consent input[type="checkbox"] {
+    width: auto;
+    min-height: auto;
+    margin-top: 0.45rem;
+  }
+  form button {
+    margin-top: 1.5rem;
+    min-height: 48px;
+    padding: 0.8rem 2.5rem;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  form button:hover { background: #426a58; }
+  .after-submit { margin-top: 1rem; font-size: 0.92rem; color: var(--ink-soft); max-width: 36em; }
+  .contact-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: start; }
+  .contact-wrap p { color: var(--ink-soft); }
+  .contact-wrap img { width: 100%; height: auto; display: block; }
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 2.5rem 6vw;
+    color: var(--ink-soft);
+    font-size: 0.9rem;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  /* 平板：照片與服務卡片兩欄 */
+  @media (max-width: 1024px) {
+    .grid, .cards { grid-template-columns: repeat(2, 1fr); }
+  }
+  /* 手機：全部單欄，表單欄位與按鈕維持易點 */
+  @media (max-width: 640px) {
+    header { flex-direction: column; align-items: flex-start; gap: 0.4rem; }
+    header nav a { margin-left: 0; margin-right: 1rem; }
+    section { padding: 3rem 5vw; }
+    .hero { padding: 4rem 5vw; }
+    h1 { font-size: 1.6rem; }
+    .grid, .cards { grid-template-columns: 1fr; }
+    .steps { flex-direction: column; }
+    .btn { display: block; margin: 0.5rem auto; max-width: 280px; }
+    .contact-wrap { grid-template-columns: 1fr; }
+    table { font-size: 0.85rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">雲朵寵物美容室</div>
+  <nav>
+    <a href="#trust">環境信任</a>
+    <a href="#flow">服務流程</a>
+    <a href="#form">預約</a>
+    <a href="#policy">規則</a>
+    <a href="#contact">聯絡</a>
+  </nav>
+</header>
+
+<main>
+
+  <!-- Hero 首頁 -->
+  <section class="hero">
+    <h1>雲朵寵物美容室</h1>
+    <p class="area">台北大安｜貓狗分區・全透明美容區</p>
+    <p class="tagline">牠不能說話，所以我們把每一步都讓你看見：透明美容區、服務中照片回報、服務前後對照與健康觀察記錄。</p>
+    <a class="btn primary" href="#form">預約美容</a>
+    <a class="btn" href="#flow">看服務流程</a>
+  </section>
+
+  <!-- 信任證據 -->
+  <section id="trust">
+    <h2>環境與信任證據</h2>
+    <div class="grid">
+      <!-- 替換為 images/env-glass.jpg -->
+      <figure><img src="https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=800&h=600&fit=crop&auto=format" alt="全透明玻璃美容區，飼主可以從外面看見全程操作"><figcaption>全透明美容區，操作全程可見</figcaption></figure>
+      <!-- 替換為 images/env-clean.jpg -->
+      <figure><img src="https://images.unsplash.com/photo-1601758228041-f3b2795255f1?w=800&h=600&fit=crop&auto=format" alt="美容桌面消毒與分用梳具收納櫃"><figcaption>桌面逐次消毒、梳具分用</figcaption></figure>
+      <!-- 替換為 images/env-waiting.jpg -->
+      <figure><img src="https://images.unsplash.com/photo-1591946614720-90a587da4a36?w=800&h=600&fit=crop&auto=format" alt="貓狗分區的獨立等待空間"><figcaption>貓狗分區等待，互不干擾</figcaption></figure>
+    </div>
+    <div class="trust-notes">
+      <ul>
+        <li>桌面每次服務後以次氯酸水消毒，不同品種使用專屬梳具組，烘乾籠每日紫外線消毒三十分鐘。</li>
+        <li>美容師證照與年資公開於店內與本頁。<!-- 替換為 images/cert-01.jpg：真實證照照片與字號 --></li>
+        <li>飼主回饋僅刊出取得本人同意、可核實的內容；本頁不刊登匿名或無法查證的評價。</li>
+        <li>若服務過程中發現皮膚、耳朵或行為異常，我們會先拍照記錄並通知飼主；必要時建議暫停美容並就醫。</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 核心流程 -->
+  <section id="flow" style="background: var(--bg-soft)">
+    <h2>服務流程與預約規則</h2>
+    <div class="steps">
+      <div>1. 線上預約<br>填寫寵物資料</div>
+      <div>2. 到店評估<br>健康與行為確認</div>
+      <div>3. 服務中回報<br>照片告知現況</div>
+      <div>4. 完成對照<br>服務前後照片</div>
+      <div>5. 接回說明<br>健康觀察記錄</div>
+    </div>
+    <p class="flow-note">美容全程在透明玻璃區進行，等待與烘乾區開放參觀；服務進行到一半，我們會傳一張現況照片給飼主。</p>
+    <p class="flow-note">預約前請填寫品種、年齡、體重、健康與行為備註。這些資料決定我們安排哪一位美容師、預留多少時間、要不要放慢節奏。</p>
+
+    <h3>服務項目</h3>
+    <div class="cards">
+      <div class="card">
+        <h3>基礎洗護</h3>
+        <ul>
+          <li>洗澡、烘乾、耳朵清潔</li>
+          <li>指甲修剪、腳底毛整理</li>
+          <li>附健康觀察回報單</li>
+        </ul>
+        <p class="price">小型犬 NT$ 600 起</p>
+        <p class="limit">依體型與毛量現場報價；未滿三個月幼犬不提供。</p>
+      </div>
+      <div class="card">
+        <h3>洗剪造型</h3>
+        <ul>
+          <li>含基礎洗護全部項目</li>
+          <li>全身修剪與造型溝通</li>
+          <li>服務前後照片對照</li>
+        </ul>
+        <p class="price">NT$ 1,200 起</p>
+        <p class="limit">嚴重打結需先溝通是否改剃毛方案。</p>
+      </div>
+      <div class="card">
+        <h3>貓咪美容</h3>
+        <ul>
+          <li>貓專屬時段，現場無犬隻</li>
+          <li>低噪音烘乾、放慢節奏</li>
+          <li>附健康觀察回報單</li>
+        </ul>
+        <p class="price">NT$ 1,000 起</p>
+        <p class="limit">高齡或有心臟病史的貓，請先提供獸醫評估。</p>
+      </div>
+    </div>
+
+    <h3 style="margin-top:2.5rem">近期可預約時段</h3>
+    <table>
+      <thead>
+        <tr><th>日期</th><th>時段</th><th>名額</th><th>狀態</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>6/20（六）</td><td>10:00–12:00</td><td>剩 1</td><td class="status-open">開放</td></tr>
+        <tr><td>6/20（六）</td><td>14:00–16:00</td><td>0</td><td class="status-full">額滿</td></tr>
+        <tr><td>6/21（日）</td><td>10:00–12:00</td><td>剩 2</td><td class="status-open">開放</td></tr>
+        <tr><td>6/21（日）</td><td>14:00–16:00（貓專屬）</td><td>剩 1</td><td class="status-open">開放</td></tr>
+      </tbody>
+    </table>
+    <p class="table-note">以上為示意時段；送出預約後，以店家回覆確認為準。</p>
+
+    <h3 style="margin-top:2.5rem">預約規則</h3>
+    <div class="trust-notes">
+      <ul>
+        <li>請至少提前一天預約；到店評估後才確認最終價格與服務內容。</li>
+        <li>高齡、有疾病史或高度緊張的寵物，可能調整為較短時段，或建議先就醫評估。</li>
+        <li>第一次來店的寵物，會多留十五分鐘讓牠熟悉環境，再開始服務。</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 資料表單 -->
+  <section id="form">
+    <h2>預約美容</h2>
+    <form>
+      <label>飼主姓名
+        <input type="text" name="owner" placeholder="您的稱呼" required>
+      </label>
+      <label>聯絡方式（電話或 LINE ID）
+        <input type="text" name="contact" placeholder="手機號碼或 LINE ID" required>
+      </label>
+      <label>寵物名字
+        <input type="text" name="pet-name" placeholder="例如：雲吞" required>
+      </label>
+      <label>寵物類型
+        <select name="pet-type">
+          <option>犬</option>
+          <option>貓</option>
+        </select>
+      </label>
+      <label>品種
+        <input type="text" name="breed" placeholder="例如：布偶貓、柴犬、混種">
+      </label>
+      <label>年齡
+        <input type="text" name="age" placeholder="例如：1 歲 6 個月">
+      </label>
+      <label>體重
+        <input type="text" name="weight" placeholder="例如：3 公斤">
+      </label>
+      <label>希望服務
+        <select name="service">
+          <option>基礎洗護</option>
+          <option>洗剪造型</option>
+          <option>貓咪美容</option>
+        </select>
+      </label>
+      <label>希望日期
+        <input type="date" name="date">
+      </label>
+      <label>健康狀況備註
+        <textarea name="health" placeholder="皮膚狀況、心臟病、癲癇、過敏、近期手術等"></textarea>
+      </label>
+      <label>行為備註
+        <textarea name="behavior" placeholder="怕吹風、容易緊張、曾有不好的美容經驗等"></textarea>
+      </label>
+      <label>其他備註
+        <textarea name="note" placeholder="想提醒我們的事"></textarea>
+      </label>
+      <label class="consent">
+        <input type="checkbox" name="consent" required>
+        <span>我已如實填寫寵物的健康與行為狀態，並理解高齡、疾病或攻擊行為可能需要調整、暫停服務或建議就醫。</span>
+      </label>
+      <button type="submit">送出預約</button>
+    </form>
+    <p class="after-submit">送出後不代表預約成立；我們會在營業時間內以電話或 LINE 與您確認時段與服務內容。</p>
+  </section>
+
+  <!-- 規則說明 -->
+  <section id="policy" style="background: var(--bg-soft)">
+    <h2>規則說明</h2>
+    <div class="rules">
+      <h3>價格與計費</h3>
+      <p>標示「起」的價格，以到店評估毛量、體型與毛況後的報價為準；報價經飼主同意後才開始服務。</p>
+      <h3>服務邊界</h3>
+      <p>本店不提供超音波洗牙、深層肛門腺引流等須由獸醫師執行的項目。發現異常時，我們會記錄並建議就醫，不會把它變成加購推銷。</p>
+      <h3>取消與改期</h3>
+      <p>預約日前一天 18:00 前，可免費取消或改期；當日取消請來電告知。連續兩次未到店未告知，將暫停線上預約。</p>
+      <h3>退款</h3>
+      <p>服務開始前取消，已支付款項全額退還；服務因寵物健康因素中止，依已完成項目比例收費，並說明中止原因。</p>
+      <h3>隱私</h3>
+      <p>寵物與飼主資料僅用於預約聯繫與服務紀錄，不提供第三方；服務照片要刊登於本頁前，會另外取得飼主同意。</p>
+    </div>
+  </section>
+
+  <!-- 聯絡與後續 -->
+  <section id="contact">
+    <h2>聯絡與後續</h2>
+    <div class="contact-wrap">
+      <div>
+        <!-- 替換為實際電話、LINE ID 與 Email -->
+        <p>電話：02-0000-0000</p>
+        <p>LINE：@cloudgroom（示意 ID）</p>
+        <p>Email：hello@cloudgroom.example</p>
+        <p style="margin-top:1rem">送出預約表單後，我們會在營業時間內回覆確認；接回寵物時，會附上本次的健康觀察回報單與服務前後照片。</p>
+      </div>
+      <!-- 替換為實際地圖嵌入碼 -->
+      <figure><img src="https://images.unsplash.com/photo-1542037104857-ffbb0b9155fb?w=800&h=600&fit=crop&auto=format" alt="店面位置地圖示意，實際請以嵌入地圖為準"><figcaption>台北市大安區（示意位置，請替換為實際地圖）</figcaption></figure>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div>
+    雲朵寵物美容室｜台北市大安區<br>
+    營業時間：週二至週日 10:00–19:00（週一公休）
+  </div>
+  <div>
+    貓狗分區・全透明美容區<br>
+    © 2026 雲朵寵物美容室
+  </div>
+</footer>
+
+</body>
+</html>

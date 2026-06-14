@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>十八講總複習｜網站類型地圖、接案報價與交付驗收工作台</title>
+<meta name="description" content="十八講總複習單頁原型：整理全書五種網站類型與功能等級、需求訪談表、報價拆分與邊界句型、交付清單、驗收流程與維護規則，協助你從生成網頁推進到交付網站專案。">
+<style>
+  :root {
+    --ink: #2b2f36;
+    --ink-soft: #5a616b;
+    --line: #e3e6ea;
+    --bg: #ffffff;
+    --bg-soft: #f6f7f9;
+    --accent: #4a5d7e;
+    --accent-dark: #38496a;
+    --ok: #2e7d4f;
+    --pending: #946200;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+    color: var(--ink);
+    background: var(--bg);
+    line-height: 1.7;
+  }
+
+  /* 共用版面 */
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+  section { padding: 56px 0; }
+  section h2 { font-size: 1.6rem; margin-bottom: 8px; }
+  .section-lead { color: var(--ink-soft); margin-bottom: 12px; max-width: 46em; }
+  .schema {
+    display: inline-block;
+    font-size: 0.85rem;
+    color: var(--accent-dark);
+    background: var(--bg-soft);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 2px 10px;
+    margin-bottom: 24px;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 12px 28px;
+    border-radius: 6px;
+    border: 1px solid var(--accent);
+    background: var(--accent);
+    color: #fff;
+    font-size: 1rem;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .btn:hover { background: var(--accent-dark); }
+  .btn:focus-visible { outline: 3px solid #b9c6dd; outline-offset: 2px; }
+  .btn-ghost { background: transparent; color: var(--accent); }
+  .btn-ghost:hover { background: var(--bg-soft); }
+
+  /* 頁首 */
+  .site-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 24px;
+    max-width: 1120px;
+    margin: 0 auto;
+  }
+  .brand { font-size: 1.15rem; font-weight: 700; }
+  .brand small { display: block; font-size: 0.75rem; font-weight: 400; color: var(--ink-soft); }
+  .site-nav { display: flex; flex-wrap: wrap; gap: 18px; }
+  .site-nav a { color: var(--ink-soft); text-decoration: none; font-size: 0.95rem; }
+  .site-nav a:hover { color: var(--accent); }
+
+  /* 首頁主視覺 */
+  .hero { background: var(--bg-soft); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .hero-grid { display: grid; grid-template-columns: 3fr 2fr; gap: 40px; align-items: center; }
+  .hero h1 { font-size: 2rem; line-height: 1.4; margin-bottom: 12px; }
+  .hero p { color: var(--ink-soft); max-width: 38em; margin-bottom: 20px; }
+  .hero-actions { display: flex; gap: 14px; }
+  .hero img { width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--line); }
+
+  /* 網站類型總表 */
+  .type-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .type-card {
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 20px;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .type-card .level {
+    align-self: flex-start;
+    font-size: 0.8rem;
+    color: #fff;
+    background: var(--accent);
+    border-radius: 4px;
+    padding: 2px 10px;
+  }
+  .type-card h3 { font-size: 1.1rem; }
+  .type-card dl { font-size: 0.92rem; color: var(--ink-soft); }
+  .type-card dt { font-weight: 700; color: var(--ink); margin-top: 6px; }
+
+  /* 表格 */
+  .table-scroll { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; font-size: 0.95rem; }
+  caption { text-align: left; font-size: 0.85rem; color: var(--ink-soft); padding-bottom: 8px; }
+  th, td { border: 1px solid var(--line); padding: 10px 12px; text-align: left; vertical-align: top; }
+  th { background: var(--bg-soft); }
+
+  .badge { display: inline-block; font-size: 0.8rem; border-radius: 999px; padding: 2px 12px; }
+  .badge-ok { color: var(--ok); border: 1px solid var(--ok); }
+  .badge-pending { color: var(--pending); border: 1px solid var(--pending); }
+
+  /* 需求訪談表單 */
+  .form-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px 20px; }
+  .field label { display: block; font-weight: 700; font-size: 0.95rem; margin-bottom: 4px; }
+  .field input, .field select, .field textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    font-size: 1rem;
+    font-family: inherit;
+    background: #fff;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+  }
+  .field-full { grid-column: 1 / -1; }
+  .form-note { font-size: 0.88rem; color: var(--ink-soft); margin-top: 12px; }
+
+  /* 報價邊界句型 */
+  .scope-callout {
+    border-left: 4px solid var(--accent);
+    background: var(--bg-soft);
+    padding: 16px 20px;
+    border-radius: 0 8px 8px 0;
+    margin-top: 24px;
+    font-size: 0.95rem;
+  }
+  .scope-callout p { margin-bottom: 6px; }
+
+  /* 交付清單與維護規則 */
+  .delivery-grid, .rule-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .rule-grid { grid-template-columns: repeat(3, 1fr); }
+  .info-card { border: 1px solid var(--line); border-radius: 8px; padding: 20px; background: #fff; }
+  .info-card h3 { font-size: 1.05rem; margin-bottom: 8px; }
+  .info-card ul { padding-left: 20px; color: var(--ink-soft); font-size: 0.95rem; }
+
+  .alt-bg { background: var(--bg-soft); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+
+  /* 頁尾 */
+  footer { padding: 32px 24px; text-align: center; color: var(--ink-soft); font-size: 0.9rem; }
+
+  /* 平板：類型卡片與維護卡片改為兩欄 */
+  @media (max-width: 1024px) {
+    .type-grid, .rule-grid { grid-template-columns: repeat(2, 1fr); }
+    .hero-grid { grid-template-columns: 1fr; }
+  }
+
+  /* 手機：全部單欄，header 改為直向排列，按鈕放大成整排可點 */
+  @media (max-width: 640px) {
+    .site-header { flex-direction: column; align-items: flex-start; }
+    .site-nav { gap: 12px; }
+    .hero h1 { font-size: 1.5rem; }
+    .type-grid, .rule-grid, .form-grid, .delivery-grid { grid-template-columns: 1fr; }
+    .field-full { grid-column: auto; }
+    .btn { display: block; width: 100%; text-align: center; }
+    .hero-actions { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="brand">十八講總複習<small>接案工作台原型</small></div>
+  <nav class="site-nav" aria-label="主導覽">
+    <a href="#types">網站類型總表</a>
+    <a href="#interview">需求訪談</a>
+    <a href="#quote">報價拆分</a>
+    <a href="#delivery">交付清單</a>
+    <a href="#acceptance">驗收流程</a>
+    <a href="#maintenance">維護規則</a>
+  </nav>
+</header>
+
+<main>
+
+  <!-- 首頁主視覺 -->
+  <section class="hero" aria-label="首頁主視覺">
+    <div class="wrap hero-grid">
+      <div>
+        <h1>把十七個網站的經驗，收斂成一張你帶得走的接案地圖</h1>
+        <p>這個單頁原型整理全書的網站類型與功能等級、需求訪談問題、報價邊界、交付清單、驗收流程與維護規則。先選網站類型，再展開需求訪談，最後用驗收清單把案子交出去。</p>
+        <div class="hero-actions">
+          <a class="btn" href="#types">選擇網站類型</a>
+          <a class="btn btn-ghost" href="#interview">展開需求訪談</a>
+        </div>
+      </div>
+      <!-- 替換為 images/workbench.jpg -->
+      <img src="https://images.unsplash.com/photo-1580894732930-0babd100d356?w=800&h=600&fit=crop&auto=format" alt="接案工作台示意圖佔位圖，日後替換為實際工作情境照片">
+    </div>
+  </section>
+
+  <!-- 網站類型總表 -->
+  <section id="types" aria-label="網站類型總表">
+    <div class="wrap">
+      <h2>網站類型總表</h2>
+      <p class="section-lead">全書十七講可以收斂成五種功能等級。報價與責任的差異，來自功能等級，不是頁面數。</p>
+      <p class="schema">對應資料物件：WebsiteType｜名稱、功能等級、適合業態、風險</p>
+      <div class="type-grid">
+        <article class="type-card">
+          <span class="level">等級 1</span>
+          <h3>單頁形象網站</h3>
+          <dl>
+            <dt>適合業態</dt><dd>咖啡廳、健身房、法律、寵物美容、個人教練</dd>
+            <dt>核心功能</dt><dd>介紹、信任、行動呼籲、聯絡</dd>
+            <dt>主要風險</dt><dd>文案不真實、手機版難用</dd>
+          </dl>
+        </article>
+        <article class="type-card">
+          <span class="level">等級 2</span>
+          <h3>作品與部署網站</h3>
+          <dl>
+            <dt>適合業態</dt><dd>攝影師與各類作品集</dd>
+            <dt>核心功能</dt><dd>作品分類、版本控制、部署、SEO、RWD</dd>
+            <dt>主要風險</dt><dd>圖片路徑錯、部署後壞掉</dd>
+          </dl>
+        </article>
+        <article class="type-card">
+          <span class="level">等級 3</span>
+          <h3>預約與排程網站</h3>
+          <dl>
+            <dt>適合業態</dt><dd>診所、餐廳、諮商、顧問</dd>
+            <dt>核心功能</dt><dd>時段、名額、取消、提醒</dd>
+            <dt>主要風險</dt><dd>超收、隱私、付款狀態錯</dd>
+          </dl>
+        </article>
+        <article class="type-card">
+          <span class="level">等級 4</span>
+          <h3>會員與課程網站</h3>
+          <dl>
+            <dt>適合業態</dt><dd>美容院、瑜伽教室、才藝教室、活動報名</dd>
+            <dt>核心功能</dt><dd>會員、點數、報名、候補、通知</dd>
+            <dt>主要風險</dt><dd>點數帳錯、候補混亂、通知漏寄</dd>
+          </dl>
+        </article>
+        <article class="type-card">
+          <span class="level">等級 5</span>
+          <h3>交易與平台網站</h3>
+          <dl>
+            <dt>適合業態</dt><dd>民宿訂房、家教媒合、顧問金流閉環</dd>
+            <dt>核心功能</dt><dd>訂單、付款、媒合、webhook、後台</dd>
+            <dt>主要風險</dt><dd>金流錯誤、資料不一致、權限不足</dd>
+          </dl>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 需求訪談 -->
+  <section id="interview" class="alt-bg" aria-label="需求訪談">
+    <div class="wrap">
+      <h2>需求訪談</h2>
+      <p class="section-lead">接案的第一步不是報價，是把需求問清楚。先確認業態、客群、核心行動與資料來源，範圍才不會失控。</p>
+      <p class="schema">對應資料物件：ScopeItem｜項目、是否包含、驗收方式</p>
+      <form aria-label="需求訪談表">
+        <div class="form-grid">
+          <div class="field">
+            <label for="industry">業態</label>
+            <input id="industry" name="industry" type="text" placeholder="例如：餐廳、瑜伽教室、顧問">
+          </div>
+          <div class="field">
+            <label for="audience">客群</label>
+            <input id="audience" name="audience" type="text" placeholder="例如：上班族、準新人、家長">
+          </div>
+          <div class="field">
+            <label for="action">核心行動</label>
+            <select id="action" name="action">
+              <option>聯絡詢問</option>
+              <option>預約時段</option>
+              <option>報名活動</option>
+              <option>線上付款</option>
+              <option>會員登入</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="datasource">資料來源</label>
+            <select id="datasource" name="datasource">
+              <option>純展示，不處理資料</option>
+              <option>表單收集</option>
+              <option>名額與時段管理</option>
+              <option>訂單與付款資料</option>
+            </select>
+          </div>
+          <div class="field field-full">
+            <label for="notes">補充說明</label>
+            <textarea id="notes" name="notes" rows="3" placeholder="例如：是否要自己更新內容、出錯時誰負責修"></textarea>
+          </div>
+        </div>
+        <p style="margin-top:16px;"><button class="btn" type="button">產出需求摘要</button></p>
+        <p class="form-note">本原型不會把資料送到後端；訪談結果用於決定功能等級與報價拆分。</p>
+      </form>
+    </div>
+  </section>
+
+  <!-- 報價拆分 -->
+  <section id="quote" aria-label="報價拆分">
+    <div class="wrap">
+      <h2>報價拆分</h2>
+      <p class="section-lead">報價要拆成可以驗收的工作項目：頁面數、功能數、整合項目與維護。下表是欄位示範，估時與價格在需求訪談後才能載明，不在原型裡放虛構數字。</p>
+      <p class="schema">對應資料物件：QuoteLine｜工作項目、估時、價格、備註</p>
+      <div class="table-scroll">
+        <table>
+          <caption>報價拆分欄位示範（非實際報價）</caption>
+          <thead>
+            <tr><th>工作項目</th><th>估時</th><th>價格</th><th>備註</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>頁面數：首頁與服務頁</td><td>訪談後估定</td><td>依範圍載明</td><td>含文案整理與手機版</td></tr>
+            <tr><td>功能數：表單與資料欄位</td><td>訪談後估定</td><td>依範圍載明</td><td>欄位數與驗證規則影響估時</td></tr>
+            <tr><td>整合項目：金流、通知、第三方 API</td><td>訪談後估定</td><td>依範圍載明</td><td>需列出測試環境與正式環境缺口</td></tr>
+            <tr><td>維護：每月更新與錯誤排查</td><td>訪談後估定</td><td>依範圍載明</td><td>寫進維護條款，不含新功能</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="scope-callout">
+        <p><strong>本報價包含：</strong>首頁、服務頁、表單、手機版、一次部署。</p>
+        <p><strong>本報價不包含：</strong>會員登入、金流串接、後台管理、第三方 API 費用。</p>
+        <p><strong>若後續新增功能：</strong>將依新增資料模型、流程狀態與測試範圍另行估價。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 交付清單 -->
+  <section id="delivery" class="alt-bg" aria-label="交付清單">
+    <div class="wrap">
+      <h2>交付清單</h2>
+      <p class="section-lead">專案結束時交給客戶的不是「一個網址」，而是一組可以被接手的資產。</p>
+      <p class="schema">對應資料物件：DeliveryAsset｜檔案、帳號、網址、文件</p>
+      <div class="delivery-grid">
+        <article class="info-card">
+          <h3>原始檔</h3>
+          <ul>
+            <li>網站原始碼 repository</li>
+            <li>圖片與文案來源檔</li>
+            <li>修改紀錄可追蹤</li>
+          </ul>
+        </article>
+        <article class="info-card">
+          <h3>部署網址</h3>
+          <ul>
+            <li>正式公開網址</li>
+            <li>自訂網域設定紀錄</li>
+            <li>部署平台專案連結</li>
+          </ul>
+        </article>
+        <article class="info-card">
+          <h3>帳號權限</h3>
+          <ul>
+            <li>程式碼託管帳號歸屬</li>
+            <li>部署平台帳號歸屬</li>
+            <li>網域與信箱權限清單</li>
+          </ul>
+        </article>
+        <article class="info-card">
+          <h3>文件</h3>
+          <ul>
+            <li>操作說明：怎麼改文案與圖片</li>
+            <li>維護規則與聯絡窗口</li>
+            <li>驗收紀錄與已知限制</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 驗收流程 -->
+  <section id="acceptance" aria-label="驗收流程">
+    <div class="wrap">
+      <h2>驗收流程</h2>
+      <p class="section-lead">驗收不是「看起來不錯」，是逐項打勾。每一項都要寫清楚檢查方式與不通過時的修正方式。</p>
+      <p class="schema">對應資料物件：AcceptanceCheck｜檢查項目、結果、修正方式</p>
+      <div class="table-scroll">
+        <table>
+          <caption>驗收清單示範（結果欄為靜態示意）</caption>
+          <thead>
+            <tr><th>檢查項目</th><th>結果</th><th>修正方式</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>手機版：首頁、表單、按鈕可讀可點</td><td><span class="badge badge-ok">通過</span></td><td>—</td></tr>
+            <tr><td>表單：欄位齊全、送出有確認訊息</td><td><span class="badge badge-ok">通過</span></td><td>—</td></tr>
+            <tr><td>資料：資料模型與匯出格式確認</td><td><span class="badge badge-pending">待修</span></td><td>補上匯出欄位說明後重驗</td></tr>
+            <tr><td>付款：成功、失敗、取消頁完整</td><td><span class="badge badge-pending">待修</span></td><td>在測試環境跑通後列出正式環境缺口</td></tr>
+            <tr><td>SEO：title 與 meta description 已設定</td><td><span class="badge badge-ok">通過</span></td><td>—</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 維護規則 -->
+  <section id="maintenance" class="alt-bg" aria-label="維護規則">
+    <div class="wrap">
+      <h2>維護規則</h2>
+      <p class="section-lead">網站交出去之後才開始活。維護規則要回答四件事：多久更新、誰負責、怎麼收費、出錯怎麼回復。</p>
+      <p class="schema">對應資料物件：MaintenanceRule｜更新頻率、責任人、費用</p>
+      <div class="rule-grid">
+        <article class="info-card">
+          <h3>更新頻率</h3>
+          <ul>
+            <li>內容更新：依合約週期執行</li>
+            <li>安全與相依套件：定期檢查</li>
+          </ul>
+        </article>
+        <article class="info-card">
+          <h3>責任人與費用</h3>
+          <ul>
+            <li>維護窗口與回應時間寫進合約</li>
+            <li>費用依維護範圍另行載明</li>
+          </ul>
+        </article>
+        <article class="info-card">
+          <h3>回復流程</h3>
+          <ul>
+            <li>每次修改留下版本紀錄</li>
+            <li>出錯時回復到上一個可用版本</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p>十八講總複習接案工作台（課程示範原型）｜本頁不收集任何資料</p>
+  <p>© 2026 課程示範用途</p>
+</footer>
+
+</body>
+</html>
