@@ -12,3 +12,6 @@ inbox/.*-lines
 
 # Local config
 .env
+
+# build outputs (regenerable from source)
+04-build/previews/
